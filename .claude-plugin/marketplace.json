@@ -1,0 +1,14 @@
+{
+  "name": "zhiliyouxian",
+  "description": "Novel writing plugins by zhiliyouxian",
+  "owner": {
+    "name": "zhiliyouxian"
+  },
+  "plugins": [
+    {
+      "name": "novel-writer",
+      "description": "Novel Writing Studio - A comprehensive framework for novel creation with extensible knowledge packs",
+      "source": "./"
+    }
+  ]
+}
