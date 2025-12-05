@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Claude Code 用户本地配置（不是 Plugin 的一部分）
+# 注意：CLAUDE.md 是 Plugin 组成部分，不应忽略
+.claude/
+
+# 日志文件
+*.log
+npm-debug.log*
+
+# 用户工作区文件（如果不小心放在 Plugin 目录）
+# 这些目录应该在用户的项目目录中，不是 Plugin 目录
+pools/
+blueprints/
+productions/
+releases/
+
+# 编辑器配置
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.temp

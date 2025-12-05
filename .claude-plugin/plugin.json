@@ -1,0 +1,18 @@
+{
+  "name": "novel-writer",
+  "description": "Novel Writing Studio - A comprehensive framework for novel creation with extensible knowledge packs. Supports various genres including Chinese web novels, Japanese light novels, and Western fantasy.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zhiliyouxian"
+  },
+  "keywords": [
+    "novel",
+    "writing-assistant",
+    "content-creation",
+    "fiction",
+    "web-novel",
+    "light-novel",
+    "fantasy"
+  ],
+  "repository": "https://github.com/zhiliyouxian/claude-novel-writer"
+}
