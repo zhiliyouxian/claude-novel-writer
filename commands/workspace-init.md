@@ -32,28 +32,15 @@ description: 初始化小说创作工作区，创建四部门标准目录结构�
     └── .gitkeep
 ```
 
-## 执行流程
+## 执行指令
 
+收到此命令后，**立即执行以下 Bash 命令**（不要用 Mkdir 工具）：
+
+```bash
+mkdir -p pools/analysis blueprints productions releases && echo "✅ 工作区初始化完成"
 ```
-用户输入: /workspace-init
-  ↓
-检查当前目录:
-  ├─ 如果已有工作区结构 → 提示并跳过
-  └─ 如果是空目录或新目录 → 继续
-  ↓
-创建目录结构:
-  ├─ mkdir -p pools/analysis
-  ├─ mkdir -p blueprints
-  ├─ mkdir -p productions
-  └─ mkdir -p releases
-  ↓
-创建说明文件:
-  └─ 在每个目录创建简要说明
-  ↓
-完成:
-  ├─ 显示创建的目录结构
-  └─ 提示下一步操作
-```
+
+如果用户不在预期目录，先提示确认再执行。
 
 ## 输出示例
 
