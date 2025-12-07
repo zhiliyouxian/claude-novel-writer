@@ -52,7 +52,7 @@ description: 批量审核指定范围的章节,生成质量报告。用法: /rev
   └─ 目标爽点密度: 3.3/千字
   ↓
 For each 章节 from 1 to 10:
-  ├─ 读取 chapters/chapter-{N}.md
+  ├─ 读取 productions/{project_id}/chapters/chapter-{N}.md
   ├─ 统计基础数据(字数/句长/对话比例)
   ├─ 分析爽点(关键词/密度/分布)
   ├─ 评估对话(自然度/性格/推动剧情)

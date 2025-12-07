@@ -32,7 +32,7 @@ model: sonnet
 注: bp_id从productions/{project_id}/blueprint.link读取
 
 可选文件:
-7. data/style-guide.md - 如果有融合风格指南
+7. productions/{project_id}/data/style-guide.md - 如果有融合风格指南
 8. 前1-2章内容 - 保持连贯性
 ```
 
@@ -212,7 +212,7 @@ status: draft
 创作过程中:
 
 ```markdown
-1. 读取 data/entities.md
+1. 读取 productions/{project_id}/data/entities.md
 2. 检查已有实体:
    - 如果角色已存在,使用相同名字
    - 如果地点已存在,保持描述一致
@@ -222,7 +222,7 @@ status: draft
    - 新地点 → 记录名称/类型
    - 新物品 → 记录名称/作用
 
-4. 更新 data/entities.md:
+4. 更新 productions/{project_id}/data/entities.md:
    - 追加新实体到对应表格
    - 更新主角的境界进展(如有变化)
 ```

@@ -88,6 +88,33 @@ libraries/knowledge/
 
 ## 关键规范
 
+### 0. 项目标识规范（重要！）
+
+**每个小说项目必须有唯一的 project_id**，用于区分不同作品的文件路径。
+
+**确定 project_id 的规则**：
+1. 如果用户明确指定项目名（如"创作《纵横天下》"），使用拼音或英文：`zongheng`
+2. 如果工作区只有一个蓝图，自动使用该蓝图的 bp_id
+3. 如果工作区有多个蓝图，**必须询问用户使用哪个**
+4. 如果用户没有指定且没有蓝图，使用默认名 `novel-001`
+
+**文件路径示例**（假设 project_id=zongheng）：
+```
+blueprints/zongheng/          # 蓝图目录
+productions/zongheng/         # 制作目录
+  ├── chapters/               # 章节必须在这里
+  │   ├── chapter-001.md
+  │   └── ...
+  └── data/
+      └── entities.md
+releases/zongheng/            # 发布目录
+```
+
+**严禁**：
+- 在工作区根目录创建 `chapters/` 目录
+- 在 `productions/` 根目录直接创建章节文件
+- 不同项目的章节混在一起
+
 ### 1. 书写规范
 
 所有创作章节必须遵守 `WRITING_STYLE_GUIDE.md`：
@@ -165,7 +192,7 @@ revision-writer ← chapter-auditor ← chapter-writer ← production-initialize
 ### 常见问题
 - **路径错误**: 确保输出到用户工作区，不是 Plugin 目录
 - **格式不符**: 检查 WRITING_STYLE_GUIDE.md 规范
-- **实体不一致**: 检查 `data/entities.md` 更新
+- **实体不一致**: 检查 `productions/{novel_id}/data/entities.md` 更新
 - **知识缺失**: 检查是否正确加载了 `_base/` 和匹配的知识包
 
 ---

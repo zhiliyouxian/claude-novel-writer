@@ -181,7 +181,7 @@ TTS优化示例:
 解析选项: 默认导出所有格式
   ↓
 扫描章节:
-  ├─ 读取 chapters/chapter-001.md ~ chapter-{N}.md
+  ├─ 读取 productions/{project_id}/chapters/chapter-001.md ~ chapter-{N}.md
   ├─ 统计: 找到30个章节文件
   └─ 总字数: 93,000字
   ↓
@@ -313,7 +313,7 @@ published/
 ### 错误1: 无章节文件
 
 ```
-错误: chapters/ 目录为空或不存在
+错误: productions/{project_id}/chapters/ 目录为空或不存在
 建议: 请先创作章节,使用 /write-chapters 1-10
 ```
 
@@ -450,7 +450,7 @@ title: 废柴少年
 
 ### 前置条件
 
-- **chapters/**: 必须存在章节文件
+- **productions/{project_id}/chapters/**: 必须存在章节文件
 - **建议**: 先通过审核再导出
 
 ## 输出目录结构

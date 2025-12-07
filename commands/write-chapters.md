@@ -41,13 +41,21 @@ description: 批量创作指定范围的章节。用法: /write-chapters 1-10 �
 ```
 用户输入: /write-chapters 1-10
   ↓
+确定 project_id:
+  ├─ 检查 blueprints/ 下有几个项目
+  ├─ 如果只有一个 → 自动使用
+  ├─ 如果有多个 → 询问用户选择哪个项目
+  └─ 如果没有蓝图 → 提示先创建蓝图
+  ↓
 解析: 起始=1, 结束=10, 共10章
+  ↓
+确保目录存在: mkdir -p productions/{project_id}/chapters productions/{project_id}/data
   ↓
 For each 章节 from 1 to 10:
   ├─ 调用 chapter-writer Agent
   ├─ 传入: 章节号, outline.md, entities.md
   ├─ 等待创作完成
-  ├─ 保存 chapters/chapter-{N}.md
+  ├─ 保存 productions/{project_id}/chapters/chapter-{N}.md
   ├─ 更新 data/entities.md
   └─ 显示进度: "已完成 {N}/10 章"
   ↓
@@ -140,7 +148,7 @@ For each 章节 from 1 to 10:
 - 境界更新: 炼气3层 → 炼气9层
 
 文件位置:
-- 章节文件: chapters/chapter-001.md ~ chapter-010.md
+- 章节文件: productions/{project_id}/chapters/chapter-001.md ~ chapter-010.md
 - 实体库: data/entities.md (已更新)
 - 进度记录: data/progress.md (已更新)
 
