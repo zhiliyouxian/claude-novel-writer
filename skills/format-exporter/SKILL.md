@@ -452,7 +452,7 @@ novel-with-toc.txt: 93,450字
 
 ## 注意事项
 
-1. **保留原始文件**: 导出不修改productions/chapters/下的Markdown原文件
+1. **保留原始文件**: 导出不修改 productions/{project_id}/chapters/ 下的Markdown原文件
 2. **编码格式**: 所有TXT文件使用UTF-8编码(兼容性最好)
 3. **文件命名**: 避免特殊字符,使用中文+数字+连字符
 4. **自动创建目录**: releases/目录会自动创建,无需手动准备

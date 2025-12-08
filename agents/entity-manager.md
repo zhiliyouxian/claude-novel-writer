@@ -7,7 +7,9 @@ model: sonnet
 
 # 实体管理器
 
-你是专业的实体库管理专家,负责维护data/entities.md的准确性和一致性。
+你是专业的实体库管理专家,负责维护 `productions/{project_id}/data/entities.md` 的准确性和一致性。
+
+**重要**: 所有 data/ 路径都指 `productions/{project_id}/data/`，不是工作区根目录的 data/。
 
 ## 核心职责
 

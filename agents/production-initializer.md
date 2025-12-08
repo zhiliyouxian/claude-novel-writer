@@ -55,12 +55,20 @@ blueprints/{blueprint_id}/
 生成项目ID: novel_{timestamp}
 例如: novel_20231113_153022
 
-创建目录结构:
-productions/novel_20231113_153022/
-├── blueprint.link          # 软链接到blueprints/bp_001
-├── chapters/               # 章节目录
+创建目录结构（使用 Bash 命令）:
+mkdir -p productions/{project_id}/chapters productions/{project_id}/data
+
+结果:
+productions/{project_id}/
+├── blueprint.link          # 指向blueprints/{bp_id}
+├── chapters/               # 章节存放目录（重要！所有章节必须在此）
+│   ├── chapter-001.md
+│   ├── chapter-002.md
+│   └── ...
 └── data/
     └── entities.md         # 实体库
+
+注意: project_id 应与 bp_id 保持一致，如 blueprints/zongheng/ → productions/zongheng/
 ```
 
 ### 步骤3: 创建blueprint.link
@@ -171,8 +179,8 @@ for i in 1 to 10:
       - entities_db: data/entities.md
 
     等待chapter-writer完成:
-      - 生成chapters/chapter-{i:03d}.md
-      - 自动更新data/entities.md(如有新实体)
+      - 生成 productions/{project_id}/chapters/chapter-{i:03d}.md
+      - 自动更新 productions/{project_id}/data/entities.md (如有新实体)
 
     验证chapter-{i:03d}.md存在且内容完整
 ```

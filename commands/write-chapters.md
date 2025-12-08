@@ -56,11 +56,11 @@ For each 章节 from 1 to 10:
   ├─ 传入: 章节号, outline.md, entities.md
   ├─ 等待创作完成
   ├─ 保存 productions/{project_id}/chapters/chapter-{N}.md
-  ├─ 更新 data/entities.md
+  ├─ 更新 productions/{project_id}/data/entities.md
   └─ 显示进度: "已完成 {N}/10 章"
   ↓
 全部完成后:
-  ├─ 更新 data/progress.md
+  ├─ 更新 productions/{project_id}/data/progress.md
   └─ 提示用户: "10章创作完成,建议运行 /review-batch 1-10 进行审核"
 ```
 
@@ -149,12 +149,12 @@ For each 章节 from 1 to 10:
 
 文件位置:
 - 章节文件: productions/{project_id}/chapters/chapter-001.md ~ chapter-010.md
-- 实体库: data/entities.md (已更新)
-- 进度记录: data/progress.md (已更新)
+- 实体库: productions/{project_id}/data/entities.md (已更新)
+- 进度记录: productions/{project_id}/data/progress.md (已更新)
 
 下一步建议:
 1. 运行 /review-batch 1-10 进行审核
-2. 查看 data/entities.md 检查实体一致性
+2. 查看 productions/{project_id}/data/entities.md 检查实体一致性
 3. 审核通过后,继续创作下一批: /write-chapters 11-20
 ```
 

@@ -308,8 +308,8 @@ chapter-015: 云山突然成为导师,无铺垫
 用户: "检查这30章的一致性"
 
 处理流程:
-1. 扫描chapters/目录,找到30个文件
-2. 读取data/entities.md
+1. 扫描 productions/{project_id}/chapters/ 目录,找到30个文件
+2. 读取 productions/{project_id}/data/entities.md
 3. 逐章检查实体使用
 4. 检查境界变化
 5. 分析时间线
