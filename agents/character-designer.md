@@ -521,7 +521,7 @@ graph TD
 7. 生成配角(10人,简要)
 8. 生成关系网图
 9. 保存到 blueprints/{project_id}/characters.md
-10. 更新 data/entities.md (添加角色列表)
+10. 更新 productions/{project_id}/data/entities.md (添加角色列表，格式参考 `templates/entities-template.md`)
 11. 回复: "已完成角色设计,共19个角色。主角萧炎(废柴逆袭型),3位女主,5位反派,10位配角。详见 blueprints/{project_id}/characters.md"
 
 ---

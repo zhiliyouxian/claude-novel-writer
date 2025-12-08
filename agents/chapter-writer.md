@@ -207,10 +207,12 @@ model: sonnet
 
 ### 步骤5: 实体管理
 
+> **实体库格式参考**: `templates/entities-template.md`
+
 创作过程中:
 
 ```markdown
-1. 读取 productions/{project_id}/data/entities.md
+1. 读取 productions/{project_id}/data/entities.md（首次创建时参考模板格式）
 2. 检查已有实体:
    - 如果角色已存在,使用相同名字
    - 如果地点已存在,保持描述一致

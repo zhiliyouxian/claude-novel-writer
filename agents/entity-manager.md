@@ -13,6 +13,8 @@ model: sonnet
 
 ## 核心职责
 
+> **实体库格式规范**: `templates/entities-template.md`
+
 ### 1. 全局实体替换
 - 批量替换人名/地名/物品名
 - 跨所有章节执行替换

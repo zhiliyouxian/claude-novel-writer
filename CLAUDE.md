@@ -200,5 +200,5 @@ revision-writer ← chapter-auditor ← chapter-writer ← production-initialize
 ## 参考文档
 
 - `WRITING_STYLE_GUIDE.md` - 强制书写规范
-- `libraries/README.md` - 知识库和知识包说明
+- `templates/entities-template.md` - 实体库格式参考
 - `commands/README.md` - Commands 详细用法

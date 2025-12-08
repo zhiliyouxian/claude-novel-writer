@@ -83,7 +83,9 @@ blueprints/{project_id}/
 
 ### 步骤4: 初始化实体库
 
-从blueprints读取并生成entities.md:
+> **实体库格式参考**: `templates/entities-template.md`
+
+从blueprints读取并生成entities.md（按照模板格式创建）:
 
 ```markdown
 # 实体库

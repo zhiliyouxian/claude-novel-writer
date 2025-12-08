@@ -272,7 +272,7 @@ new_string: '萧薰儿轻咬嘴唇,声音中带着一丝担忧:"炎哥哥,你千
    - ✅ 无心理活动格式错误
    - ✅ YAML frontmatter完整
 
-4. 实体一致性:
+4. 实体一致性（参考 `templates/entities-template.md` 格式）:
    - ✅ 人名地名拼写统一
    - ✅ 与entities.md一致
 ```

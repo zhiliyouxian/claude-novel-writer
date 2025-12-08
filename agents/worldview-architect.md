@@ -470,7 +470,9 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/power-systems.md
 
 ### 步骤4: 更新实体库
 
-向 `{project}/data/entities.md` 添加初始实体:
+> **实体库格式参考**: `templates/entities-template.md`
+
+向 `productions/{project_id}/data/entities.md` 添加初始实体（按照模板格式）:
 
 ```markdown
 ### 世界观实体 (自动生成)
