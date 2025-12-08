@@ -77,88 +77,96 @@ Chapter-001.md    # 使用大写
 
 ## 📋 3. YAML Frontmatter 规范
 
-### 标准格式
+### 标准格式（松散版）
 
 ```yaml
 ---
 # === 基础信息 (必填) ===
 chapter: 1                          # 章节序号(数字)
-title: 废柴少年                      # 章节标题(纯文字,不含"第X章")
+title: 观棋不语                      # 章节标题(纯文字,不含"第X章")
 status: draft                       # 状态
+word_count: 3247                    # 字数统计
 
-# === 基础信息 (可选) ===
-volume: 1                           # 卷号
-volume_title: 初入江湖              # 卷标题
-word_count: 2847                    # 字数统计
-created_date: 2024-01-15           # 创建日期
-last_modified: 2024-01-16          # 最后修改
-author_agent: chapter-writer       # 创作agent
-reviewer: chapter-auditor          # 审核agent
-revision_count: 2                   # 修改次数
-tags: [开篇, 铺垫, 金手指出现]       # 标签
+# === 创作层元数据（松散格式，按需填写）===
 
-# === 创作元数据 (创作时填写) ===
-creation_notes:
-  objectives:                       # 本章创作目标
-    - 建立主角人设
-    - 展现职场日常
-  hooks:                            # 钩子/悬念设置
-    - 核心钩子：神秘邀请函
-    - 章末悬念：主角决定前往
-  foreshadowing:                    # 伏笔埋设
-    - 暗示世界有更深层秘密
+# 创作备注 - 本章创作要点、钩子、技巧（简单数组）
+notes:
+  - 建立主角人设：观察力敏锐、理性冷静
+  - 核心钩子：神秘的卧龙集团邀请函
+  - 章末悬念：主角决定前往面试
 
-new_entities:                       # 新增实体(供entities.md同步)
-  characters:
-    - name: 萧炎
-      role: 主角
-    - name: 萧薰儿
-      role: 女主
-  locations:
-    - name: 乌坦城
-    - name: 魔兽山脉
-  organizations:
-    - name: 云岚宗
-  items:
-    - name: 焚决
+# 伏笔 - 便于后期"填坑"追踪
+foreshadowing:
+  - 暗示这个世界有更深层的秘密
+  - 父母死因存疑
 
-style_notes:                        # 风格特点
-  perspective: 第三人称限知视角      # 叙事视角
-  pacing: 节奏平缓但暗流涌动        # 节奏特点
-  features:                         # 其他特点
-    - 大量心理活动描写
-    - 通过细节展现主角能力
+# 本章出场人物
+characters_appeared:
+  - 苏策
+  - 林晓敏
+  - 王总
+
+# 首次出场（重要！便于追溯角色出场时机）
+first_appearances:
+  - 苏策
+  - 林晓敏
+
+# 新增实体 - 蓝图外的临时角色/地点/物品/概念等（简单数组）
+new_entities:
+  - 小张（同事，龙套）
+  - 咨询公司办公室
+  - 神秘邮件
+
+# === 卷级元数据 (仅卷末章节填写) ===
+volume_end: false                   # 是否为卷末章节
+volume_summary: 觉醒、入局、生存    # 本卷主题（仅卷末）
+volume_highlights:                  # 本卷亮点（仅卷末）
+  - 苏策觉醒【镜鉴】
+  - 张飞成为第一个臣服者
+next_volume_preview:                # 下卷预告（仅卷末）
+  - 中间人身份确立
+  - 攻略赵云
 ---
 ```
+
+### 设计要点
+
+1. **扁平结构** - 不用嵌套，直接用数组
+2. **字段可选** - 只填有用的，不强制
+3. **人类可读** - 简单文本，易于手动编辑
+4. **机器可解析** - 标准 YAML，脚本可处理
 
 ### 必填字段
 - `chapter`: 章节序号(数字)
 - `title`: 章节标题(纯文字)
 - `status`: 状态 (`draft` / `review` / `approved` / `published`)
 
-### 可选字段
-- `volume` / `volume_title`: 卷信息
-- `word_count`: 字数(由export-agent自动计算)
-- `created_date` / `last_modified`: 时间戳
-- `author_agent` / `reviewer`: Agent信息
-- `tags`: 章节标签
+### 创作层字段（推荐填写）
 
-### 创作元数据字段 (推荐填写)
+**设计原则**：只记录蓝图没有的、创作时动态产生的信息。工作区内容是创作层信息，与蓝图无关。
 
-这些字段用于Agent间传递信息和审核参考：
+| 字段 | 说明 | 必要性 |
+|------|------|--------|
+| `notes` | 创作备注（数组），本章创作要点、钩子、悬念 | ✅ 推荐 |
+| `foreshadowing` | 伏笔设置（数组），便于后期"填坑"追踪 | ✅ 推荐 |
+| `characters_appeared` | 本章出场人物（数组） | ✅ 推荐 |
+| `first_appearances` | 首次出场角色（数组），便于追溯出场时机 | ✅ 推荐 |
+| `new_entities` | 蓝图外的临时实体（数组），可包括人物、地点、物品、概念等 | ⚠️ 按需 |
+
+**已删除的冗余字段**（蓝图已有，无需重复）：
+- ~~`plot_progress`~~：蓝图大纲已有章节梗概
+- ~~`next_chapter_preview`~~：蓝图大纲已有下章梗概
+- ~~`style_notes`~~：蓝图有风格指南，项目级一致
+- ~~`character_notes`~~：简化后合并到 `notes`
+
+### 卷级元数据字段 (仅卷末章节)
 
 | 字段 | 说明 |
 |------|------|
-| `creation_notes.objectives` | 本章创作目标,如"建立主角人设" |
-| `creation_notes.hooks` | 钩子/悬念设置,如"章末悬念" |
-| `creation_notes.foreshadowing` | 伏笔埋设 |
-| `new_entities.characters` | 新增角色(name+role) |
-| `new_entities.locations` | 新增地点 |
-| `new_entities.organizations` | 新增组织/势力 |
-| `new_entities.items` | 新增物品 |
-| `style_notes.perspective` | 叙事视角 |
-| `style_notes.pacing` | 节奏特点 |
-| `style_notes.features` | 其他风格特点 |
+| `volume_end` | 是否为卷末章节(布尔值) |
+| `volume_summary` | 本卷主题（字符串） |
+| `volume_highlights` | 本卷亮点/关键事件(数组) |
+| `next_volume_preview` | 下卷预告(数组) |
 
 ### 状态值说明
 - `draft`: 草稿,创作中
@@ -177,22 +185,20 @@ style_notes:                        # 风格特点
 chapter: 1
 title: 废柴少年
 status: draft
-creation_notes:
-  objectives:
-    - 建立主角人设
-  hooks:
-    - 章末悬念：神秘声音出现
+
+notes:
+  - 建立主角人设：隐忍、坚韧
+  - 章末悬念：神秘声音出现
+
+foreshadowing:
+  - 星辰玉佩暗示主角身世
+
+characters_appeared: [萧羽, 李傲天]
+first_appearances: [萧羽, 李傲天]
+
 new_entities:
-  characters:
-    - name: 李傲天
-      role: 反派,外门师兄
-  locations:
-    - name: 外门广场
-  items:
-    - name: 神秘玉佩
-style_notes:
-  perspective: 第三人称限知视角
-  pacing: 开篇节奏紧凑
+  - 外门广场
+  - 星辰玉佩
 ---
 
 # 第1章 废柴少年

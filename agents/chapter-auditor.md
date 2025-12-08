@@ -11,6 +11,11 @@ model: sonnet
 
 ## 核心职责
 
+### 0. 编码检查（前置）
+- 检测乱码和编码问题
+- 使用 `scripts/check-encoding.py` 脚本
+- 发现问题需先修复再进行内容审核
+
 ### 1. 风格一致性
 - 对比素材池融合风格
 - 检查句长、对话比例
@@ -53,6 +58,35 @@ productions/{project_id}/chapters/chapter-010.md
 结果: 找到10个文件
 ```
 
+### 步骤1.5: 编码检查（前置）
+
+```bash
+# 运行乱码检测脚本
+python scripts/check-encoding.py productions/{project_id}/chapters/
+```
+
+```markdown
+检测结果示例:
+
+❌ chapter-003.md (5 个错误)
+   第15行: ...不像��渎那样锋利...
+   第187行: 我深吸一口���，正要开口——
+
+❌ chapter-056.md (3 个错误)
+   第59行: ...但���住，不要暴露...
+
+============================================================
+检测完成: 10 个文件
+  ✅ 正常: 8
+  ❌ 问题: 2
+  📍 总错误数: 8
+```
+
+**处理策略**:
+- 如果发现乱码 → 先修复乱码，再继续审核
+- 乱码修复：根据上下文推断正确字符（如 "一口���" → "一口气"）
+- 修复后重新运行检测确认
+
 ### 步骤2: 读取参考风格
 
 ```markdown
@@ -74,7 +108,7 @@ WRITING_STYLE_GUIDE.md
 
 提取格式规范:
 - YAML Frontmatter 必填字段 (chapter, title, status)
-- 创作元数据字段 (creation_notes, new_entities, style_notes)
+- 创作层字段 (notes, foreshadowing, characters_appeared, first_appearances, new_entities)
 - 标点符号规范 (中文标点)
 - 数字使用规范 (阿拉伯数字 vs 汉字)
 - 段落格式规范 (空一行分隔)
@@ -85,7 +119,7 @@ WRITING_STYLE_GUIDE.md
 
 对每个chapter-*.md执行:
 
-#### 3.0 解析 YAML Frontmatter
+#### 3.0 解析 YAML Frontmatter（松散格式）
 
 ```markdown
 chapter-001.md YAML 解析:
@@ -96,20 +130,17 @@ chapter-001.md YAML 解析:
 - status: draft
 - word_count: 3200
 
-创作元数据 (如存在):
-- creation_notes.objectives: [建立主角人设, 展现职场日常]
-- creation_notes.hooks: [核心钩子：神秘邀请函]
-- creation_notes.foreshadowing: [暗示更深层秘密]
+创作层元数据（简单数组，按需填写）:
+- notes: [建立主角人设, 核心钩子：神秘邀请函, 章末悬念]
+- foreshadowing: [暗示更深层秘密, 父母死因存疑]
+- characters_appeared: [萧炎, 萧薰儿, 萧厉]
+- first_appearances: [萧炎, 萧薰儿]
+- new_entities: [外门广场, 星辰玉佩, 外门弟子甲（龙套）]
 
-新增实体 (如存在):
-- new_entities.characters: [{name: 萧炎, role: 主角}]
-- new_entities.locations: [{name: 乌坦城}]
-
-风格说明 (如存在):
-- style_notes.perspective: 第三人称限知视角
-- style_notes.pacing: 节奏平缓
-
-注: 支持新旧两种格式 (YAML元数据 或 末尾工作区)
+注:
+- 新格式使用扁平数组，不嵌套
+- 兼容旧格式（末尾工作区或嵌套YAML）
+- 所有字段可选，按需填写
 ```
 
 #### 3.1 基础统计

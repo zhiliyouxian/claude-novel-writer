@@ -192,15 +192,17 @@ model: sonnet
 
 ```markdown
 ✅ 文件命名: chapter-{001}.md
-✅ YAML Frontmatter: 遵守 WRITING_STYLE_GUIDE.md 第78-168行定义的规范
+✅ YAML Frontmatter（松散格式）:
    - 必填: chapter, title, status
-   - 推荐: creation_notes, new_entities, style_notes
+   - 推荐: notes, foreshadowing, characters_appeared, first_appearances
+   - 按需: new_entities
 ✅ 标题: # 第1章 废柴少年
 ✅ 中文标点
 ✅ 对话格式
 ✅ 段落空行
 ✅ 字数: 2800-3000字
 ✅ 章末钩子
+✅ 无末尾工作区（所有元数据在YAML头中）
 ```
 
 ### 步骤5: 实体管理
@@ -258,38 +260,29 @@ model: sonnet
 ---
 chapter: 1
 title: 废柴少年
-word_count: 2847
 status: draft
-created_date: 2024-01-20
-author_agent: chapter-writer
-tags: [开篇, 铺垫, 金手指]
+word_count: 2847
 
-# 创作元数据
-creation_notes:
-  objectives:
-    - 引入主角和金手指
-    - 建立废柴逆袭的基调
-  hooks:
-    - 核心钩子：神秘声音出现
-    - 章末悬念：即将获得传承
-  foreshadowing:
-    - 星辰玉佩暗示主角身世
+# 创作备注（简单数组）
+notes:
+  - 建立主角人设：隐忍、坚韧
+  - 核心钩子：神秘声音出现
+  - 章末悬念：即将获得传承
 
+# 伏笔（便于后期填坑）
+foreshadowing:
+  - 星辰玉佩暗示主角身世
+  - 李傲天的威胁为后续复仇埋伏笔
+
+# 出场人物追踪
+characters_appeared: [萧羽, 李傲天, 外门弟子甲]
+first_appearances: [萧羽, 李傲天]
+
+# 新增实体（蓝图外的临时角色/地点/物品/概念）
 new_entities:
-  characters:
-    - name: 李傲天
-      role: 反派,外门师兄
-  locations:
-    - name: 外门广场
-  items:
-    - name: 星辰玉佩
-
-style_notes:
-  perspective: 第三人称限知视角
-  pacing: 开篇紧凑,爽点密集
-  features:
-    - 本章设置了3个爽点
-    - 对话节奏明快
+  - 外门弟子甲（龙套）
+  - 外门广场
+  - 星辰玉佩
 ---
 
 # 第1章 废柴少年
@@ -297,7 +290,17 @@ style_notes:
 {正文内容}
 ```
 
-**注意**: 所有创作元数据都放在 YAML 头中,章节末尾不再需要工作区。
+**注意**:
+- 所有创作元数据都放在 YAML 头中，章节末尾不再需要工作区
+- **松散格式**：使用简单数组，不强制嵌套结构
+- **只记录蓝图没有的信息**：
+  - `notes`：创作要点、钩子、悬念
+  - `foreshadowing`：动态产生的伏笔
+  - `characters_appeared`：本章出场人物
+  - `first_appearances`：首次出场角色
+  - `new_entities`：蓝图外的临时实体（人物、地点、物品、概念等）
+- **无需记录**（蓝图已有）：剧情推进、下章预告、风格特点
+- 卷末章节额外填写 `volume_end: true`、`volume_summary`、`volume_highlights`、`next_volume_preview`
 
 ## 风格适配
 
