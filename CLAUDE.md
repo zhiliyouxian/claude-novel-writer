@@ -64,21 +64,21 @@ libraries/knowledge/
 │   └── analysis/              # 分析报告（自动生成）
 │
 ├── blueprints/                 # 策划部门
-│   └── {bp_id}/               # 蓝图（企划书）
+│   └── {project_id}/          # 蓝图（企划书）
 │       ├── proposal.md        # 选题方案
 │       ├── worldview.md       # 世界观
 │       ├── characters.md      # 角色档案
 │       └── outline.md         # 章节大纲
 │
 ├── productions/                # 制作部门
-│   └── {novel_id}/            # 制作项目
+│   └── {project_id}/          # 制作项目
 │       ├── blueprint.link     # 链接到蓝图
 │       ├── chapters/          # 章节文件
 │       └── data/
 │           └── entities.md    # 实体库
 │
 └── releases/                   # 发布部门
-    └── {novel_id}/
+    └── {project_id}/
         ├── reviews/           # 审核报告
         ├── text/              # TXT版
         └── audio/             # TTS版
@@ -94,7 +94,7 @@ libraries/knowledge/
 
 **确定 project_id 的规则**：
 1. 如果用户明确指定项目名（如"创作《纵横天下》"），使用拼音或英文：`zongheng`
-2. 如果工作区只有一个蓝图，自动使用该蓝图的 bp_id
+2. 如果工作区只有一个蓝图，自动使用该蓝图的目录名作为 project_id
 3. 如果工作区有多个蓝图，**必须询问用户使用哪个**
 4. 如果用户没有指定且没有蓝图，使用默认名 `novel-001`
 
@@ -126,7 +126,7 @@ releases/zongheng/            # 发布目录
 ### 2. 实体管理
 
 - 使用 Markdown 表格管理实体（不用 JSON）
-- 位置: `productions/{novel_id}/data/entities.md`
+- 位置: `productions/{project_id}/data/entities.md`
 - chapter-writer 自动维护实体库
 
 ### 3. 知识库使用
@@ -192,7 +192,7 @@ revision-writer ← chapter-auditor ← chapter-writer ← production-initialize
 ### 常见问题
 - **路径错误**: 确保输出到用户工作区，不是 Plugin 目录
 - **格式不符**: 检查 WRITING_STYLE_GUIDE.md 规范
-- **实体不一致**: 检查 `productions/{novel_id}/data/entities.md` 更新
+- **实体不一致**: 检查 `productions/{project_id}/data/entities.md` 更新
 - **知识缺失**: 检查是否正确加载了 `_base/` 和匹配的知识包
 
 ---

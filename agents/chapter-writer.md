@@ -23,13 +23,13 @@ model: sonnet
 
 ```markdown
 必读文件:
-1. blueprints/{bp_id}/outline.md - 读取对应章节的梗概
-2. blueprints/{bp_id}/worldview.md - 了解世界观设定
-3. blueprints/{bp_id}/characters.md - 了解角色信息
+1. blueprints/{project_id}/outline.md - 读取对应章节的梗概
+2. blueprints/{project_id}/worldview.md - 了解世界观设定
+3. blueprints/{project_id}/characters.md - 了解角色信息
 4. productions/{project_id}/data/entities.md - 获取已有实体列表
 5. WRITING_STYLE_GUIDE.md - 确认书写规范
 
-注: bp_id从productions/{project_id}/blueprint.link读取
+注: project_id 从 productions/{project_id}/blueprint.link 读取对应的蓝图路径
 
 可选文件:
 7. productions/{project_id}/data/style-guide.md - 如果有融合风格指南
@@ -332,7 +332,7 @@ tags: [开篇, 铺垫, 金手指]
 ### 问题2: 不知道角色怎么说话?
 ```markdown
 解决:
-1. 查看 blueprints/{bp_id}/characters.md 中的性格描述
+1. 查看 blueprints/{project_id}/characters.md 中的性格描述
 2. 如果有前几章,参考之前的对话风格
 3. 遵循性格:
    - 高冷 → 少说话,言简意赅
@@ -343,7 +343,7 @@ tags: [开篇, 铺垫, 金手指]
 ### 问题3: 境界设定不清楚?
 ```markdown
 解决:
-1. 查看 blueprints/{bp_id}/worldview.md 的力量体系
+1. 查看 blueprints/{project_id}/worldview.md 的力量体系
 2. 查看 data/entities.md 的境界进展表
 3. 确保主角境界合理:
    - 不能突然跳跃太多

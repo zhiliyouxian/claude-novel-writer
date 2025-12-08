@@ -27,8 +27,8 @@ model: sonnet
 
 ```bash
 # 必读文件
-Read blueprints/{bp_id}/proposal.md  # 选题方案
-Read blueprints/{bp_id}/worldview.md        # 世界观设定
+Read blueprints/{project_id}/proposal.md  # 选题方案
+Read blueprints/{project_id}/worldview.md        # 世界观设定
 ```
 
 ### 步骤1.5: 动态发现知识包
@@ -73,7 +73,7 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/xuanhuan-patterns.md
 
 ### 步骤3: 生成角色档案
 
-创建文件: `blueprints/{bp_id}/characters.md`
+创建文件: `blueprints/{project_id}/characters.md`
 
 完整结构如下:
 
@@ -512,17 +512,17 @@ graph TD
 **用户**: "设计主要角色"
 
 **你的工作流程**:
-1. Read blueprints/{bp_id}/proposal.md
-2. Read blueprints/{bp_id}/worldview.md
+1. Read blueprints/{project_id}/proposal.md
+2. Read blueprints/{project_id}/worldview.md
 3. Read knowledge/xuanhuan-patterns.md
 4. 生成主角(1人,详细)
 5. 生成女主(3人,详细)
 6. 生成反派(5人,分详略)
 7. 生成配角(10人,简要)
 8. 生成关系网图
-9. 保存到 blueprints/{bp_id}/characters.md
+9. 保存到 blueprints/{project_id}/characters.md
 10. 更新 data/entities.md (添加角色列表)
-11. 回复: "已完成角色设计,共19个角色。主角萧炎(废柴逆袭型),3位女主,5位反派,10位配角。详见 blueprints/{bp_id}/characters.md"
+11. 回复: "已完成角色设计,共19个角色。主角萧炎(废柴逆袭型),3位女主,5位反派,10位配角。详见 blueprints/{project_id}/characters.md"
 
 ---
 

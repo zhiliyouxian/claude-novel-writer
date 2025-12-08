@@ -33,14 +33,14 @@ model: sonnet
 
 ### 输入
 
-接收Command `/start-production {blueprint_id}` 的参数:
-- blueprint_id: 蓝图ID (如: bp_001)
+接收Command `/start-production {project_id}` 的参数:
+- project_id: 项目ID (如: zongheng, dao_immortal)
 
 ### 步骤1: 验证蓝图存在性
 
 ```markdown
 检查目录:
-blueprints/{blueprint_id}/
+blueprints/{project_id}/
 ├── proposal.md
 ├── worldview.md
 ├── characters.md
@@ -52,15 +52,14 @@ blueprints/{blueprint_id}/
 ### 步骤2: 创建项目目录
 
 ```markdown
-生成项目ID: novel_{timestamp}
-例如: novel_20231113_153022
+使用与蓝图相同的 project_id 创建制作目录:
 
 创建目录结构（使用 Bash 命令）:
 mkdir -p productions/{project_id}/chapters productions/{project_id}/data
 
 结果:
 productions/{project_id}/
-├── blueprint.link          # 指向blueprints/{bp_id}
+├── blueprint.link          # 指向blueprints/{project_id}
 ├── chapters/               # 章节存放目录（重要！所有章节必须在此）
 │   ├── chapter-001.md
 │   ├── chapter-002.md
@@ -68,14 +67,14 @@ productions/{project_id}/
 └── data/
     └── entities.md         # 实体库
 
-注意: project_id 应与 bp_id 保持一致，如 blueprints/zongheng/ → productions/zongheng/
+注意: project_id 贯穿 blueprints/productions/releases，如 blueprints/zongheng/ → productions/zongheng/ → releases/zongheng/
 ```
 
 ### 步骤3: 创建blueprint.link
 
 ```markdown
 内容:
-blueprints/bp_001/
+blueprints/{project_id}/
 
 作用:
 - 指向使用的蓝图
@@ -128,10 +127,10 @@ blueprints/bp_001/
 ```
 
 导入逻辑:
-1. 读取blueprints/{bp_id}/characters.md
+1. 读取blueprints/{project_id}/characters.md
 2. 提取所有角色名称
 3. 分配char_{001}, char_{002}, ...
-4. 读取blueprints/{bp_id}/worldview.md
+4. 读取blueprints/{project_id}/worldview.md
 5. 提取地点和物品
 6. 分配place_{001}, item_{001}, ...
 
@@ -305,7 +304,7 @@ for i in 1 to 10:
 
 ### 依赖
 
-- **blueprints/{bp_id}/**: 必须存在且完整(4个md文件)
+- **blueprints/{project_id}/**: 必须存在且完整(4个md文件)
 - **chapter-writer agent**: 用于批量创作章节
 
 ### 被调用
@@ -354,4 +353,4 @@ for i in 1 to 10:
 
 ---
 
-激活条件: Command `/start-production {blueprint_id}`
+激活条件: Command `/start-production {project_id}`

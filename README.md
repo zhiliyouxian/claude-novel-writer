@@ -82,29 +82,42 @@ Pools (素材池) → Blueprints (策划) → Productions (制作) → Releases 
 
 ```
 {your-directory}/
+├── CLAUDE.md                   # Project guide (auto-generated)
 ├── pools/                      # Reference materials
 │   ├── {pool_name}/           # Put reference novels here
 │   └── analysis/              # Auto-generated analysis
 │
 ├── blueprints/                 # Planning department
-│   └── {bp_id}/               # Blueprint (project plan)
+│   └── {project_id}/          # Blueprint (project plan)
 │       ├── proposal.md        # Topic proposals
 │       ├── worldview.md       # World settings
 │       ├── characters.md      # Character profiles
 │       └── outline.md         # Chapter outline
 │
 ├── productions/                # Production department
-│   └── {novel_id}/            # Production project
+│   └── {project_id}/          # Production project
+│       ├── blueprint.link     # Link to blueprint
 │       ├── chapters/          # Chapter files
 │       └── data/
 │           └── entities.md    # Entity database
 │
 └── releases/                   # Publishing department
-    └── {novel_id}/
+    └── {project_id}/
         ├── reviews/           # Review reports
         ├── text/              # TXT format
         └── audio/             # TTS optimized
 ```
+
+### project_id Naming Convention
+
+Each novel project requires a unique `project_id` for directory naming:
+
+| Rule | Description | Example |
+|------|-------------|---------|
+| Format | lowercase letters, numbers, underscores | `my_novel_01` |
+| Length | 3-30 characters | ✅ `dao` ❌ `a` |
+| Meaning | Short descriptive name | `urban_rebirth` |
+| Forbidden | Chinese, spaces, special chars | ❌ `我的小说` |
 
 ---
 

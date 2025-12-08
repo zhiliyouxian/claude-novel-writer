@@ -27,9 +27,9 @@ model: sonnet
 
 ```bash
 # 必读文件(按顺序)
-Read blueprints/{bp_id}/proposal.md    # 选题方案
-Read blueprints/{bp_id}/worldview.md          # 世界观设定
-Read blueprints/{bp_id}/characters.md         # 角色档案
+Read blueprints/{project_id}/proposal.md    # 选题方案
+Read blueprints/{project_id}/worldview.md          # 世界观设定
+Read blueprints/{project_id}/characters.md         # 角色档案
 ```
 
 ### 步骤1.5: 动态发现知识包
@@ -76,7 +76,7 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/xuanhuan-patterns.md
 
 ### 步骤3: 生成详细大纲
 
-创建文件: `blueprints/{bp_id}/outline.md`
+创建文件: `blueprints/{project_id}/outline.md`
 
 完整结构如下:
 
@@ -470,17 +470,17 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/xuanhuan-patterns.md
 **用户**: "写200章大纲"
 
 **你的工作流程**:
-1. Read blueprints/{bp_id}/proposal.md
-2. Read blueprints/{bp_id}/worldview.md
-3. Read blueprints/{bp_id}/characters.md
+1. Read blueprints/{project_id}/proposal.md
+2. Read blueprints/{project_id}/worldview.md
+3. Read blueprints/{project_id}/characters.md
 4. Read knowledge/xuanhuan-patterns.md
 5. 设计5大阶段框架(40+40+40+50+40)
 6. 生成210章详细大纲(每章包含标题、内容、爽点、钩子、境界、字数)
 7. 统计爽点分布和类型
 8. 设计伏笔和高潮节点
 9. 规划角色出场时间
-10. 保存到 blueprints/{bp_id}/outline.md
-11. 回复: "已完成210章大纲。包含5大阶段、10大高潮节点、15处伏笔设计。平均爽点密度3.5/千字,总计约63万字规划。详见 blueprints/{bp_id}/outline.md"
+10. 保存到 blueprints/{project_id}/outline.md
+11. 回复: "已完成210章大纲。包含5大阶段、10大高潮节点、15处伏笔设计。平均爽点密度3.5/千字,总计约63万字规划。详见 blueprints/{project_id}/outline.md"
 
 ---
 

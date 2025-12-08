@@ -42,7 +42,7 @@ allowed-tools: [Read, Glob]
 
 ```markdown
 使用Glob检查必需文件:
-blueprints/{blueprint_id}/
+blueprints/{project_id}/
 ├── proposal.md       (必需)
 ├── worldview.md      (必需)
 ├── characters.md     (必需)

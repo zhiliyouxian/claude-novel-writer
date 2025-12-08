@@ -74,7 +74,7 @@ For each 章节 from 1 to 10:
 
 ### 错误1: 大纲缺失
 ```
-错误: blueprints/{bp_id}/outline.md 不存在
+错误: blueprints/{project_id}/outline.md 不存在
 建议: 请先使用 /create-blueprint 或 outline-architect Agent 创建大纲
 ```
 

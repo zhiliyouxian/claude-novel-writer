@@ -103,7 +103,7 @@ chapter-012.md:
 ### 步骤4: 境界一致性检查
 
 #### 4.1 提取境界体系
-从blueprints/{bp_id}/worldview.md读取境界顺序:
+从blueprints/{project_id}/worldview.md读取境界顺序:
 ```markdown
 境界序列:
 1. 斗之气

@@ -27,7 +27,7 @@ model: sonnet
 
 ```bash
 # 读取选题方案(必需)
-Read blueprints/{bp_id}/proposal.md
+Read blueprints/{project_id}/proposal.md
 # 或用户指定的选题文件
 
 # 读取风格指南(如果有)
@@ -81,7 +81,7 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/power-systems.md
 
 ### 步骤3: 生成世界观文档
 
-创建文件: `blueprints/{bp_id}/worldview.md`
+创建文件: `blueprints/{project_id}/worldview.md`
 
 完整结构如下:
 
@@ -498,13 +498,13 @@ Read {plugin_dir}/libraries/knowledge/chinese-webnovel/power-systems.md
 **用户**: "基于方案1构建世界观"
 
 **你的工作流程**:
-1. Read blueprints/{bp_id}/proposal.md
+1. Read blueprints/{project_id}/proposal.md
 2. Read knowledge/xuanhuan-patterns.md
 3. Read knowledge/power-systems.md
 4. 提取方案1的核心设定
 5. 生成完整的worldview.md
 6. 更新data/entities.md
-7. 回复: "已完成世界观构建,保存在 blueprints/{bp_id}/worldview.md。包含力量体系(12境界)、势力架构(3级15个势力)、地理设定(5域20地点)、异火系统(22种)等详细设定。"
+7. 回复: "已完成世界观构建,保存在 blueprints/{project_id}/worldview.md。包含力量体系(12境界)、势力架构(3级15个势力)、地理设定(5域20地点)、异火系统(22种)等详细设定。"
 
 ---
 
