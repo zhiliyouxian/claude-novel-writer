@@ -81,16 +81,53 @@ Chapter-001.md    # 使用大写
 
 ```yaml
 ---
+# === 基础信息 (必填) ===
 chapter: 1                          # 章节序号(数字)
 title: 废柴少年                      # 章节标题(纯文字,不含"第X章")
-word_count: 2847                    # 字数统计
 status: draft                       # 状态
+
+# === 基础信息 (可选) ===
+volume: 1                           # 卷号
+volume_title: 初入江湖              # 卷标题
+word_count: 2847                    # 字数统计
 created_date: 2024-01-15           # 创建日期
 last_modified: 2024-01-16          # 最后修改
 author_agent: chapter-writer       # 创作agent
 reviewer: chapter-auditor          # 审核agent
 revision_count: 2                   # 修改次数
 tags: [开篇, 铺垫, 金手指出现]       # 标签
+
+# === 创作元数据 (创作时填写) ===
+creation_notes:
+  objectives:                       # 本章创作目标
+    - 建立主角人设
+    - 展现职场日常
+  hooks:                            # 钩子/悬念设置
+    - 核心钩子：神秘邀请函
+    - 章末悬念：主角决定前往
+  foreshadowing:                    # 伏笔埋设
+    - 暗示世界有更深层秘密
+
+new_entities:                       # 新增实体(供entities.md同步)
+  characters:
+    - name: 萧炎
+      role: 主角
+    - name: 萧薰儿
+      role: 女主
+  locations:
+    - name: 乌坦城
+    - name: 魔兽山脉
+  organizations:
+    - name: 云岚宗
+  items:
+    - name: 焚决
+
+style_notes:                        # 风格特点
+  perspective: 第三人称限知视角      # 叙事视角
+  pacing: 节奏平缓但暗流涌动        # 节奏特点
+  features:                         # 其他特点
+    - 大量心理活动描写
+    - 通过细节展现主角能力
 ---
 ```
 
@@ -100,8 +137,28 @@ tags: [开篇, 铺垫, 金手指出现]       # 标签
 - `status`: 状态 (`draft` / `review` / `approved` / `published`)
 
 ### 可选字段
+- `volume` / `volume_title`: 卷信息
 - `word_count`: 字数(由export-agent自动计算)
-- 其他元数据根据需要添加
+- `created_date` / `last_modified`: 时间戳
+- `author_agent` / `reviewer`: Agent信息
+- `tags`: 章节标签
+
+### 创作元数据字段 (推荐填写)
+
+这些字段用于Agent间传递信息和审核参考：
+
+| 字段 | 说明 |
+|------|------|
+| `creation_notes.objectives` | 本章创作目标,如"建立主角人设" |
+| `creation_notes.hooks` | 钩子/悬念设置,如"章末悬念" |
+| `creation_notes.foreshadowing` | 伏笔埋设 |
+| `new_entities.characters` | 新增角色(name+role) |
+| `new_entities.locations` | 新增地点 |
+| `new_entities.organizations` | 新增组织/势力 |
+| `new_entities.items` | 新增物品 |
+| `style_notes.perspective` | 叙事视角 |
+| `style_notes.pacing` | 节奏特点 |
+| `style_notes.features` | 其他风格特点 |
 
 ### 状态值说明
 - `draft`: 草稿,创作中
@@ -120,6 +177,22 @@ tags: [开篇, 铺垫, 金手指出现]       # 标签
 chapter: 1
 title: 废柴少年
 status: draft
+creation_notes:
+  objectives:
+    - 建立主角人设
+  hooks:
+    - 章末悬念：神秘声音出现
+new_entities:
+  characters:
+    - name: 李傲天
+      role: 反派,外门师兄
+  locations:
+    - name: 外门广场
+  items:
+    - name: 神秘玉佩
+style_notes:
+  perspective: 第三人称限知视角
+  pacing: 开篇节奏紧凑
 ---
 
 # 第1章 废柴少年
@@ -131,34 +204,16 @@ status: draft
 少年面色平静,拳头却紧紧握起。
 
 三年前,他还是宗门第一天才...
-
----
-
-<!-- 以下为工作区,不会导出 -->
-
-## 审核批注
-
-### 优点
-- [x] 开篇冲突设置好
-- [x] 人物性格鲜明
-
-### 问题
-- [ ] 第500字处节奏平缓,建议加爽点
-
-### 修改建议
-在第18段后增加:
-> "就在此时,萧羽体内的玉佩突然发出微光..."
-
-## 实体记录
-- 新增人物: 李傲天 (反派,外门师兄)
-- 新增地点: 外门广场
-- 新增物品: 神秘玉佩 (第一次出现)
 ```
 
-### 分隔规则
-- 正文与审核区用 `---` 分隔
-- 审核批注区使用 `<!-- -->` 包裹或在 `---` 后
-- 所有非正文内容不会被export-agent导出
+### 结构说明
+- **YAML头**: 包含基础信息和创作元数据
+- **正文**: 纯粹的章节内容
+- **无需工作区**: 所有元数据已融入YAML,章节末尾无需额外内容
+
+### 导出规则
+- `format-exporter` 只导出 YAML 后的正文部分
+- YAML 中的元数据不会出现在导出文件中
 
 ---
 

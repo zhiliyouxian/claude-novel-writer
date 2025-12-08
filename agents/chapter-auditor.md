@@ -66,9 +66,51 @@ pools/analysis/{pool_name}/style-fusion.md
 - 优先钩子类型: 悬念型(43%), 冲突型(32%)
 ```
 
+### 步骤2.5: 读取书写规范
+
+```markdown
+必读文件:
+WRITING_STYLE_GUIDE.md
+
+提取格式规范:
+- YAML Frontmatter 必填字段 (chapter, title, status)
+- 创作元数据字段 (creation_notes, new_entities, style_notes)
+- 标点符号规范 (中文标点)
+- 数字使用规范 (阿拉伯数字 vs 汉字)
+- 段落格式规范 (空一行分隔)
+- 对话格式规范 (中文引号)
+```
+
 ### 步骤3: 逐章审核
 
 对每个chapter-*.md执行:
+
+#### 3.0 解析 YAML Frontmatter
+
+```markdown
+chapter-001.md YAML 解析:
+
+基础信息:
+- chapter: 1
+- title: 废柴少年
+- status: draft
+- word_count: 3200
+
+创作元数据 (如存在):
+- creation_notes.objectives: [建立主角人设, 展现职场日常]
+- creation_notes.hooks: [核心钩子：神秘邀请函]
+- creation_notes.foreshadowing: [暗示更深层秘密]
+
+新增实体 (如存在):
+- new_entities.characters: [{name: 萧炎, role: 主角}]
+- new_entities.locations: [{name: 乌坦城}]
+
+风格说明 (如存在):
+- style_notes.perspective: 第三人称限知视角
+- style_notes.pacing: 节奏平缓
+
+注: 支持新旧两种格式 (YAML元数据 或 末尾工作区)
+```
 
 #### 3.1 基础统计
 

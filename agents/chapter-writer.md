@@ -188,17 +188,13 @@ model: sonnet
 
 ### 步骤4: 格式检查
 
-创作完成后,自查:
+创作完成后,自查 (详见 `WRITING_STYLE_GUIDE.md`):
 
 ```markdown
 ✅ 文件命名: chapter-{001}.md
-✅ YAML Frontmatter:
----
-chapter: 1
-title: 废柴少年
-status: draft
----
-
+✅ YAML Frontmatter: 遵守 WRITING_STYLE_GUIDE.md 第78-168行定义的规范
+   - 必填: chapter, title, status
+   - 推荐: creation_notes, new_entities, style_notes
 ✅ 标题: # 第1章 废柴少年
 ✅ 中文标点
 ✅ 对话格式
@@ -267,26 +263,41 @@ status: draft
 created_date: 2024-01-20
 author_agent: chapter-writer
 tags: [开篇, 铺垫, 金手指]
+
+# 创作元数据
+creation_notes:
+  objectives:
+    - 引入主角和金手指
+    - 建立废柴逆袭的基调
+  hooks:
+    - 核心钩子：神秘声音出现
+    - 章末悬念：即将获得传承
+  foreshadowing:
+    - 星辰玉佩暗示主角身世
+
+new_entities:
+  characters:
+    - name: 李傲天
+      role: 反派,外门师兄
+  locations:
+    - name: 外门广场
+  items:
+    - name: 星辰玉佩
+
+style_notes:
+  perspective: 第三人称限知视角
+  pacing: 开篇紧凑,爽点密集
+  features:
+    - 本章设置了3个爽点
+    - 对话节奏明快
 ---
 
 # 第1章 废柴少年
 
 {正文内容}
-
----
-
-<!-- 工作区 -->
-
-## 创作备注
-- 本章设置了3个爽点
-- 引入主角和金手指
-- 章末钩子: 悬念型
-
-## 新增实体
-- 人物: 李傲天 (反派,外门师兄)
-- 地点: 外门广场
-- 物品: 星辰玉佩 (首次暗示)
 ```
+
+**注意**: 所有创作元数据都放在 YAML 头中,章节末尾不再需要工作区。
 
 ## 风格适配
 
