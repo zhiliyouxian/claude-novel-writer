@@ -102,12 +102,3 @@
 - 将审核报告保存到 `productions/` 目录
 - 将章节文件保存到 `releases/` 目录
 
----
-
-## 引用方式
-
-在 Agent/Command/Skill 文件中引用本规范：
-
-```markdown
-> **目录结构规范**: `specs/directory-structure.md`
-```
