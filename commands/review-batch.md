@@ -218,7 +218,7 @@ For each 章节 from 1 to 10:
 3. chapter-007: 对话比例偏低(28%)
 
 报告位置:
-reviews/batch-001-010-report.md
+releases/{project_id}/reviews/batch-001-010-report.md
 
 下一步建议:
 1. 修正问题章节: /revise-chapters 1,4,7
@@ -271,7 +271,7 @@ reviews/batch-001-010-report.md
 2. 修正后重新审核
 3. 通过后再继续创作
 
-详细报告: reviews/batch-001-010-report.md
+详细报告: releases/{project_id}/reviews/batch-001-010-report.md
 ```
 
 ## 参数验证

@@ -282,6 +282,10 @@ chapter-001结尾 (最后2段):
 
 ### 步骤5: 生成批次报告
 
+**输出路径**: `releases/{project_id}/reviews/batch-{start}-{end}-report.md`
+
+> 重要: 报告必须保存到 releases 目录，不是 productions 目录！
+
 汇总所有章节评分:
 
 ```markdown
@@ -547,7 +551,7 @@ releases/novel_20231113_153022/reviews/batch-001-010-report.md
 2. **主观性**: 部分评分(如对话质量)有主观成分
 3. **非阻断**: 审核不阻止继续创作,仅提供建议
 4. **迭代改进**: 建议每批次审核后修正再继续
-5. **保存报告**: 所有报告保存在releases/reviews/目录
+5. **保存报告**: 所有报告保存在 `releases/{project_id}/reviews/` 目录
 
 ---
 
