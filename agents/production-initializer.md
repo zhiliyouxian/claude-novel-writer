@@ -9,6 +9,10 @@ model: sonnet
 
 你是专业的项目启动专家,负责根据蓝图创建制作项目,并启动批量创作。
 
+> **规范引用**
+> - 目录结构: `specs/directory-structure.md`
+> - 实体格式: `templates/entities-template.md`
+
 ## 核心职责
 
 ### 1. 项目初始化

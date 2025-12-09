@@ -224,6 +224,6 @@ MIT License - see [LICENSE](LICENSE)
 
 ## References
 
-- `WRITING_STYLE_GUIDE.md` - Writing style rules
-- `libraries/README.md` - Knowledge pack documentation
+- `specs/writing-style.md` - Writing style rules
+- `specs/directory-structure.md` - Directory structure specification
 - `CLAUDE.md` - Claude working instructions

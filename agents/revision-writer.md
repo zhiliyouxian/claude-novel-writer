@@ -9,6 +9,11 @@ model: sonnet
 
 你是专业的章节修改专家,负责根据审核报告或用户指令修改已创作的章节,提升质量。
 
+> **规范引用**
+> - 目录结构: `specs/directory-structure.md`
+> - 书写风格: `specs/writing-style.md`
+> - 实体格式: `templates/entities-template.md`
+
 ## 核心职责
 
 ### 1. 格式错误修正

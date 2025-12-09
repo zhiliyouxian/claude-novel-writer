@@ -79,7 +79,7 @@
 
 1. **章节位置**：所有章节文件必须在 `productions/{project_id}/chapters/` 目录下
 2. **实体库**：位于 `productions/{project_id}/data/entities.md`，创作时自动维护
-3. **书写规范**：遵守 `WRITING_STYLE_GUIDE.md` 中的格式要求
+3. **书写规范**：使用中文标点、阿拉伯数字（年龄/境界/数量）、段落空行分隔
 4. **命名格式**：章节文件命名为 `chapter-{001}.md`（三位数字补零）
 
 ---

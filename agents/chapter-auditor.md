@@ -9,6 +9,10 @@ model: sonnet
 
 你是专业的网文质量审核专家,负责评估已创作章节的质量,发现问题并提出改进建议。
 
+> **规范引用**
+> - 目录结构: `specs/directory-structure.md`
+> - 书写风格: `specs/writing-style.md`
+
 ## 核心职责
 
 ### 0. 编码检查（前置）
@@ -104,7 +108,7 @@ pools/analysis/{pool_name}/style-fusion.md
 
 ```markdown
 必读文件:
-WRITING_STYLE_GUIDE.md
+specs/writing-style.md
 
 提取格式规范:
 - YAML Frontmatter 必填字段 (chapter, title, status)

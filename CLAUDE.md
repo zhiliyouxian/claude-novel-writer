@@ -24,6 +24,18 @@
 
 ---
 
+## 核心规范
+
+> **所有 Agent/Command/Skill 必须遵循以下规范文件：**
+
+| 规范 | 文件 | 说明 |
+|------|------|------|
+| 目录结构 | `specs/directory-structure.md` | 四部门路径、输入输出位置、project_id 规则 |
+| 书写风格 | `specs/writing-style.md` | 标点、数字、段落、对话、YAML格式 |
+| 实体格式 | `templates/entities-template.md` | 实体库表格格式 |
+
+---
+
 ## 知识包系统
 
 ### 目录结构
@@ -50,91 +62,6 @@ libraries/knowledge/
    - "异世界/轻小说/转生" → `japanese-lightnovel/`
    - "fantasy/epic" → `western-fantasy/`
 3. 如果没有匹配的知识包，仅使用 `_base/` 中的通用知识
-
----
-
-## 用户工作区结构
-
-用户在**任意目录**执行 `/workspace-init` 后，会创建以下结构：
-
-```
-{当前目录}/
-├── pools/                      # 素材池部门
-│   ├── {pool_name}/           # 素材池（用户放入参考小说）
-│   └── analysis/              # 分析报告（自动生成）
-│
-├── blueprints/                 # 策划部门
-│   └── {project_id}/          # 蓝图（企划书）
-│       ├── proposal.md        # 选题方案
-│       ├── worldview.md       # 世界观
-│       ├── characters.md      # 角色档案
-│       └── outline.md         # 章节大纲
-│
-├── productions/                # 制作部门
-│   └── {project_id}/          # 制作项目
-│       ├── blueprint.link     # 链接到蓝图
-│       ├── chapters/          # 章节文件
-│       └── data/
-│           └── entities.md    # 实体库
-│
-└── releases/                   # 发布部门
-    └── {project_id}/
-        ├── reviews/           # 审核报告
-        ├── text/              # TXT版
-        └── audio/             # TTS版
-```
-
----
-
-## 关键规范
-
-### 0. 项目标识规范（重要！）
-
-**每个小说项目必须有唯一的 project_id**，用于区分不同作品的文件路径。
-
-**确定 project_id 的规则**：
-1. 如果用户明确指定项目名（如"创作《纵横天下》"），使用拼音或英文：`zongheng`
-2. 如果工作区只有一个蓝图，自动使用该蓝图的目录名作为 project_id
-3. 如果工作区有多个蓝图，**必须询问用户使用哪个**
-4. 如果用户没有指定且没有蓝图，使用默认名 `novel-001`
-
-**文件路径示例**（假设 project_id=zongheng）：
-```
-blueprints/zongheng/          # 蓝图目录
-productions/zongheng/         # 制作目录
-  ├── chapters/               # 章节必须在这里
-  │   ├── chapter-001.md
-  │   └── ...
-  └── data/
-      └── entities.md
-releases/zongheng/            # 发布目录
-```
-
-**严禁**：
-- 在工作区根目录创建 `chapters/` 目录
-- 在 `productions/` 根目录直接创建章节文件
-- 不同项目的章节混在一起
-
-### 1. 书写规范
-
-所有创作章节必须遵守 `WRITING_STYLE_GUIDE.md`：
-- 文件命名: `chapter-{001}.md`（三位数字补零）
-- 章节标题: `# 第1章 标题`（阿拉伯数字）
-- 标点符号: 根据目标语言使用对应标点
-- 数字规则: 年龄/境界/数量用阿拉伯数字
-
-### 2. 实体管理
-
-- 使用 Markdown 表格管理实体（不用 JSON）
-- 位置: `productions/{project_id}/data/entities.md`
-- chapter-writer 自动维护实体库
-
-### 3. 知识库使用
-
-- `libraries/knowledge/_base/` 存放通用参考知识（始终读取）
-- 其他知识包根据用户需求动态加载
-- Agent 读取知识库生成项目内容
-- 不直接复制模板，而是根据需求生成
 
 ---
 
@@ -185,20 +112,12 @@ revision-writer ← chapter-auditor ← chapter-writer ← production-initialize
 ## 调试指南
 
 ### 验证 Agent 输出
-1. 检查文件是否生成到正确的用户工作区目录
-2. 确认实体库格式正确（Markdown 表格）
-3. 验证章节遵守 WRITING_STYLE_GUIDE.md
+1. 检查文件是否生成到正确的用户工作区目录（参见 `specs/directory-structure.md`）
+2. 确认实体库格式正确（参见 `templates/entities-template.md`）
+3. 验证章节遵守书写规范（参见 `specs/writing-style.md`）
 
 ### 常见问题
-- **路径错误**: 确保输出到用户工作区，不是 Plugin 目录
-- **格式不符**: 检查 WRITING_STYLE_GUIDE.md 规范
+- **路径错误**: 参考 `specs/directory-structure.md` 确认正确路径
+- **格式不符**: 检查 `specs/writing-style.md` 规范
 - **实体不一致**: 检查 `productions/{project_id}/data/entities.md` 更新
 - **知识缺失**: 检查是否正确加载了 `_base/` 和匹配的知识包
-
----
-
-## 参考文档
-
-- `WRITING_STYLE_GUIDE.md` - 强制书写规范
-- `templates/entities-template.md` - 实体库格式参考
-- `commands/README.md` - Commands 详细用法
