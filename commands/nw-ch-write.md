@@ -88,7 +88,7 @@ For each 章节 from 1 to 10:
 
 ### 错误3: 章节已存在
 ```
-警告: chapter-001.md 已存在
+警告: chapter-0001.md 已存在
 选项: [覆盖] [跳过] [取消]
 ```
 
@@ -150,7 +150,7 @@ For each 章节 from 1 to 10:
 - 境界更新: 炼气3层 → 炼气9层
 
 文件位置:
-- 章节文件: productions/{project_id}/chapters/chapter-001.md ~ chapter-010.md
+- 章节文件: productions/{project_id}/chapters/chapter-0001.md ~ chapter-0010.md
 - 实体库: productions/{project_id}/data/entities.md (已更新)
 - 进度记录: productions/{project_id}/data/progress.md (已更新)
 
@@ -168,10 +168,10 @@ For each 章节 from 1 to 10:
 警告: 创作在第5章时中断
 
 已完成:
-- chapter-001.md ~ chapter-004.md ✓
+- chapter-0001.md ~ chapter-0004.md ✓
 
 未完成:
-- chapter-005.md ~ chapter-010.md ✗
+- chapter-0005.md ~ chapter-0010.md ✗
 
 恢复建议:
 /nw-ch-write 5-10

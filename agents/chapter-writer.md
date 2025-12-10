@@ -196,7 +196,7 @@ model: sonnet
 创作完成后,自查 (详见 `specs/writing-style.md`):
 
 ```markdown
-✅ 文件命名: chapter-{001}.md
+✅ 文件命名: chapter-{0001}.md
 ✅ YAML Frontmatter（松散格式）:
    - 必填: chapter, title, status
    - 推荐: notes, foreshadowing, characters_appeared, first_appearances

@@ -65,8 +65,8 @@ mkdir -p productions/{project_id}/chapters productions/{project_id}/data
 productions/{project_id}/
 ├── blueprint.link          # 指向blueprints/{project_id}
 ├── chapters/               # 章节存放目录（重要！所有章节必须在此）
-│   ├── chapter-001.md
-│   ├── chapter-002.md
+│   ├── chapter-0001.md
+│   ├── chapter-0002.md
 │   └── ...
 └── data/
     └── entities.md         # 实体库
@@ -184,10 +184,10 @@ for i in 1 to 10:
       - entities_db: data/entities.md
 
     等待chapter-writer完成:
-      - 生成 productions/{project_id}/chapters/chapter-{i:03d}.md
+      - 生成 productions/{project_id}/chapters/chapter-{i:04d}.md
       - 自动更新 productions/{project_id}/data/entities.md (如有新实体)
 
-    验证chapter-{i:03d}.md存在且内容完整
+    验证chapter-{i:04d}.md存在且内容完整
 ```
 
 ### 步骤7: 更新进度
@@ -229,16 +229,16 @@ for i in 1 to 10:
 
 📝 正在批量创作前10章...
 
-  ✅ chapter-001.md (3200字) - 废柴少年
-  ✅ chapter-002.md (3100字) - 退婚之辱
-  ✅ chapter-003.md (3300字) - 药老苏醒
-  ✅ chapter-004.md (3000字) - 焚决初成
-  ✅ chapter-005.md (3150字) - 家族冷眼
-  ✅ chapter-006.md (3200字) - 薰儿的关心
-  ✅ chapter-007.md (3100字) - 首次炼药
-  ✅ chapter-008.md (3250字) - 药老的考验
-  ✅ chapter-009.md (3180字) - 暗中突破斗者
-  ✅ chapter-010.md (3120字) - 魔兽山脉计划
+  ✅ chapter-0001.md (3200字) - 废柴少年
+  ✅ chapter-0002.md (3100字) - 退婚之辱
+  ✅ chapter-0003.md (3300字) - 药老苏醒
+  ✅ chapter-0004.md (3000字) - 焚决初成
+  ✅ chapter-0005.md (3150字) - 家族冷眼
+  ✅ chapter-0006.md (3200字) - 薰儿的关心
+  ✅ chapter-0007.md (3100字) - 首次炼药
+  ✅ chapter-0008.md (3250字) - 药老的考验
+  ✅ chapter-0009.md (3180字) - 暗中突破斗者
+  ✅ chapter-0010.md (3120字) - 魔兽山脉计划
 
 🔍 正在检查实体一致性...
 

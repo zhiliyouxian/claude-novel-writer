@@ -33,8 +33,8 @@
 │   └── {project_id}/              # 制作项目
 │       ├── blueprint.link         # 链接到蓝图
 │       ├── chapters/              # 章节文件
-│       │   ├── chapter-001.md
-│       │   ├── chapter-002.md
+│       │   ├── chapter-0001.md
+│       │   ├── chapter-0002.md
 │       │   └── ...
 │       └── data/
 │           └── entities.md        # 实体库
@@ -46,18 +46,18 @@
         │   └── ch-audit-*.md      # 章节审核报告
         ├── tts/                   # 有声书
         │   ├── scripts/           # 朗读文本（去换行）
-        │   │   ├── 001.txt
+        │   │   ├── 0001.txt
         │   │   └── ...
         │   ├── audio/             # 音频文件（可选）
-        │   │   ├── 001.mp3
+        │   │   ├── 0001.mp3
         │   │   └── ...
         │   └── subtitles/         # 字幕文件（可选）
-        │       ├── 001.srt
+        │       ├── 0001.srt
         │       └── ...
         ├── text/
         │   └── full.txt           # 完整合集
         └── markdown/              # 发布版 Markdown
-            ├── 001.md             # 去掉 yml 头
+            ├── 0001.md            # 去掉 yml 头
             └── ...
 ```
 
@@ -81,15 +81,15 @@
 
 | 内容 | 路径 |
 |------|------|
-| 章节文件 | `productions/{project_id}/chapters/chapter-{NNN}.md` |
+| 章节文件 | `productions/{project_id}/chapters/chapter-{NNNN}.md` |
 | 实体库 | `productions/{project_id}/data/entities.md` |
 | 蓝图审核报告 | `releases/{project_id}/reviews/bp-audit-report.md` |
 | 章节审核报告 | `releases/{project_id}/reviews/ch-audit-{start}-{end}.md` |
 | TXT合集 | `releases/{project_id}/text/full.txt` |
-| 朗读文本 | `releases/{project_id}/tts/scripts/{NNN}.txt` |
-| 音频文件 | `releases/{project_id}/tts/audio/{NNN}.mp3` |
-| 字幕文件 | `releases/{project_id}/tts/subtitles/{NNN}.srt` |
-| Markdown发布版 | `releases/{project_id}/markdown/{NNN}.md` |
+| 朗读文本 | `releases/{project_id}/tts/scripts/{NNNN}.txt` |
+| 音频文件 | `releases/{project_id}/tts/audio/{NNNN}.mp3` |
+| 字幕文件 | `releases/{project_id}/tts/subtitles/{NNNN}.srt` |
+| Markdown发布版 | `releases/{project_id}/markdown/{NNNN}.md` |
 
 ---
 
@@ -106,12 +106,12 @@
 
 | 类型 | 格式 | 示例 |
 |------|------|------|
-| 章节文件 | `chapter-{NNN}.md` (三位数补零) | `chapter-001.md`, `chapter-100.md` |
+| 章节文件 | `chapter-{NNNN}.md` (四位数补零) | `chapter-0001.md`, `chapter-0100.md` |
 | 蓝图审核报告 | `bp-audit-report.md` | - |
-| 章节审核报告 | `ch-audit-{start}-{end}.md` | `ch-audit-001-010.md` |
-| TTS朗读文本 | `{NNN}.txt` (三位数补零) | `001.txt`, `100.txt` |
-| 音频文件 | `{NNN}.mp3` | `001.mp3` |
-| 字幕文件 | `{NNN}.srt` | `001.srt` |
+| 章节审核报告 | `ch-audit-{start}-{end}.md` | `ch-audit-0001-0010.md` |
+| TTS朗读文本 | `{NNNN}.txt` (四位数补零) | `0001.txt`, `0100.txt` |
+| 音频文件 | `{NNNN}.mp3` | `0001.mp3` |
+| 字幕文件 | `{NNNN}.srt` | `0001.srt` |
 | 实体库 | `entities.md` | - |
 
 ---

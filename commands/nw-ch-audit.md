@@ -290,7 +290,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 #### 错误1: 章节不存在
 
 ```
-错误: chapter-015.md 不存在
+错误: chapter-0015.md 不存在
 建议: 请先创作第15章,使用 /nw-ch-write 15
 ```
 
