@@ -7,8 +7,10 @@
 | 命令 | 用途 | 示例 |
 |------|------|------|
 | `/nw-init` | 初始化工作区 | `/nw-init` |
+| `/nw-analyze` | 分析素材池（可选） | `/nw-analyze xuanhuan_1` |
+| `/nw-plan` | 生成蓝图 | `/nw-plan 玄幻 废柴流` |
 | `/nw-write` | 批量创作章节 | `/nw-write 1-10` |
-| `/nw-review` | 审核章节质量（含编码检查） | `/nw-review 1-10` |
+| `/nw-review` | 审核章节质量 | `/nw-review 1-10` |
 | `/nw-export` | 导出章节 | `/nw-export --format txt` |
 
 ## 典型工作流
@@ -17,13 +19,19 @@
 # 1. 初始化工作区
 /nw-init
 
-# 2. 创作章节
+# 2. 分析素材（可选）
+/nw-analyze xuanhuan_1
+
+# 3. 生成蓝图
+/nw-plan xuanhuan_1 玄幻 废柴流
+
+# 4. 创作章节
 /nw-write 1-10
 
-# 3. 审核质量
+# 5. 审核质量
 /nw-review 1-10
 
-# 4. 修正问题后导出
+# 6. 导出
 /nw-export
 ```
 

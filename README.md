@@ -39,15 +39,15 @@ Creates the standard four-department directory structure in current directory.
 ```bash
 mkdir pools/reference_1
 # Add reference novels: novel1.txt, novel2.txt...
-claude "/analyze-pool reference_1"
+claude "/nw-analyze reference_1"
 ```
 
 ### 3. Generate Blueprint
 
 ```bash
-claude "/create-blueprint reference_1 玄幻 废柴流"
+claude "/nw-plan reference_1 玄幻 废柴流"
 # Or for other genres:
-claude "/create-blueprint reference_1 fantasy hero's-journey"
+claude "/nw-plan reference_1 fantasy hero's-journey"
 ```
 
 Auto-generates:
@@ -126,8 +126,8 @@ Each novel project requires a unique `project_id` for directory naming:
 | Command | Description |
 |---------|-------------|
 | `/nw-init` | Initialize workspace structure |
-| `/analyze-pool {name}` | Analyze reference materials |
-| `/create-blueprint` | Generate complete blueprint |
+| `/nw-analyze {name}` | Analyze reference materials |
+| `/nw-plan` | Generate complete blueprint |
 | `/nw-write 1-10` | Batch create chapters |
 | `/nw-review 1-10` | Batch review chapters |
 | `/nw-export` | Export all formats |
