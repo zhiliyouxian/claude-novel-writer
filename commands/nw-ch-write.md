@@ -1,29 +1,31 @@
 ---
-name: nw-write
-description: 批量创作章节。用法: /nw-write 1-10
+name: nw-ch-write
+description: 批量创作章节（创作阶段）。用法: /nw-ch-write 1-10
 ---
 
 # 批量章节创作命令
 
 快捷批量创作多个章节的命令。
 
+执行此命令后进入**章节阶段**，后续对话可直接讨论章节修改，无需重复输入命令。
+
 ## 用法
 
 ```bash
-/nw-write <起始章节>-<结束章节>
+/nw-ch-write <起始章节>-<结束章节>
 ```
 
 ## 示例
 
 ```bash
 # 创作第1-10章
-/nw-write 1-10
+/nw-ch-write 1-10
 
 # 创作第11-20章
-/nw-write 11-20
+/nw-ch-write 11-20
 
 # 创作第47-56章
-/nw-write 47-56
+/nw-ch-write 47-56
 ```
 
 ## 功能
@@ -39,7 +41,7 @@ description: 批量创作章节。用法: /nw-write 1-10
 ## 执行流程
 
 ```
-用户输入: /nw-write 1-10
+用户输入: /nw-ch-write 1-10
   ↓
 确定 project_id:
   ├─ 检查 blueprints/ 下有几个项目
@@ -61,7 +63,7 @@ For each 章节 from 1 to 10:
   ↓
 全部完成后:
   ├─ 更新 productions/{project_id}/data/progress.md
-  └─ 提示用户: "10章创作完成,建议运行 /nw-review 1-10 进行审核"
+  └─ 提示用户: "10章创作完成,建议运行 /nw-ch-audit 1-10 进行审核"
 ```
 
 ## 参数验证
@@ -95,21 +97,21 @@ For each 章节 from 1 to 10:
 ### 建议1: 每次10章
 ```bash
 # 推荐: 每批10章,便于审核和修改
-/nw-write 1-10
-/nw-write 11-20
-/nw-write 21-30
+/nw-ch-write 1-10
+/nw-ch-write 11-20
+/nw-ch-write 21-30
 ```
 
 ### 建议2: 创作后及时审核
 ```bash
-/nw-write 1-10
-/nw-review 1-10    # 立即审核
+/nw-ch-write 1-10
+/nw-ch-audit 1-10    # 立即审核
 # 根据审核意见修改后,再写下一批
 ```
 
 ### 建议3: 检查一致性
 ```bash
-/nw-write 1-10
+/nw-ch-write 1-10
 # 系统会自动运行 consistency-checker Skill
 # 检查实体一致性
 ```
@@ -153,9 +155,9 @@ For each 章节 from 1 to 10:
 - 进度记录: productions/{project_id}/data/progress.md (已更新)
 
 下一步建议:
-1. 运行 /nw-review 1-10 进行审核
+1. 运行 /nw-ch-audit 1-10 进行审核
 2. 查看 productions/{project_id}/data/entities.md 检查实体一致性
-3. 审核通过后,继续创作下一批: /nw-write 11-20
+3. 审核通过后,继续创作下一批: /nw-ch-write 11-20
 ```
 
 ## 中断与恢复
@@ -172,7 +174,7 @@ For each 章节 from 1 to 10:
 - chapter-005.md ~ chapter-010.md ✗
 
 恢复建议:
-/nw-write 5-10
+/nw-ch-write 5-10
 ```
 
 ### 断点续写
@@ -184,15 +186,15 @@ For each 章节 from 1 to 10:
 ```bash
 # 当前: 串行创作(逐章)
 # 未来: 可选并行模式
-/nw-write 1-10 --parallel
+/nw-ch-write 1-10 --parallel
 # 同时创作多章,速度更快
 ```
 
 ## 相关命令
 
-- `/nw-review 1-10` - 批量审核创作的章节
-- `/nw-export` - 导出所有章节为TXT格式
+- `/nw-ch-audit 1-10` - 批量审核创作的章节
+- `/nw-release` - 导出发布
 
 ---
 
-**提示**: 创作大量章节时,建议分批进行,每批不超过20章,便于质量控制。
+**提示**: 执行此命令后进入章节阶段，可直接通过对话修改章节内容，无需重复输入命令。

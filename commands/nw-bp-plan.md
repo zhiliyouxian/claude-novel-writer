@@ -1,32 +1,34 @@
 ---
-name: nw-plan
-description: 生成蓝图。用法: /nw-plan [pool_name] <类型> <流派>
+name: nw-bp-plan
+description: 生成蓝图（策划阶段）。用法: /nw-bp-plan [pool_name] <类型> <流派>
 ---
 
 # 蓝图生成命令
 
 一键生成完整的小说蓝图，包括选题方案、世界观、角色档案和章节大纲。
 
+执行此命令后进入**蓝图阶段**，后续对话可直接讨论蓝图修改，无需重复输入命令。
+
 ## 用法
 
 ```bash
-/nw-plan [pool_name] <类型> <流派>
+/nw-bp-plan [pool_name] <类型> <流派>
 ```
 
 ## 示例
 
 ```bash
 # 基于素材池生成蓝图
-/nw-plan xuanhuan_1 玄幻 废柴流
+/nw-bp-plan xuanhuan_1 玄幻 废柴流
 
 # 不使用素材池，直接生成
-/nw-plan 玄幻 系统流
+/nw-bp-plan 玄幻 系统流
 
 # 指定更多关键词
-/nw-plan 都市 重生 复仇
+/nw-bp-plan 都市 重生 复仇
 
 # 英文关键词也支持
-/nw-plan fantasy hero's-journey
+/nw-bp-plan fantasy hero's-journey
 ```
 
 ## 参数说明
@@ -65,7 +67,7 @@ description: 生成蓝图。用法: /nw-plan [pool_name] <类型> <流派>
 ## 执行流程
 
 ```
-用户输入: /nw-plan xuanhuan_1 玄幻 废柴流
+用户输入: /nw-bp-plan xuanhuan_1 玄幻 废柴流
   ↓
 确定 project_id:
   ├─ 如果用户指定项目名 → 使用指定名
@@ -138,7 +140,8 @@ blueprints/xuanhuan_001/
 
 下一步:
 1. 查看并调整蓝图文件
-2. 开始创作: /nw-write 1-10
+2. 审核蓝图: /nw-bp-audit
+3. 开始创作: /nw-ch-write 1-10
 ```
 
 ## 交互模式
@@ -166,7 +169,7 @@ blueprints/xuanhuan_001/
 
 ```bash
 # 自动生成 project_id
-/nw-plan 玄幻 废柴流
+/nw-bp-plan 玄幻 废柴流
 # → project_id: xuanhuan_001
 
 # 指定项目名
@@ -180,8 +183,8 @@ blueprints/xuanhuan_001/
 
 ```
 错误: 请指定小说类型和流派
-用法: /nw-plan [pool_name] <类型> <流派>
-示例: /nw-plan 玄幻 废柴流
+用法: /nw-bp-plan [pool_name] <类型> <流派>
+示例: /nw-bp-plan 玄幻 废柴流
 ```
 
 ### 错误2: 素材池不存在
@@ -222,10 +225,10 @@ blueprints/xuanhuan_001/
 
 ## 相关命令
 
-- `/nw-analyze` - 分析素材池（可选前置步骤）
-- `/nw-write` - 批量创作章节
-- `/nw-review` - 审核章节质量
+- `/nw-scan` - 扫描分析素材池（可选前置步骤）
+- `/nw-bp-audit` - 审核蓝图质量
+- `/nw-ch-write` - 批量创作章节
 
 ---
 
-**提示**: 蓝图生成是一次性操作，生成后建议先查看并调整再开始创作。
+**提示**: 执行此命令后进入蓝图阶段，可直接通过对话修改蓝图内容，无需重复输入命令。

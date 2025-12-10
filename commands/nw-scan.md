@@ -1,26 +1,26 @@
 ---
-name: nw-analyze
-description: 分析素材池。用法: /nw-analyze <pool_name>
+name: nw-scan
+description: 扫描分析素材池，提取风格特征。用法: /nw-scan <pool_name>
 ---
 
-# 素材池分析命令
+# 素材池扫描命令
 
-分析参考小说素材，提取风格特征和写作模式。
+扫描分析参考小说素材，提取风格特征和写作模式。
 
 ## 用法
 
 ```bash
-/nw-analyze <pool_name>
+/nw-scan <pool_name>
 ```
 
 ## 示例
 
 ```bash
-# 分析名为 xuanhuan_1 的素材池
-/nw-analyze xuanhuan_1
+# 扫描分析名为 xuanhuan_1 的素材池
+/nw-scan xuanhuan_1
 
-# 分析多个素材池
-/nw-analyze reference_novels
+# 扫描分析多个素材池
+/nw-scan reference_novels
 ```
 
 ## 前置条件
@@ -55,7 +55,7 @@ cp 完美世界.txt pools/xuanhuan_1/
 ## 执行流程
 
 ```
-用户输入: /nw-analyze xuanhuan_1
+用户输入: /nw-scan xuanhuan_1
   ↓
 检查素材目录:
   pools/xuanhuan_1/
@@ -106,7 +106,7 @@ pools/analysis/xuanhuan_1/
 
 下一步:
 1. 查看分析报告了解风格特征
-2. 生成蓝图: /nw-plan xuanhuan_1 玄幻 废柴流
+2. 生成蓝图: /nw-bp-plan xuanhuan_1 玄幻 废柴流
 ```
 
 ## 分析报告内容
@@ -159,13 +159,13 @@ pools/analysis/xuanhuan_1/
 1. **素材质量**：参考小说质量决定分析结果质量
 2. **数量建议**：2-5 本同类型小说效果最佳
 3. **格式要求**：素材文件需为 UTF-8 编码的 txt 文件
-4. **可选步骤**：没有参考素材也可以直接使用 `/nw-plan` 创建蓝图
+4. **可选步骤**：没有参考素材也可以直接使用 `/nw-bp-plan` 创建蓝图
 
 ## 相关命令
 
 - `/nw-init` - 初始化工作区
-- `/nw-plan` - 生成蓝图
+- `/nw-bp-plan` - 生成蓝图
 
 ---
 
-**提示**: 素材分析是可选步骤，如果没有参考小说，可以直接使用 `/nw-plan` 基于知识库生成蓝图。
+**提示**: 素材扫描是可选步骤，如果没有参考小说，可以直接使用 `/nw-bp-plan` 基于知识库生成蓝图。

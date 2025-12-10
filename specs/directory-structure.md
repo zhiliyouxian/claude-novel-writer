@@ -14,7 +14,7 @@
 
 ## 工作区目录结构
 
-用户执行 `/workspace-init` 后创建的标准结构：
+用户执行 `/nw-init` 后创建的标准结构：
 
 ```
 {工作区根目录}/
@@ -42,9 +42,23 @@
 └── releases/                       # 发布部门
     └── {project_id}/
         ├── reviews/               # 审核报告
-        │   └── batch-{start}-{end}-report.md
-        ├── text/                  # TXT版
-        └── audio/                 # TTS版
+        │   ├── bp-audit-report.md # 蓝图审核报告
+        │   └── ch-audit-*.md      # 章节审核报告
+        ├── tts/                   # 有声书
+        │   ├── scripts/           # 朗读文本（去换行）
+        │   │   ├── 001.txt
+        │   │   └── ...
+        │   ├── audio/             # 音频文件（可选）
+        │   │   ├── 001.mp3
+        │   │   └── ...
+        │   └── subtitles/         # 字幕文件（可选）
+        │       ├── 001.srt
+        │       └── ...
+        ├── text/
+        │   └── full.txt           # 完整合集
+        └── markdown/              # 发布版 Markdown
+            ├── 001.md             # 去掉 yml 头
+            └── ...
 ```
 
 ---
@@ -69,9 +83,13 @@
 |------|------|
 | 章节文件 | `productions/{project_id}/chapters/chapter-{NNN}.md` |
 | 实体库 | `productions/{project_id}/data/entities.md` |
-| 审核报告 | `releases/{project_id}/reviews/batch-{start}-{end}-report.md` |
-| TXT导出 | `releases/{project_id}/text/` |
-| 有声书导出 | `releases/{project_id}/audio/` |
+| 蓝图审核报告 | `releases/{project_id}/reviews/bp-audit-report.md` |
+| 章节审核报告 | `releases/{project_id}/reviews/ch-audit-{start}-{end}.md` |
+| TXT合集 | `releases/{project_id}/text/full.txt` |
+| 朗读文本 | `releases/{project_id}/tts/scripts/{NNN}.txt` |
+| 音频文件 | `releases/{project_id}/tts/audio/{NNN}.mp3` |
+| 字幕文件 | `releases/{project_id}/tts/subtitles/{NNN}.srt` |
+| Markdown发布版 | `releases/{project_id}/markdown/{NNN}.md` |
 
 ---
 
@@ -89,7 +107,11 @@
 | 类型 | 格式 | 示例 |
 |------|------|------|
 | 章节文件 | `chapter-{NNN}.md` (三位数补零) | `chapter-001.md`, `chapter-100.md` |
-| 审核报告 | `batch-{start}-{end}-report.md` | `batch-001-010-report.md` |
+| 蓝图审核报告 | `bp-audit-report.md` | - |
+| 章节审核报告 | `ch-audit-{start}-{end}.md` | `ch-audit-001-010.md` |
+| TTS朗读文本 | `{NNN}.txt` (三位数补零) | `001.txt`, `100.txt` |
+| 音频文件 | `{NNN}.mp3` | `001.mp3` |
+| 字幕文件 | `{NNN}.srt` | `001.srt` |
 | 实体库 | `entities.md` | - |
 
 ---

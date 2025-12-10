@@ -39,15 +39,15 @@ Creates the standard four-department directory structure in current directory.
 ```bash
 mkdir pools/reference_1
 # Add reference novels: novel1.txt, novel2.txt...
-claude "/nw-analyze reference_1"
+claude "/nw-scan reference_1"
 ```
 
 ### 3. Generate Blueprint
 
 ```bash
-claude "/nw-plan reference_1 玄幻 废柴流"
+claude "/nw-bp-plan reference_1 玄幻 废柴流"
 # Or for other genres:
-claude "/nw-plan reference_1 fantasy hero's-journey"
+claude "/nw-bp-plan reference_1 fantasy hero's-journey"
 ```
 
 Auto-generates:
@@ -56,18 +56,24 @@ Auto-generates:
 3. Character profiles (20+ characters)
 4. 200+ chapter outline
 
-### 4. Start Production
+### 4. Audit Blueprint
 
 ```bash
-claude "/nw-write 1-10"
-claude "/nw-write 11-20"
+claude "/nw-bp-audit"
 ```
 
-### 5. Review & Export
+### 5. Start Production
 
 ```bash
-claude "/nw-review 1-10"
-claude "/nw-export"
+claude "/nw-ch-write 1-10"
+claude "/nw-ch-write 11-20"
+```
+
+### 6. Review & Release
+
+```bash
+claude "/nw-ch-audit 1-10"
+claude "/nw-release all"
 ```
 
 ---
@@ -126,11 +132,12 @@ Each novel project requires a unique `project_id` for directory naming:
 | Command | Description |
 |---------|-------------|
 | `/nw-init` | Initialize workspace structure |
-| `/nw-analyze {name}` | Analyze reference materials |
-| `/nw-plan` | Generate complete blueprint |
-| `/nw-write 1-10` | Batch create chapters |
-| `/nw-review 1-10` | Batch review chapters |
-| `/nw-export` | Export all formats |
+| `/nw-scan {name}` | Scan and analyze reference materials |
+| `/nw-bp-plan` | Generate complete blueprint |
+| `/nw-bp-audit` | Audit blueprint quality |
+| `/nw-ch-write 1-10` | Batch create chapters |
+| `/nw-ch-audit 1-10` | Batch audit chapters |
+| `/nw-release` | Export and release |
 
 ---
 
@@ -226,4 +233,5 @@ MIT License - see [LICENSE](LICENSE)
 
 - `specs/writing-style.md` - Writing style rules
 - `specs/directory-structure.md` - Directory structure specification
-- `CLAUDE.md` - Claude working instructions
+- `specs/project-detection.md` - Project detection logic
+- `specs/git-convention.md` - Git version management
