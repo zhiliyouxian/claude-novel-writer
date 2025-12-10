@@ -8,9 +8,8 @@
 |------|------|------|
 | `/nw-init` | 初始化工作区 | `/nw-init` |
 | `/nw-write` | 批量创作章节 | `/nw-write 1-10` |
-| `/nw-review` | 审核章节质量 | `/nw-review 1-10` |
+| `/nw-review` | 审核章节质量（含编码检查） | `/nw-review 1-10` |
 | `/nw-export` | 导出章节 | `/nw-export --format txt` |
-| `/nw-check` | 检查编码乱码 | `/nw-check 1-10` |
 
 ## 典型工作流
 
