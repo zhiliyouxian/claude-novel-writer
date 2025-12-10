@@ -1,6 +1,6 @@
 ---
-name: check-encoding
-description: 检查章节文件的编码问题和乱码。用法: /check-encoding 或 /check-encoding 1-10
+name: nw-check
+description: 检查编码乱码。用法: /nw-check [1-10]
 ---
 
 # 编码检查命令
@@ -10,9 +10,9 @@ description: 检查章节文件的编码问题和乱码。用法: /check-encodin
 ## 用法
 
 ```bash
-/check-encoding              # 检查所有章节
-/check-encoding 1-10         # 检查指定范围
-/check-encoding 5            # 检查单个章节
+/nw-check              # 检查所有章节
+/nw-check 1-10         # 检查指定范围
+/nw-check 5            # 检查单个章节
 ```
 
 ## 执行流程
@@ -38,7 +38,7 @@ description: 检查章节文件的编码问题和乱码。用法: /check-encodin
 ### 步骤3: 运行检测脚本
 
 ```bash
-python scripts/check-encoding.py productions/{project_id}/chapters/
+python scripts/nw-check.py productions/{project_id}/chapters/
 ```
 
 ### 步骤4: 输出结果
@@ -83,7 +83,7 @@ python scripts/check-encoding.py productions/{project_id}/chapters/
 建议:
 1. 根据上下文推断正确字符（如 "一口���" → "一口气"）
 2. 手动修复或使用 revision-writer 修改
-3. 修复后重新运行: /check-encoding
+3. 修复后重新运行: /nw-check
 ```
 
 ## 检测内容
@@ -104,19 +104,19 @@ python scripts/check-encoding.py productions/{project_id}/chapters/
 
 ```bash
 # 先检查编码
-/check-encoding 1-10
+/nw-check 1-10
 
 # 确认无乱码后审核
-/review-batch 1-10
+/nw-review 1-10
 
 # 或者直接审核（会自动先检查编码）
-/review-batch 1-10
+/nw-review 1-10
 ```
 
 ## 相关命令
 
-- `/review-batch` - 批量审核（包含编码检查）
-- `/revise-chapters` - 修改章节
+- `/nw-review` - 批量审核（包含编码检查）
+- `/nw-revise` - 修改章节
 
 ---
 

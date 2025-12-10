@@ -1,6 +1,6 @@
 ---
-name: workspace-init
-description: 初始化小说创作工作区，创建四部门标准目录结构。用法: /workspace-init
+name: nw-init
+description: 初始化工作区。用法: /nw-init
 ---
 
 # 工作区初始化命令
@@ -10,7 +10,7 @@ description: 初始化小说创作工作区，创建四部门标准目录结构�
 ## 用法
 
 ```bash
-/workspace-init
+/nw-init
 ```
 
 ## 功能

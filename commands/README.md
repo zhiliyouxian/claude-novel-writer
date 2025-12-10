@@ -1,31 +1,37 @@
 # Commands 使用指南
 
-所有Commands都在用户对话中通过 `/command-name` 调用。
+所有命令以 `nw-` 为前缀，便于识别和查找。在对话中通过 `/nw-xxx` 调用。
 
-## 完整Commands列表
+## 命令列表
 
-### 跨部门
-- `/workspace-init` - 初始化工作区
-- `/status` - 显示工作区状态  
-- `/switch-project` - 切换制作项目
+| 命令 | 用途 | 示例 |
+|------|------|------|
+| `/nw-init` | 初始化工作区 | `/nw-init` |
+| `/nw-write` | 批量创作章节 | `/nw-write 1-10` |
+| `/nw-review` | 审核章节质量 | `/nw-review 1-10` |
+| `/nw-export` | 导出章节 | `/nw-export --format txt` |
+| `/nw-check` | 检查编码乱码 | `/nw-check 1-10` |
 
-### Pools部门
-- `/analyze-pool` - 分析素材池
+## 典型工作流
 
-### Blueprints部门
-- `/create-blueprint` - 一键生成完整蓝图
-- `/refine-blueprint` - 精细调整蓝图
-- `/validate-blueprint` - 验证蓝图
+```bash
+# 1. 初始化工作区
+/nw-init
 
-### Productions部门
-- `/start-production` - 初始化并开始创作
-- `/write-chapters` - 批量创作章节
-- `/continue-production` - 智能续写
-- `/check-entities` - 检查实体一致性
+# 2. 创作章节
+/nw-write 1-10
 
-### Releases部门
-- `/review-batch` - 批量审核
-- `/revise-chapters` - 批量修改
-- `/export-all` - 一键导出
+# 3. 审核质量
+/nw-review 1-10
 
-详细使用方法见各Command的md文件
+# 4. 修正问题后导出
+/nw-export
+```
+
+## 命名规范
+
+- `nw-` = novel-writer 前缀
+- 命令名尽量简短，参数在命令后指定
+- 范围参数格式：`1-10`（连续）或 `1,4,7`（离散）
+
+详细使用方法见各命令的 md 文件。

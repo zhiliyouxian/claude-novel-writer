@@ -68,10 +68,10 @@
 
 | 命令 | 功能 |
 |------|------|
-| `/write-chapters 1-10` | 批量创作第1-10章 |
-| `/write-chapters 11-20` | 继续创作第11-20章 |
-| `/review-batch 1-10` | 批量审核章节 |
-| `/export-all` | 导出所有格式 |
+| `/nw-write 1-10` | 批量创作第1-10章 |
+| `/nw-write 11-20` | 继续创作第11-20章 |
+| `/nw-review 1-10` | 批量审核章节 |
+| `/nw-export` | 导出所有格式 |
 
 ---
 
@@ -97,4 +97,4 @@
 
 ---
 
-*由 Novel Writing Studio Plugin 的 `/workspace-init` 命令生成*
+*由 Novel Writing Studio Plugin 的 `/nw-init` 命令生成*

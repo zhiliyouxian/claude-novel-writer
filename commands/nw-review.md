@@ -1,6 +1,6 @@
 ---
-name: review-batch
-description: 批量审核指定范围的章节,生成质量报告。用法: /review-batch 1-10 或 /review-batch 1,4,7
+name: nw-review
+description: 审核章节质量。用法: /nw-review 1-10
 ---
 
 # 批量章节审核命令
@@ -10,23 +10,23 @@ description: 批量审核指定范围的章节,生成质量报告。用法: /rev
 ## 用法
 
 ```bash
-/review-batch <章节范围或列表>
+/nw-review <章节范围或列表>
 ```
 
 ## 示例
 
 ```bash
 # 审核第1-10章(连续范围)
-/review-batch 1-10
+/nw-review 1-10
 
 # 审核指定章节(离散列表)
-/review-batch 1,4,7
+/nw-review 1,4,7
 
 # 审核单章
-/review-batch 5
+/nw-review 5
 
 # 审核后半部分
-/review-batch 101-200
+/nw-review 101-200
 ```
 
 ## 功能
@@ -42,12 +42,12 @@ description: 批量审核指定范围的章节,生成质量报告。用法: /rev
 ## 执行流程
 
 ```
-用户输入: /review-batch 1-10
+用户输入: /nw-review 1-10
   ↓
 解析: 起始=1, 结束=10, 共10章
   ↓
 【前置】编码检查:
-  运行: python scripts/check-encoding.py productions/{project_id}/chapters/
+  运行: python scripts/nw-check.py productions/{project_id}/chapters/
   ├─ 无乱码 → 继续审核
   └─ 有乱码 → 先修复，再审核
   ↓
@@ -221,9 +221,9 @@ For each 章节 from 1 to 10:
 releases/{project_id}/reviews/batch-001-010-report.md
 
 下一步建议:
-1. 修正问题章节: /revise-chapters 1,4,7
-2. 修正后重新审核: /review-batch 1,4,7
-3. 通过后继续创作: /write-chapters 11-20
+1. 修正问题章节: /nw-revise 1,4,7
+2. 修正后重新审核: /nw-review 1,4,7
+3. 通过后继续创作: /nw-write 11-20
 ```
 
 ### 发现乱码状态
@@ -250,7 +250,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 建议:
 1. 根据上下文修复乱码（如 "一口���" → "一口气"）
-2. 修复后重新运行: /review-batch 1-10
+2. 修复后重新运行: /nw-review 1-10
 ```
 
 ### 有问题状态
@@ -267,7 +267,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 - chapter-009: 节奏混乱,结构不清 ❌
 
 建议:
-1. 重写严重问题章节: /revise-chapters 3,7,9
+1. 重写严重问题章节: /nw-revise 3,7,9
 2. 修正后重新审核
 3. 通过后再继续创作
 
@@ -279,10 +279,10 @@ releases/{project_id}/reviews/batch-001-010-report.md
 ### 有效格式
 
 ```bash
-/review-batch 1-10      # 连续范围
-/review-batch 1,4,7     # 离散列表
-/review-batch 5         # 单个章节
-/review-batch 101-200   # 大范围
+/nw-review 1-10      # 连续范围
+/nw-review 1,4,7     # 离散列表
+/nw-review 5         # 单个章节
+/nw-review 101-200   # 大范围
 ```
 
 ### 错误处理
@@ -291,14 +291,14 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 ```
 错误: chapter-015.md 不存在
-建议: 请先创作第15章,使用 /write-chapters 15
+建议: 请先创作第15章,使用 /nw-write 15
 ```
 
 #### 错误2: 范围无效
 
 ```
 错误: 起始章节(20)大于结束章节(10)
-建议: 正确格式为 /review-batch 10-20
+建议: 正确格式为 /nw-review 10-20
 ```
 
 #### 错误3: 缺少风格参考
@@ -319,27 +319,27 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 ```bash
 # 推荐: 每批10章,便于管理和修改
-/write-chapters 1-10
-/review-batch 1-10
+/nw-write 1-10
+/nw-review 1-10
 # 修正问题
-/write-chapters 11-20
-/review-batch 11-20
+/nw-write 11-20
+/nw-review 11-20
 ```
 
 ### 建议2: 审核后及时修改
 
 ```bash
-/review-batch 1-10
+/nw-review 1-10
 # 查看报告,发现问题
-/revise-chapters 1,4,7    # 修正问题章节
-/review-batch 1,4,7       # 重新审核确认
+/nw-revise 1,4,7    # 修正问题章节
+/nw-review 1,4,7       # 重新审核确认
 ```
 
 ### 建议3: 定期全量审核
 
 ```bash
 # 每50章做一次全量审核
-/review-batch 1-50
+/nw-review 1-50
 # 检查风格漂移和一致性问题
 ```
 
@@ -379,7 +379,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 ### 被调用
 
-- **用户直接调用**: `/review-batch {range}`
+- **用户直接调用**: `/nw-review {range}`
 
 ### 调用
 
@@ -393,9 +393,9 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 ## 相关命令
 
-- `/write-chapters 1-10` - 批量创作章节
-- `/revise-chapters 1,4,7` - 修改指定章节
-- `/export-all` - 导出所有章节
+- `/nw-write 1-10` - 批量创作章节
+- `/nw-revise 1,4,7` - 修改指定章节
+- `/nw-export` - 导出所有章节
 
 ---
 

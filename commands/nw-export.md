@@ -1,6 +1,6 @@
 ---
-name: export-all
-description: 一键导出所有章节为多种格式(TXT/平台格式/有声书)。用法: /export-all 或 /export-all --format txt
+name: nw-export
+description: 导出章节。用法: /nw-export [--format txt]
 ---
 
 # 一键导出命令
@@ -10,29 +10,29 @@ description: 一键导出所有章节为多种格式(TXT/平台格式/有声书)
 ## 用法
 
 ```bash
-/export-all [选项]
+/nw-export [选项]
 ```
 
 ## 示例
 
 ```bash
 # 导出所有格式(默认)
-/export-all
+/nw-export
 
 # 只导出TXT纯文本
-/export-all --format txt
+/nw-export --format txt
 
 # 只导出起点格式
-/export-all --format qidian
+/nw-export --format qidian
 
 # 导出有声书优化版
-/export-all --format audio
+/nw-export --format audio
 
 # 导出指定章节范围
-/export-all --range 1-100
+/nw-export --range 1-100
 
 # 组合选项
-/export-all --format txt,audio --range 1-50
+/nw-export --format txt,audio --range 1-50
 ```
 
 ## 支持的导出格式
@@ -176,7 +176,7 @@ TTS优化示例:
 ## 执行流程
 
 ```
-用户输入: /export-all
+用户输入: /nw-export
   ↓
 解析选项: 默认导出所有格式
   ↓
@@ -314,7 +314,7 @@ published/
 
 ```
 错误: productions/{project_id}/chapters/ 目录为空或不存在
-建议: 请先创作章节,使用 /write-chapters 1-10
+建议: 请先创作章节,使用 /nw-write 1-10
 ```
 
 ### 错误2: 章节不连续
@@ -330,7 +330,7 @@ published/
 ```
 警告: chapter-007.md 格式不规范
 问题: 缺少YAML frontmatter
-建议: 运行 /review-batch 7 检查并修正
+建议: 运行 /nw-review 7 检查并修正
 ```
 
 ## 格式转换规则
@@ -414,34 +414,34 @@ title: 废柴少年
 
 ```bash
 # 确保质量达标后再导出
-/review-batch 1-30
+/nw-review 1-30
 # 修正问题
-/export-all
+/nw-export
 ```
 
 ### 建议2: 分批导出测试
 
 ```bash
 # 先导出前10章测试
-/export-all --range 1-10 --format txt
+/nw-export --range 1-10 --format txt
 
 # 确认无误后导出全部
-/export-all
+/nw-export
 ```
 
 ### 建议3: 平台适配
 
 ```bash
 # 根据目标平台选择格式
-/export-all --format qidian   # 上传起点
-/export-all --format jjwxc    # 上传晋江
+/nw-export --format qidian   # 上传起点
+/nw-export --format jjwxc    # 上传晋江
 ```
 
 ## 与其他组件协作
 
 ### 被调用
 
-- **用户直接调用**: `/export-all [选项]`
+- **用户直接调用**: `/nw-export [选项]`
 
 ### 调用
 
@@ -485,9 +485,9 @@ published/
 
 ## 相关命令
 
-- `/write-chapters 1-10` - 批量创作章节
-- `/review-batch 1-10` - 批量审核章节
-- `/revise-chapters 1,4,7` - 修改指定章节
+- `/nw-write 1-10` - 批量创作章节
+- `/nw-review 1-10` - 批量审核章节
+- `/nw-revise 1,4,7` - 修改指定章节
 
 ---
 

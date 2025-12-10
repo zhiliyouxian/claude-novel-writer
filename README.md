@@ -29,7 +29,7 @@
 ### 1. Initialize Workspace
 
 ```bash
-claude "/workspace-init"
+claude "/nw-init"
 ```
 
 Creates the standard four-department directory structure in current directory.
@@ -59,15 +59,15 @@ Auto-generates:
 ### 4. Start Production
 
 ```bash
-claude "/write-chapters 1-10"
-claude "/write-chapters 11-20"
+claude "/nw-write 1-10"
+claude "/nw-write 11-20"
 ```
 
 ### 5. Review & Export
 
 ```bash
-claude "/review-batch 1-10"
-claude "/export-all"
+claude "/nw-review 1-10"
+claude "/nw-export"
 ```
 
 ---
@@ -125,12 +125,12 @@ Each novel project requires a unique `project_id` for directory naming:
 
 | Command | Description |
 |---------|-------------|
-| `/workspace-init` | Initialize workspace structure |
+| `/nw-init` | Initialize workspace structure |
 | `/analyze-pool {name}` | Analyze reference materials |
 | `/create-blueprint` | Generate complete blueprint |
-| `/write-chapters 1-10` | Batch create chapters |
-| `/review-batch 1-10` | Batch review chapters |
-| `/export-all` | Export all formats |
+| `/nw-write 1-10` | Batch create chapters |
+| `/nw-review 1-10` | Batch review chapters |
+| `/nw-export` | Export all formats |
 
 ---
 

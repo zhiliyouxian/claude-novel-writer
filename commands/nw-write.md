@@ -1,6 +1,6 @@
 ---
-name: write-chapters
-description: 批量创作指定范围的章节。用法: /write-chapters 1-10 或 /write-chapters 11-20
+name: nw-write
+description: 批量创作章节。用法: /nw-write 1-10
 ---
 
 # 批量章节创作命令
@@ -10,20 +10,20 @@ description: 批量创作指定范围的章节。用法: /write-chapters 1-10 �
 ## 用法
 
 ```bash
-/write-chapters <起始章节>-<结束章节>
+/nw-write <起始章节>-<结束章节>
 ```
 
 ## 示例
 
 ```bash
 # 创作第1-10章
-/write-chapters 1-10
+/nw-write 1-10
 
 # 创作第11-20章
-/write-chapters 11-20
+/nw-write 11-20
 
 # 创作第47-56章
-/write-chapters 47-56
+/nw-write 47-56
 ```
 
 ## 功能
@@ -39,7 +39,7 @@ description: 批量创作指定范围的章节。用法: /write-chapters 1-10 �
 ## 执行流程
 
 ```
-用户输入: /write-chapters 1-10
+用户输入: /nw-write 1-10
   ↓
 确定 project_id:
   ├─ 检查 blueprints/ 下有几个项目
@@ -61,7 +61,7 @@ For each 章节 from 1 to 10:
   ↓
 全部完成后:
   ├─ 更新 productions/{project_id}/data/progress.md
-  └─ 提示用户: "10章创作完成,建议运行 /review-batch 1-10 进行审核"
+  └─ 提示用户: "10章创作完成,建议运行 /nw-review 1-10 进行审核"
 ```
 
 ## 参数验证
@@ -95,21 +95,21 @@ For each 章节 from 1 to 10:
 ### 建议1: 每次10章
 ```bash
 # 推荐: 每批10章,便于审核和修改
-/write-chapters 1-10
-/write-chapters 11-20
-/write-chapters 21-30
+/nw-write 1-10
+/nw-write 11-20
+/nw-write 21-30
 ```
 
 ### 建议2: 创作后及时审核
 ```bash
-/write-chapters 1-10
-/review-batch 1-10    # 立即审核
+/nw-write 1-10
+/nw-review 1-10    # 立即审核
 # 根据审核意见修改后,再写下一批
 ```
 
 ### 建议3: 检查一致性
 ```bash
-/write-chapters 1-10
+/nw-write 1-10
 # 系统会自动运行 consistency-checker Skill
 # 检查实体一致性
 ```
@@ -153,9 +153,9 @@ For each 章节 from 1 to 10:
 - 进度记录: productions/{project_id}/data/progress.md (已更新)
 
 下一步建议:
-1. 运行 /review-batch 1-10 进行审核
+1. 运行 /nw-review 1-10 进行审核
 2. 查看 productions/{project_id}/data/entities.md 检查实体一致性
-3. 审核通过后,继续创作下一批: /write-chapters 11-20
+3. 审核通过后,继续创作下一批: /nw-write 11-20
 ```
 
 ## 中断与恢复
@@ -172,7 +172,7 @@ For each 章节 from 1 to 10:
 - chapter-005.md ~ chapter-010.md ✗
 
 恢复建议:
-/write-chapters 5-10
+/nw-write 5-10
 ```
 
 ### 断点续写
@@ -184,14 +184,14 @@ For each 章节 from 1 to 10:
 ```bash
 # 当前: 串行创作(逐章)
 # 未来: 可选并行模式
-/write-chapters 1-10 --parallel
+/nw-write 1-10 --parallel
 # 同时创作多章,速度更快
 ```
 
 ## 相关命令
 
-- `/review-batch 1-10` - 批量审核创作的章节
-- `/export-all` - 导出所有章节为TXT格式
+- `/nw-review 1-10` - 批量审核创作的章节
+- `/nw-export` - 导出所有章节为TXT格式
 
 ---
 

@@ -17,7 +17,7 @@ model: sonnet
 
 ### 0. 编码检查（前置）
 - 检测乱码和编码问题
-- 使用 `scripts/check-encoding.py` 脚本
+- 使用 `scripts/nw-check.py` 脚本
 - 发现问题需先修复再进行内容审核
 
 ### 1. 风格一致性
@@ -40,13 +40,23 @@ model: sonnet
 - 分类钩子类型
 - 评估悬念设置
 
+### 5. 数据完整性检查（新增！）
+- **实体库检查**: 章节中出现的实体是否已记录到 entities.md
+- **进度检查**: progress.md 是否与实际章节数一致
+- **蓝图一致性**: 章节内容是否与 outline.md 的梗概匹配
+
+### 6. 规范版本追溯（新增！）
+- 检查章节是否符合当前版本的书写规范
+- 标记使用旧版规范创作的章节
+- 建议需要更新的章节
+
 ---
 
 ## 工作流程
 
 ### 输入
 
-接收Command `/review-batch {range}` 的参数:
+接收Command `/nw-review {range}` 的参数:
 - range: 章节范围 (如: 1-10, 11-30)
 
 ### 步骤1: 扫描目标章节
@@ -66,7 +76,7 @@ productions/{project_id}/chapters/chapter-010.md
 
 ```bash
 # 运行乱码检测脚本
-python scripts/check-encoding.py productions/{project_id}/chapters/
+python scripts/nw-check.py productions/{project_id}/chapters/
 ```
 
 ```markdown
@@ -244,7 +254,112 @@ chapter-001结尾 (最后2段):
 建议: 中段可增加更多细节描写,拉长铺垫
 ```
 
-### 步骤4: 生成单章报告
+### 步骤4: 数据完整性检查（新增！）
+
+#### 4.1 实体库检查
+
+```markdown
+检查 productions/{project_id}/data/entities.md
+
+1. 扫描章节中出现的所有实体:
+   - 人物名（对话者、被提及者）
+   - 地点名
+   - 物品名（武器、丹药、宝物等）
+   - 组织/势力名
+   - 功法/技能名
+
+2. 对比 entities.md 中已记录的实体
+
+3. 生成差异报告:
+   ❌ 缺失实体:
+   - chapter-005: "柳如烟" 未记录（女性角色，首次出场）
+   - chapter-008: "星辰剑" 未记录（武器）
+   - chapter-012: "天火宗" 未记录（敌对势力）
+
+   ⚠️ 状态过时:
+   - 萧羽: entities.md记录"炼气3层"，但chapter-020已突破到"筑基"
+
+   ✅ 实体库健康度: 78% (已记录156个，缺失44个)
+```
+
+#### 4.2 进度检查
+
+```markdown
+检查 productions/{project_id}/data/progress.md
+
+1. 统计实际章节文件数:
+   ls productions/{project_id}/chapters/chapter-*.md | wc -l
+   结果: 402个文件
+
+2. 读取 progress.md 中记录的章节数:
+   progress.md 显示: 已完成 10章
+
+3. 差异分析:
+   ❌ 进度严重滞后!
+   - 实际章节: 402
+   - 记录章节: 10
+   - 差异: 392章未记录
+
+   建议: 更新 progress.md，补充章节11-402的记录
+```
+
+#### 4.3 蓝图一致性检查
+
+```markdown
+检查章节内容与 blueprints/{project_id}/outline.md 的一致性
+
+1. 读取 outline.md 中对应章节的梗概
+2. 对比实际章节内容
+3. 检查关键点:
+   - 主要情节是否匹配
+   - 出场人物是否一致
+   - 关键事件是否发生
+
+评估示例:
+chapter-015 蓝图一致性检查:
+
+梗概要求:
+- 萧羽参加外门大比
+- 击败李傲天
+- 获得进入内门资格
+
+实际内容:
+- ✅ 参加外门大比
+- ✅ 击败李傲天
+- ⚠️ 内门资格：章节中提到"待定"，未明确获得
+
+一致性评分: 8/10 (核心情节匹配，细节略有偏差)
+```
+
+#### 4.4 规范版本检查
+
+```markdown
+检查章节是否符合当前书写规范版本
+
+当前规范版本: specs/writing-style.md (v2.0)
+
+检查项:
+1. YAML Frontmatter 格式
+   - 旧版: 末尾工作区 + 嵌套YAML
+   - 新版: 头部扁平数组
+
+2. 必填字段
+   - 旧版: chapter, title
+   - 新版: chapter, title, status
+
+3. 标点符号规范
+4. 段落格式规范
+
+结果示例:
+⚠️ 旧版规范章节 (需升级):
+- chapter-001 ~ chapter-050: 使用旧版YAML格式
+- chapter-001 ~ chapter-030: 缺少 status 字段
+- chapter-015: 使用英文标点
+
+建议: 使用 /nw-revise 升级旧版章节格式
+```
+
+### 步骤5: 生成单章报告
 
 为每章生成简要评分:
 
@@ -444,6 +559,60 @@ ls productions/{project_id}/data/batch-*.md
 
 ---
 
+## 数据完整性报告
+
+### 实体库检查
+
+| 检查项 | 状态 | 详情 |
+|--------|------|------|
+| 实体库文件 | ✅ 存在 | productions/xxx/data/entities.md |
+| 已记录实体 | 156个 | 人物78/地点32/物品28/其他18 |
+| 本批次新实体 | 23个 | 人物12/地点5/物品6 |
+| 缺失实体 | ❌ 8个 | 见下方列表 |
+| 健康度 | 78% | 需补充缺失实体 |
+
+**缺失实体列表**:
+- chapter-005: "柳如烟"（女性角色）
+- chapter-008: "星辰剑"（武器）
+- chapter-012: "天火宗"（势力）
+- ...
+
+**状态过时**:
+- 萧羽: 记录"炼气3层" → 实际已到"炼气12层"(chapter-010)
+
+### 进度检查
+
+| 检查项 | 状态 | 详情 |
+|--------|------|------|
+| 实际章节数 | 10章 | chapters/chapter-*.md |
+| 记录章节数 | 10章 | progress.md |
+| 一致性 | ✅ 一致 | - |
+
+### 蓝图一致性
+
+| 章节 | 一致性 | 主要偏差 |
+|------|--------|----------|
+| chapter-001 | 9/10 | - |
+| chapter-002 | 8/10 | 结尾略有改动 |
+| chapter-005 | 7/10 | 增加了计划外角色 |
+| ... | ... | ... |
+
+**平均一致性**: 8.2/10
+
+### 规范版本检查
+
+| 检查项 | 状态 | 详情 |
+|--------|------|------|
+| 当前规范版本 | v2.0 | specs/writing-style.md |
+| 符合新版 | 8章 | chapter-003~010 |
+| 需升级 | 2章 | chapter-001~002 (旧版YAML格式) |
+
+**需升级章节**:
+- chapter-001: 缺少 status 字段
+- chapter-002: 使用旧版工作区格式
+
+---
+
 ## 修改建议
 
 ### 优先级P0 (必须立即修改)
@@ -454,11 +623,14 @@ ls productions/{project_id}/data/batch-*.md
 ### 优先级P1 (强烈建议)
 1. chapter-001, chapter-004: 增加爽点密度
 2. chapter-007: 提升对话比例到40%以上
+3. **更新 entities.md**: 补充8个缺失实体，更新萧羽境界
+4. **升级旧版章节**: chapter-001~002 升级到新版YAML格式
 
 ### 优先级P2 (可选优化)
 1. 所有章节: 微调句长到15-16字区间
 2. chapter-003, chapter-006: 优化章节钩子
 3. chapter-009: 增加战斗细节
+4. 检查蓝图偏差较大的章节 (chapter-005)
 
 ---
 
@@ -466,7 +638,7 @@ ls productions/{project_id}/data/batch-*.md
 
 **推荐流程**:
 1. 修正3个严重问题 (P0)
-   - 使用 `/revise-chapters 1,4,7`
+   - 使用 `/nw-revise 1,4,7`
 2. 优化爽点密度 (P1)
    - 重点修改chapter-001, chapter-004, chapter-007
 3. 可选优化 (P2)
@@ -521,8 +693,8 @@ releases/novel_20231113_153022/reviews/batch-001-010-report.md
 - chapter-007: 质量不达标 (建议重写)
 
 建议:
-1. 先修正3个严重问题: /revise-chapters 1,4,7
-2. 修正后重新审核: /review-batch 1-10
+1. 先修正3个严重问题: /nw-revise 1,4,7
+2. 修正后重新审核: /nw-review 1-10
 
 详细报告: releases/novel_20231113_153022/reviews/batch-001-010-report.md
 ```
@@ -534,7 +706,7 @@ releases/novel_20231113_153022/reviews/batch-001-010-report.md
 ### 示例1: 标准批次审核
 
 ```bash
-用户: "/review-batch 1-10"
+用户: "/nw-review 1-10"
 
 执行过程:
 1. 扫描chapter-001.md到chapter-010.md
@@ -548,7 +720,7 @@ releases/novel_20231113_153022/reviews/batch-001-010-report.md
 ### 示例2: 审核单章
 
 ```bash
-用户: "/review-batch 5"
+用户: "/nw-review 5"
 # 或
 用户: "审核第5章"
 
@@ -655,4 +827,4 @@ releases/novel_20231113_153022/reviews/batch-001-010-report.md
 
 ---
 
-激活条件: Command `/review-batch {range}`
+激活条件: Command `/nw-review {range}`
