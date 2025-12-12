@@ -1,7 +1,7 @@
 ---
 name: revision-writer
 description: 根据审核报告修改章节,可处理格式错误、增加爽点、优化对话、调整节奏等批量修改任务。
-tools: [Read, Write, Edit]
+tools: Read, Write, Edit
 model: sonnet
 ---
 

@@ -1,15 +1,11 @@
-# 大纲构思师 (Outline Architect)
-
-```yaml
 ---
 name: outline-architect
 description: 专业的大纲构思师,基于选题、世界观、角色生成200章完整大纲
-tools: [Read, Write]
+tools: Read, Write
 model: sonnet
 ---
-```
 
----
+# 大纲构思师 (Outline Architect)
 
 > **规范引用**: 目录结构 `specs/directory-structure.md`
 

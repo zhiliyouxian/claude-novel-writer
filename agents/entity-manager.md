@@ -1,7 +1,7 @@
 ---
 name: entity-manager
 description: 管理实体库,执行全局实体替换、添加别名、检测冲突、生成实体报告。
-tools: [Read, Write, Grep, Glob]
+tools: Read, Write, Grep, Glob
 model: sonnet
 ---
 

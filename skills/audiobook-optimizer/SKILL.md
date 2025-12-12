@@ -1,7 +1,7 @@
 ---
 name: audiobook-optimizer
 description: 有声书生成工具，将章节转换为TTS文本并生成音频文件。
-allowed-tools: [Read, Write, Bash, Glob]
+allowed-tools: Read, Write, Bash, Glob
 ---
 
 # 有声书生成器

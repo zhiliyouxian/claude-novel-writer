@@ -1,7 +1,7 @@
 ---
 name: format-exporter
 description: 多格式导出工具,将章节导出为TXT、带目录TXT、分章TXT等格式,适用于不同平台发布。
-allowed-tools: [Read, Write, Glob]
+allowed-tools: Read, Write, Glob
 ---
 
 # 格式导出器

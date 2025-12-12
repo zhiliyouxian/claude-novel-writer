@@ -1,7 +1,7 @@
 ---
 name: pool-analyzer
 description: 分析素材池中的所有小说,提取融合风格、套路模式、爽点节奏。支持自动融合多篇小说,生成统一风格指南。
-allowed-tools: [Read, Write, Grep, Glob]
+allowed-tools: Read, Write, Grep, Glob
 ---
 
 # 素材池分析器

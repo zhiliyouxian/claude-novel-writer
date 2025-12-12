@@ -1,7 +1,7 @@
 ---
 name: consistency-checker
 description: 跨章节一致性检查,检测人名、地名、物品名等实体的一致性,发现矛盾和错误。
-allowed-tools: [Read, Grep, Glob]
+allowed-tools: Read, Grep, Glob
 ---
 
 # 一致性检查器

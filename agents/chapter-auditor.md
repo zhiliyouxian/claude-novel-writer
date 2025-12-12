@@ -1,7 +1,7 @@
 ---
 name: chapter-auditor
 description: 批量审核章节质量,检查风格一致性、爽点密度、对话质量、节奏把控等,生成审核报告。
-tools: [Read, Write, Glob]
+tools: Read, Write, Glob
 model: sonnet
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: blueprint-validator
 description: 验证蓝图完整性和一致性,检查选题方案、世界观、角色、大纲是否符合规范并相互协调。
-allowed-tools: [Read, Glob]
+allowed-tools: Read, Glob
 ---
 
 # 蓝图验证器
