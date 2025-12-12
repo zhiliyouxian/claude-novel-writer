@@ -17,7 +17,7 @@ model: sonnet
 
 ### 0. 编码检查（前置）
 - 检测乱码和编码问题
-- 使用 `scripts/nw-check.py` 脚本
+- 使用 `scripts/check-encoding.py` 脚本
 - 发现问题需先修复再进行内容审核
 
 ### 1. 风格一致性
@@ -76,7 +76,7 @@ productions/{project_id}/chapters/chapter-0010.md
 
 ```bash
 # 运行乱码检测脚本
-python scripts/nw-check.py productions/{project_id}/chapters/
+python scripts/check-encoding.py productions/{project_id}/chapters/
 ```
 
 ```markdown
