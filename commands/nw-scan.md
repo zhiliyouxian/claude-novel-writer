@@ -32,8 +32,8 @@ description: 扫描分析素材池，提取风格特征。用法: /nw-scan <pool
 mkdir pools/xuanhuan_1
 
 # 2. 放入参考小说（txt格式）
-cp 斗破苍穹.txt pools/xuanhuan_1/
-cp 完美世界.txt pools/xuanhuan_1/
+cp {参考小说1}.txt pools/xuanhuan_1/
+cp {参考小说2}.txt pools/xuanhuan_1/
 ```
 
 ## 功能
@@ -58,9 +58,9 @@ cp 完美世界.txt pools/xuanhuan_1/
 用户输入: /nw-scan xuanhuan_1
   ↓
 检查素材目录:
-  pools/xuanhuan_1/
-  ├─ 斗破苍穹.txt (200万字)
-  ├─ 完美世界.txt (300万字)
+  pools/{pool_name}/
+  ├─ {参考小说1}.txt (200万字)
+  ├─ {参考小说2}.txt (300万字)
   └─ ...
   ↓
 调用 pool-analyzer Skill:

@@ -18,17 +18,23 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
 此命令会调用 `blueprint-validator` Skill 进行全面审核：
 
 1. **完整性验证**
-   - 检查 4 个必需文件是否存在（proposal/worldview/characters/outline）
+   - 检查 4 个必需总览文件是否存在（proposal/worldview/characters/outline）
    - 验证每个文件的必需章节是否完整
    - 检查关键数据是否缺失
 
-2. **一致性验证**
+2. **分层模块验证**（可选）
+   - 检查已细化的世界观模块（worldview/*.md）
+   - 检查已细化的角色档案（characters/*.md）
+   - 检查已细化的分卷大纲（outlines/*.md）
+
+3. **一致性验证**
    - 世界观与角色设定是否一致
    - 大纲与世界观框架是否契合
    - 角色能力与境界体系是否匹配
+   - 总览文件与详细模块是否一致（无冲突）
 
-3. **可行性验证**
-   - 210 章大纲是否可持续创作
+4. **可行性验证**
+   - 大纲是否可持续创作
    - 爽点密度是否合理
    - 角色数量是否过多
 
@@ -44,12 +50,18 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
   └─ 如果没有蓝图 → 提示先创建蓝图
   ↓
 调用 blueprint-validator Skill:
-  ├─ 扫描蓝图目录
-  ├─ 验证 proposal.md
-  ├─ 验证 worldview.md
-  ├─ 验证 characters.md
-  ├─ 验证 outline.md
+  ├─ 扫描蓝图目录（含子目录）
+  ├─ 验证总览文件（4个必需）:
+  │   ├─ proposal.md
+  │   ├─ worldview.md
+  │   ├─ characters.md
+  │   └─ outline.md
+  ��─ 验证详细模块（可选）:
+  │   ├─ worldview/*.md
+  │   ├─ characters/*.md
+  │   └─ outlines/*.md
   ├─ 跨文件一致性检查
+  ├─ 总览↔详细模块一致性检查
   └─ 可行性评估
   ↓
 生成报告:
@@ -71,17 +83,27 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
 
 ✅ 蓝图审核通过!
 
-## 完整性检查
+## 完整性检查（总览文件）
 - ✅ proposal.md 完整
 - ✅ worldview.md 完整 (12境界 + 15势力 + 金手指)
 - ✅ characters.md 完整 (20个角色)
-- ✅ outline.md 完整 (210章)
+- ✅ outline.md 完整 (7卷/210章)
+
+## 分层模块检查（可选）
+- ✅ worldview/power-system.md 已细化
+- ✅ worldview/factions.md 已细化
+- ⏳ worldview/geography.md 待细化
+- ⏳ worldview/history.md 待细化
+- ⏳ worldview/rules.md 待细化
+- ✅ characters/character-萧羽.md 已细化
+- ✅ outlines/vol-1.md 已细化
 
 ## 一致性检查
 - ✅ 主角金手指与世界观一致
 - ✅ 角色境界符合世界观
 - ✅ 大纲角色都已定义
 - ✅ 境界成长路径合理
+- ✅ 总览与详细模块无冲突
 
 ## 可行性评估
 - 创作难度: 低风险 ✅
@@ -94,7 +116,7 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
 releases/xuanhuan_001/reviews/bp-audit-report.md
 
 下一步:
-1. 开始创作: /nw-ch-write 1-10
+1. 开始创作: /nw-ch-write 1-10 （建议先细化第一卷）
 ```
 
 ### 验证失败
@@ -111,9 +133,9 @@ releases/xuanhuan_001/reviews/bp-audit-report.md
 - ⚠️ outline.md 仅有180章(需要210章)
 
 ## 一致性问题
-- ❌ 主角初始境界"斗之气"不在境界列表中
-- ❌ 第5章出现角色"云韵"未在角色档案定义
-- ⚠️ 第50章主角跳级突破(斗师→斗王)
+- ❌ 主角初始境界"{境界1}"不在境界列表中
+- ❌ 第5章出现角色"{角色名}"未在角色档案定义
+- ⚠️ 第50章主角跳级突破({境界3}→{境界6})
 
 ## 可行性问题
 - ⚠️ 角色数量过多(35个),建议精简到25个以内
@@ -167,14 +189,22 @@ releases/xuanhuan_001/reviews/bp-audit-report.md
 
 ## 审核维度详情
 
-### 完整性检查
+### 完整性检查（总览文件）
 
 | 文件 | 必需章节 |
 |------|----------|
 | proposal.md | 基本信息、核心卖点、预期规模 |
-| worldview.md | 力量体系、势力格局、地理设定、金手指 |
-| characters.md | 主角、女主(1+)、反派(3+)、配角(5+) |
-| outline.md | 210章完整大纲、5-7个阶段划分 |
+| worldview.md | 世界背景、力量体系概述、势力格局概述、金手指 |
+| characters.md | 角色列表、关系网、阵营划分 |
+| outline.md | 全书概述、卷划分、关键节点、成长曲线 |
+
+### 分层模块检查（可选）
+
+| 目录 | 模块文件 | 说明 |
+|------|----------|------|
+| worldview/ | power-system.md, factions.md, geography.md, history.md, rules.md | 五个固定模块 |
+| characters/ | character-{角色名}.md | 按需细化的角色档案 |
+| outlines/ | vol-{N}.md | 按需细化的分卷大纲 |
 
 ### 一致性检查
 
@@ -185,6 +215,7 @@ releases/xuanhuan_001/reviews/bp-audit-report.md
 | 金手指一致性 | 主角金手指与世界观设定一致 |
 | 角色引用 | 大纲中出现的角色必须在角色档案中定义 |
 | 成长路径 | 主角境界成长符合世界观的境界顺序 |
+| 总览↔模块一致 | 详细模块内容与总览文件无冲突 |
 
 ### 可行性评估
 

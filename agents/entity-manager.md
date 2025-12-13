@@ -64,9 +64,9 @@ data/entities.md中 "{旧角色名}" 的状态:
 productions/{project_id}/chapters/*.md
 
 结果:
-- chapter-003.md: 5处
-- chapter-007.md: 3处
-- chapter-012.md: 2处
+- chapter-0003.md: 5处
+- chapter-0007.md: 3处
+- chapter-0012.md: 2处
 总计: 10处
 ```
 
@@ -153,8 +153,8 @@ for 每个包含"{旧角色名}"的文件:
 ```markdown
 可选: 扫描章节,检查"{主角昵称}"是否已在使用:
 
-chapter-006.md: "{主角昵称},你要小心。"
-chapter-012.md: "{主角昵称}哥哥!"
+chapter-0006.md: "{主角昵称},你要小心。"
+chapter-0012.md: "{主角昵称}哥哥!"
 
 ✅ 别名在2个章节中已被使用,现已合法化
 ```

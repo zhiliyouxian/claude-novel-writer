@@ -43,14 +43,29 @@ model: sonnet
 ### 步骤1: 验证蓝图存在性
 
 ```markdown
-检查目录:
+检查分层蓝图目录:
 blueprints/{project_id}/
-├── proposal.md
-├── worldview.md
-├── characters.md
-└── outline.md
+├── proposal.md                 # 选题方案（必需）
+│
+├── worldview.md                # 世界观总览（必需）
+└── worldview/                  # 世界观模块（可选，按需细化）
+│   ├── power-system.md         # 力量体系
+│   ├── factions.md             # 势力
+│   ├── geography.md            # 地理
+│   ├── history.md              # 历史
+│   └── rules.md                # 规则
+│
+├── characters.md               # 角色总览（必需）
+└── characters/                 # 角色档案（可选，按需细化）
+│   └── character-{角色名}.md
+│
+├── outline.md                  # 大纲框架（必需）
+└── outlines/                   # 分卷大纲（可选，按需细化）
+    ├── vol-1.md
+    └── ...
 
-缺失任一文件 → 报错并终止
+必需文件: proposal.md, worldview.md, characters.md, outline.md
+缺失任一必需文件 → 报错并终止
 ```
 
 ### 步骤2: 创建项目目录
@@ -132,13 +147,15 @@ blueprints/{project_id}/
 由 production-initializer 于 2023-11-13 15:30 初始化
 ```
 
-导入逻辑:
-1. 读取blueprints/{project_id}/characters.md
+导入逻辑（分层蓝图结构）:
+1. 读取blueprints/{project_id}/characters.md（角色总览）
 2. 提取所有角色名称
 3. 分配char_{001}, char_{002}, ...
-4. 读取blueprints/{project_id}/worldview.md
+4. 读取blueprints/{project_id}/worldview.md（世界观总览）
 5. 提取地点和物品
 6. 分配place_{001}, item_{001}, ...
+
+注: 详细角色档案(characters/)和世界观模块(worldview/)在创作时按需读取
 
 ### 步骤5: 生成项目元数据
 
@@ -310,7 +327,7 @@ for i in 1 to 10:
 
 ### 依赖
 
-- **blueprints/{project_id}/**: 必须存在且完整(4个md文件)
+- **blueprints/{project_id}/**: 必须存在且完整(4个必需文件: proposal.md, worldview.md, characters.md, outline.md)
 - **chapter-writer agent**: 用于批量创作章节
 
 ### 被调用
@@ -359,4 +376,8 @@ for i in 1 to 10:
 
 ---
 
-激活条件: Command `/start-production {project_id}`
+激活条件:
+- Command `/start-production {project_id}`
+- 用户说"开始创作"、"进入制作阶段"、"初始化制作"
+- 用户说"蓝图OK了，开始写"、"可以开始写章节了"
+- 蓝图审核通过后用户确认"开始"

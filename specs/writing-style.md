@@ -12,28 +12,30 @@ chapter-{序号}.md
 ```
 
 ### 规则
-- 序号固定**3位数字**,不足补零 (001-999)
+- 序号固定**4位数字**,不足补零 (0001-9999)
 - 使用**连字符** `-` 而非下划线
 - 纯**英文小写**
-- 超过999章使用4位: `chapter-1000.md`
 
 ### 示例
 
 ✅ **正确**:
 ```
-chapter-001.md
-chapter-002.md
-chapter-047.md
-chapter-123.md
+chapter-0001.md
+chapter-0002.md
+chapter-0047.md
+chapter-0123.md
+chapter-1000.md
 ```
 
 ❌ **错误**:
 ```
-ch001.md          # 禁止缩写
+ch0001.md         # 禁止缩写
 第一章.md         # 禁止中文
 chapter-1.md      # 缺少前导零
-chapter_01.md     # 使用下划线
-Chapter-001.md    # 使用大写
+chapter-01.md     # 不足4位
+chapter-001.md    # 不足4位
+chapter_0001.md   # 使用下划线
+Chapter-0001.md   # 使用大写
 ```
 
 ---

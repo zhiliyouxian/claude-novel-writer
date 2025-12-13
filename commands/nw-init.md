@@ -87,7 +87,7 @@ mkdir -p pools/analysis blueprints productions releases
 3. 生成蓝图: "/create-blueprint xuanhuan_1 玄幻 废柴流"
 
 或者直接开始创作(不使用参考素材):
-"我想写一个玄幻废柴流小说，主角有异火系统"
+"我想写一个玄幻废柴流小说，主角有{金手指类型}系统"
 ```
 
 ## 注意事项
