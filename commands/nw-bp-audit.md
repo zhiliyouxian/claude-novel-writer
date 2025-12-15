@@ -56,7 +56,7 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
   │   ├─ worldview.md
   │   ├─ characters.md
   │   └─ outline.md
-  ��─ 验证详细模块（可选）:
+  ├─ 验证详细模块（可选）:
   │   ├─ worldview/*.md
   │   ├─ characters/*.md
   │   └─ outlines/*.md
