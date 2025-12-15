@@ -1,7 +1,7 @@
 ---
 name: encoding-checker
 description: 编码检查与修复器，检测并自动修复章节文件中的乱码字符，循环检查直到全部正常。
-allowed-tools: Read, Edit, Glob, Grep
+allowed-tools: Read, Edit, Glob, Grep, Bash
 ---
 
 # 编码检查与修复器
@@ -14,21 +14,55 @@ allowed-tools: Read, Edit, Glob, Grep
 
 ---
 
+## 检测脚本
+
+使用 Python 脚本进行精确检测：
+
+```bash
+# 脚本位置
+{plugin_dir}/scripts/check-encoding.py
+
+# 检测目录下所有 md 文件
+python3 {plugin_dir}/scripts/check-encoding.py <目录路径>
+
+# 生成详细修复报告
+python3 {plugin_dir}/scripts/check-encoding.py <目录路径> --report
+
+# 输出 JSON 格式（供程序解析）
+python3 {plugin_dir}/scripts/check-encoding.py <目录路径> --json
+```
+
+### 脚本输出示例
+
+```
+❌ productions/xuanhuan_001/chapters/chapter-0003.md (3 个错误)
+   第15行: ...不像��渎那样锋利...
+   第87行: ...一口���，正要...
+   第156行: ...突破到���星...
+
+============================================================
+检测完成: 30 个文件
+  ✅ 正常: 28
+  ❌ 问题: 2
+  📍 总错误数: 5
+```
+
+---
+
 ## 核心能力
 
-### 1. 乱码检测
-- 检测 Unicode 替换字符（�, U+FFFD）
-- 检测常见乱码模式（锟斤拷、烫烫烫等）
-- 检测不完整的多字节字符
-- 检测异常控制字符
+### 1. 乱码检测（脚本实现）
+- 检测 Unicode 替换字符（U+FFFD，显示为 �）
+- 检测异常控制字符（0x00-0x08, 0x0B, 0x0C, 0x0E-0x1F, 0x7F）
+- 精确定位：文件名、行号、列号、上下文
 
-### 2. 自动修复
+### 2. 自动修复（Claude 实现）
 - 根据上下文智能推测原文
 - 直接修改文件完成修复
 - 修复后立即再次检查
 
 ### 3. 循环验证
-- 修复后重新扫描
+- 修复后重新运行脚本扫描
 - 确保所有问题已解决
 - 直到零乱码才通过
 
@@ -78,21 +112,22 @@ allowed-tools: Read, Edit, Glob, Grep
 ```
 开始
   ↓
-【第1轮】扫描所有章节文件
+【第1轮】运行检测脚本
+  python3 {plugin_dir}/scripts/check-encoding.py <chapters_dir>
   ↓
 检测到乱码?
   ├─ 否 → ✅ 通过，结束
   └─ 是 → 进入修复流程
         ↓
-      显示问题列表
+      解析脚本输出，获取问题列表
         ↓
       逐个修复:
-        ├─ 读取上下文
-        ├─ 推测原文
-        ├─ 执行 Edit 修复
+        ├─ Read 读取问题文件
+        ├─ 根据上下文推测原文
+        ├─ Edit 修复乱码
         └─ 记录修复内容
         ↓
-      【第2轮】再次扫描
+      【第2轮】再次运行脚本
         ↓
       还有乱码?
         ├─ 否 → ✅ 修复完成，结束
@@ -101,33 +136,32 @@ allowed-tools: Read, Edit, Glob, Grep
 
 ### 步骤详解
 
-#### 步骤1: 扫描文件
+#### 步骤1: 运行检测脚本
 
-```markdown
-使用Glob扫描:
-productions/{project_id}/chapters/chapter-*.md
+```bash
+# 检测章节目录
+python3 {plugin_dir}/scripts/check-encoding.py productions/{project_id}/chapters/
 
-结果:
-- 找到30个章节文件
+# 或使用 JSON 输出便于解析
+python3 {plugin_dir}/scripts/check-encoding.py productions/{project_id}/chapters/ --json
 ```
 
-#### 步骤2: 检测乱码
+#### 步骤2: 解析检测结果
 
-```python
-对每个文件:
-1. 读取文件内容
-2. 检测乱码模式:
-   - Unicode替换符 (�)
-   - 常见乱码模式
-   - 异常控制字符
-3. 记录: 文件名、行号、上下文
+脚本输出示例：
 ```
+❌ chapter-0003.md (3 个错误)
+   第15行: ...不像��渎那样锋利...
+   第87行: ...一口���，正要...
+```
+
+从输出中提取：文件名、行号、上下文
 
 #### 步骤3: 自动修复
 
 ```markdown
 对每处乱码:
-1. 提取上下文（前后各20字符）
+1. Read 读取问题文件
 2. 根据上下文推测原文
 3. 使用 Edit 工具修复
 4. 显示修复记录
@@ -135,11 +169,11 @@ productions/{project_id}/chapters/chapter-*.md
 
 #### 步骤4: 再次检查
 
-```markdown
-修复完成后:
-1. 重新扫描所有文件
-2. 如果还有乱码 → 回到步骤3
-3. 如果无乱码 → 结束，报告成功
+```bash
+# 再次运行脚本验证
+python3 {plugin_dir}/scripts/check-encoding.py productions/{project_id}/chapters/
+
+# 如果输出 "✅ 正常: N"（无问题文件），则通过
 ```
 
 ---
