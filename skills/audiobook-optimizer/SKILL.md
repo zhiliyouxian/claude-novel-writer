@@ -13,7 +13,7 @@ allowed-tools: Read, Write, Bash, Glob
 ## 工作流程
 
 ```
-章节文件 → prepare-tts.py → TTS纯文本 → edge-tts → MP3音频
+章节文件 → prepare-tts.py → TTS纯文本 → edge-tts → MP3音频 + SRT字幕
 ```
 
 > **脚本位置**: 所有脚本位于插件的 `scripts/` 目录下，即 `{plugin_dir}/scripts/`。
@@ -40,7 +40,7 @@ python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ re
 - 合并段落，规范化空白
 - 输出纯文本
 
-### 步骤2: 生成音频
+### 步骤2: 生成音频（可选同时生成字幕）
 
 使用 `{plugin_dir}/scripts/generate-audio.py` 调用 edge-tts：
 
@@ -48,8 +48,14 @@ python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ re
 # 生成单个合并音频
 python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/novel.mp3
 
+# 生成音频 + 字幕
+python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/novel.mp3 --write-subtitles
+
 # 分章节并行生成（默认10并发）
 python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters
+
+# 分章节 + 字幕
+python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --write-subtitles
 
 # 指定并发数（最高20）
 python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --concurrency 15
@@ -57,6 +63,18 @@ python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/
 # 指定音色和语速
 python {plugin_dir}/scripts/generate-audio.py input.txt output.mp3 --voice yunxi --rate +10%
 ```
+
+### 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| `--voice` | 音色，默认 xiaoxiao |
+| `--rate` | 语速，如 +10% 或 -10% |
+| `--volume` | 音量，如 +10% 或 -10% |
+| `--split-chapters` | 分章节生成 |
+| `--concurrency` | 并发数，1-20 |
+| `--write-subtitles` | 同时生成 SRT 字幕 |
+| `--subtitle-dir` | 指定字幕目录 |
 
 ---
 
@@ -104,35 +122,37 @@ releases/{project_id}/tts/
 
 ## 使用示例
 
-### 示例1: 完整流程
+### 示例1: 完整流程（音频+字幕）
 
 ```bash
 用户: "生成有声书"
 
 执行:
 1. python {plugin_dir}/scripts/prepare-tts.py productions/zongheng/chapters/ releases/zongheng/tts/scripts/novel-tts.txt
-2. python {plugin_dir}/scripts/generate-audio.py releases/zongheng/tts/scripts/novel-tts.txt releases/zongheng/tts/audio/novel.mp3
+2. python {plugin_dir}/scripts/generate-audio.py releases/zongheng/tts/scripts/novel-tts.txt releases/zongheng/tts/audio/novel.mp3 --write-subtitles
 
 输出:
 ✅ 有声书生成完成!
    TTS文本: releases/zongheng/tts/scripts/novel-tts.txt (9.5万字)
    音频文件: releases/zongheng/tts/audio/novel.mp3 (约6小时)
+   字幕文件: releases/zongheng/tts/audio/novel.srt
 ```
 
-### 示例2: 分章节并行生成
+### 示例2: 分章节并行生成（带字幕）
 
 ```bash
-用户: "生成有声书，每章单独文件"
+用户: "生成有声书，每章单独文件，带字幕"
 
 执行:
 1. python {plugin_dir}/scripts/prepare-tts.py ...
-2. python {plugin_dir}/scripts/generate-audio.py ... --split-chapters --concurrency 15
+2. python {plugin_dir}/scripts/generate-audio.py ... --split-chapters --write-subtitles --concurrency 15
 
 输出:
 ✅ 有声书生成完成!
    章节数: 30
    并发数: 15
    输出目录: releases/zongheng/tts/audio/
+   字幕目录: releases/zongheng/tts/subtitles/
 ```
 
 ### 示例3: 只准备文本（不生成音频）
