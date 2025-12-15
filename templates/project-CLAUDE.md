@@ -73,7 +73,10 @@
     └── {project_id}/
         ├── reviews/           # 审核报告
         ├── text/              # TXT版
-        └── audio/             # TTS版
+        ├── markdown/          # Markdown版
+        └── tts/               # 有声书
+            ├── scripts/       # 朗读文本
+            └── audio/         # 音频文件
 ```
 
 ---

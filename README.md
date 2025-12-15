@@ -111,7 +111,10 @@ Pools (素材池) → Blueprints (策划) → Productions (制作) → Releases 
     └── {project_id}/
         ├── reviews/           # Review reports
         ├── text/              # TXT format
-        └── audio/             # TTS optimized
+        ├── markdown/          # Markdown format
+        └── tts/               # TTS audio
+            ├── scripts/       # TTS text
+            └── audio/         # MP3 files
 ```
 
 ### project_id Naming Convention

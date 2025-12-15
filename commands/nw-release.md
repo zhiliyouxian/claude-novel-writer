@@ -47,7 +47,7 @@ description: 发布导出。用法: /nw-release <格式>
 
 ### 1. TXT纯文本 (txt)
 
-**文件**: `published/text/novel.txt`
+**文件**: `releases/{project_id}/text/full.txt`
 
 特点:
 - 所有章节合并为单文件
@@ -72,7 +72,7 @@ description: 发布导出。用法: /nw-release <格式>
 
 ### 2. 带目录TXT (txt-toc)
 
-**文件**: `published/text/novel-with-toc.txt`
+**文件**: `releases/{project_id}/text/full-with-toc.txt`
 
 特点:
 - 文件开头包含目录
@@ -101,7 +101,7 @@ description: 发布导出。用法: /nw-release <格式>
 
 ### 3. 分章TXT (txt-chapters)
 
-**目录**: `published/text/chapters/`
+**目录**: `releases/{project_id}/text/chapters/`
 
 特点:
 - 每章单独文件
@@ -110,7 +110,7 @@ description: 发布导出。用法: /nw-release <格式>
 
 ### 4. 起点中文网格式 (qidian)
 
-**目录**: `published/platforms/qidian/`
+**目录**: `releases/{project_id}/platforms/qidian/`
 
 特点:
 - 符合起点上传规范
@@ -120,7 +120,7 @@ description: 发布导出。用法: /nw-release <格式>
 
 文件结构:
 ```
-qidian/
+releases/{project_id}/platforms/qidian/
 ├── 作品简介.txt
 ├── 卷一_{卷名1}/
 │   ├── 0001_第1章_{章节标题1}.txt
@@ -132,7 +132,7 @@ qidian/
 
 ### 5. 晋江文学城格式 (jjwxc)
 
-**目录**: `published/platforms/jjwxc/`
+**目录**: `releases/{project_id}/platforms/jjwxc/`
 
 特点:
 - 符合晋江上传规范
@@ -141,7 +141,7 @@ qidian/
 
 ### 6. 番茄小说格式 (fanqie)
 
-**目录**: `published/platforms/fanqie/`
+**目录**: `releases/{project_id}/platforms/fanqie/`
 
 特点:
 - 符合番茄上传规范
@@ -150,7 +150,7 @@ qidian/
 
 ### 7. 有声书TTS优化版 (audio)
 
-**目录**: `published/audio/`
+**目录**: `releases/{project_id}/tts/`
 
 特点:
 - 添加停顿标记
@@ -160,12 +160,16 @@ qidian/
 
 文件:
 ```
-audio/
-├── novel-tts.txt         # 纯文本TTS版
-├── ssml/                 # SSML标记版
-│   ├── chapter-0001.xml
+releases/{project_id}/tts/
+├── scripts/              # 朗读文本
+│   ├── 0001.txt
 │   └── ...
-└── tts-config.json       # TTS配置
+├── audio/                # 音频文件
+│   ├── 0001.mp3
+│   └── ...
+└── subtitles/            # 字幕文件
+    ├── 0001.srt
+    └── ...
 ```
 
 TTS优化示例:
