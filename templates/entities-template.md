@@ -80,6 +80,6 @@
 ---
 
 **注意**:
-- 此文件由 chapter-writer 和 revision-writer 在创作过程中自动维护
+- 此文件由 chapter-writer 在创作/修订过程中自动维护
 - production-initializer 负责初始化，worldview-architect 和 character-designer 添加初始实体
 - entity-manager 负责全局管理和冲突检测

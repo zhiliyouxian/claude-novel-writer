@@ -15,7 +15,7 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
 
 ## 功能
 
-此命令会调用 `blueprint-validator` Skill 进行全面审核：
+此命令会调用 `blueprint-auditor` Skill 进行全面审核：
 
 1. **完整性验证**
    - 检查 4 个必需总览文件是否存在（proposal/worldview/characters/outline）
@@ -49,7 +49,7 @@ description: 审核蓝图质量（策划阶段）。用法: /nw-bp-audit
   ├─ 如果有多个 → 询问用户选择
   └─ 如果没有蓝图 → 提示先创建蓝图
   ↓
-调用 blueprint-validator Skill:
+调用 blueprint-auditor Skill:
   ├─ 扫描蓝图目录（含子目录）
   ├─ 验证总览文件（4个必需）:
   │   ├─ proposal.md

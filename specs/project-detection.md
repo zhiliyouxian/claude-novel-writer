@@ -115,8 +115,7 @@ AI: 审核项目 zongheng 的第1-10章...  ← 自动使用上次选择
 - `/nw-export` - 导出章节
 
 **Agent**:
-- chapter-writer
+- chapter-writer（含修订模式）
 - chapter-auditor
-- revision-writer
 - entity-manager
 - production-initializer

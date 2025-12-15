@@ -116,14 +116,31 @@ Pools (素材池) → Blueprints (策划) → Productions (制作) → Releases 
 
 ### project_id Naming Convention
 
-Each novel project requires a unique `project_id` for directory naming:
+> Details: `specs/project-naming.md`
 
-| Rule | Description | Example |
-|------|-------------|---------|
-| Format | lowercase letters, numbers, underscores | `my_novel_01` |
-| Length | 3-30 characters | ✅ `dao` ❌ `a` |
-| Meaning | Short descriptive name | `urban_rebirth` |
-| Forbidden | Chinese, spaces, special chars | ❌ `我的小说` |
+**Auto-generated format**: `{genre_prefix}_{sequence}`
+
+| Genre | Prefix | Example |
+|-------|--------|---------|
+| 玄幻 | `xuanhuan` | `xuanhuan_001` |
+| 仙侠 | `xianxia` | `xianxia_001` |
+| 都市 | `dushi` | `dushi_001` |
+| 科幻 | `kehuang` | `kehuang_001` |
+| 历史 | `lishi` | `lishi_001` |
+| 游戏 | `youxi` | `youxi_001` |
+| 奇幻 | `qihuan` | `qihuan_001` |
+| 悬疑 | `xuanyi` | `xuanyi_001` |
+| 轻小说 | `qingxiaoshuo` | `qingxiaoshuo_001` |
+
+**Rules**:
+- Auto-generated based on main genre + sequence number
+- Multi-genre: use main genre (e.g., "都市修仙" → `dushi_XXX`)
+- Manual override: `/nw-bp-plan 玄幻 废柴流 --id custom_name`
+
+**Book Title**:
+- Separate from `project_id` (can change anytime)
+- Set in `proposal.md` as `book_title`
+- Must be finalized before `/nw-release`
 
 ---
 
@@ -167,23 +184,22 @@ Each novel project requires a unique `project_id` for directory naming:
 
 ## Components
 
-### Agents (8)
+### Agents (7)
 | Agent | Function |
 |-------|----------|
 | worldview-architect | Build world settings |
 | character-designer | Design characters |
 | outline-architect | Create chapter outline |
 | production-initializer | Initialize production |
-| chapter-writer | Write chapters |
+| chapter-writer | Write chapters (with revision mode) |
 | entity-manager | Manage entities |
 | chapter-auditor | Review chapters |
-| revision-writer | Revise chapters |
 
 ### Skills (5)
 | Skill | Function |
 |-------|----------|
 | pool-analyzer | Analyze reference materials |
-| blueprint-validator | Validate blueprint |
+| blueprint-auditor | Audit blueprint quality |
 | consistency-checker | Check cross-chapter consistency |
 | format-exporter | Export to various formats |
 | audiobook-optimizer | Optimize for TTS |
@@ -233,5 +249,6 @@ MIT License - see [LICENSE](LICENSE)
 
 - `specs/writing-style.md` - Writing style rules
 - `specs/directory-structure.md` - Directory structure specification
+- `specs/project-naming.md` - Project naming convention
 - `specs/project-detection.md` - Project detection logic
 - `specs/git-convention.md` - Git version management

@@ -103,6 +103,56 @@ Claude: 好的，为了生成更合适的蓝图，我有几个问题：
 | pool_name | 可选 | 素材池名称，用于参考风格 |
 | 类型 | 必填 | 题材类型（玄幻/仙侠/都市/科幻等） |
 | 流派 | 必填 | 流派关键词（废柴流/系统流/重生等） |
+| --id | 可选 | 自定义 project_id（默认自动生成） |
+
+## project_id 自动生成
+
+> 详细规范见 `specs/project-naming.md`
+
+### 命名格式
+
+```
+{主题材前缀}_{序号}
+```
+
+### 主题材映射
+
+| 关键词 | 前缀 | 示例 |
+|--------|------|------|
+| 玄幻/异世界/领主 | `xuanhuan` | `xuanhuan_001` |
+| 仙侠/修仙/洪荒 | `xianxia` | `xianxia_001` |
+| 都市/重生/职场 | `dushi` | `dushi_001` |
+| 科幻/末世/星际 | `kehuang` | `kehuang_001` |
+| 历史/穿越/架空 | `lishi` | `lishi_001` |
+| 游戏/网游/电竞 | `youxi` | `youxi_001` |
+| 奇幻/魔法/西幻 | `qihuan` | `qihuan_001` |
+| 悬疑/推理/灵异 | `xuanyi` | `xuanyi_001` |
+| 轻小说/校园/日常 | `qingxiaoshuo` | `qingxiaoshuo_001` |
+
+### 自动生成规则
+
+```
+输入: /nw-bp-plan 都市 重生流
+
+系统处理:
+  1. 识别主题材: 都市 → dushi
+  2. 扫描已有项目: blueprints/dushi_001/, blueprints/dushi_002/
+  3. 生成新ID: dushi_003
+```
+
+### 多题材处理
+
+多题材取**主题材**（世界观背景）：
+- 都市修仙 → `dushi_XXX`（现代都市背景）
+- 历史玄幻 → `lishi_XXX`（历史背景）
+- 科幻修仙 → `kehuang_XXX`（科幻背景）
+
+### 手动覆盖
+
+```bash
+/nw-bp-plan 都市 重生流 --id my_novel
+# → project_id: my_novel
+```
 
 ## 功能
 
@@ -208,9 +258,13 @@ Claude: 好的，为了生成更合适的蓝图，我有几个问题：
   ├─ 用户指定规模类型 → 推断章节数
   └─ 未指定 → 询问或默认"长篇200章"
   ↓
-确定 project_id:
-  ├─ 如果用户指定项目名 → 使用指定名
-  └─ 否则 → 自动生成（如 xuanhuan_001）
+确定 project_id（详见 specs/project-naming.md）:
+  ├─ 如果用户使用 --id 参数 → 使用指定名
+  └─ 否则 → 自动生成:
+      1. 识别主题材 → 确定前缀（如 dushi）
+      2. 扫描 blueprints/ 目录
+      3. 找出同前缀最大序号
+      4. 生成下一个序号（如 dushi_003）
   ↓
 读取参考风格（可选）:
   pools/analysis/xuanhuan_1/style-fusion.md
@@ -388,13 +442,35 @@ blueprints/xuanhuan_001/
 ### 指定项目名
 
 ```bash
-# 自动生成 project_id
+# 自动生成 project_id（推荐）
 /nw-bp-plan 玄幻 废柴流
-# → project_id: xuanhuan_001
+# → project_id: xuanhuan_001（自动扫描并递增）
 
-# 指定项目名
-"创作《纵横天下》玄幻小说"
-# → project_id: zongheng
+# 手动指定 project_id
+/nw-bp-plan 玄幻 废柴流 --id my_novel
+# → project_id: my_novel
+
+# 多题材自动识别主题材
+/nw-bp-plan 都市 修仙 重生
+# → project_id: dushi_001（主题材是都市）
+```
+
+### 书名设置
+
+书名与 `project_id` 解耦，可随时修改：
+
+```
+蓝图创建时:
+  project_id: xuanhuan_001    # 自动生成，不可改
+  book_title: 待定            # 可以暂不确定
+
+创作过程中:
+  "把书名改为《万古签到》"
+  # → book_title: 《万古签到》
+
+发布前:
+  /nw-release xuanhuan_001
+  # → 检查书名是否已确定
 ```
 
 ## 错误处理

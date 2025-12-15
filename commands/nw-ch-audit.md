@@ -221,7 +221,7 @@ For each 章节 from 1 to 10:
 releases/{project_id}/reviews/batch-001-010-report.md
 
 下一步建议:
-1. 修正问题章节（直接对话修改或使用 revision-writer）
+1. 修正问题章节: /nw-ch-write --revise 1,4,7
 2. 修正后重新审核: /nw-ch-audit 1,4,7
 3. 通过后继续创作: /nw-ch-write 11-20
 ```
@@ -267,7 +267,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 - chapter-009: 节奏混乱,结构不清 ❌
 
 建议:
-1. 重写严重问题章节（直接对话修改或使用 revision-writer）
+1. 重写严重问题章节: /nw-ch-write --revise 3,7,9
 2. 修正后重新审核: /nw-ch-audit 3,7,9
 3. 通过后再继续创作
 
@@ -331,8 +331,8 @@ releases/{project_id}/reviews/batch-001-010-report.md
 ```bash
 /nw-ch-audit 1-10
 # 查看报告,发现问题
-# 直接对话修改或使用 revision-writer
-/nw-ch-audit 1,4,7       # 重新审核确认
+/nw-ch-write --revise 1,4,7  # 修订问题章节
+/nw-ch-audit 1,4,7           # 重新审核确认
 ```
 
 ### 建议3: 定期全量审核
@@ -387,7 +387,7 @@ releases/{project_id}/reviews/batch-001-010-report.md
 
 ### 后续操作
 
-- **revision-writer Agent**: 根据审核结果修改章节
+- **nw-ch-write --revise**: 根据审核结果修订章节
 - **nw-ch-write**: 审核通过后继续创作
 - **nw-release**: 全部通过后导出发布
 

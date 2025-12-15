@@ -191,6 +191,12 @@ TTS优化示例:
   ├─ 如果只有一个 → 自动使用
   └─ 如果有多个 → 询问用户选择
   ↓
+检查书名（必须通过）:
+  ├─ 读取 blueprints/{project_id}/proposal.md
+  ├─ 检查 book_title 字段
+  ├─ 如果为"待定" → 报错，要求先确定书名
+  └─ 如果已确定 → 继续
+  ↓
 扫描章节:
   ├─ 读取 productions/{project_id}/chapters/
   └─ 统计章节数和总字数
@@ -202,6 +208,33 @@ TTS优化示例:
   ↓
 完成:
   └─ 提示文件位置
+```
+
+### 书名检查
+
+发布前**必须**确定书名。书名设置在 `blueprints/{project_id}/proposal.md` 的 `book_title` 字段：
+
+```markdown
+## 项目标识
+
+| 属性 | 值 | 说明 |
+|------|-----|------|
+| project_id | `xuanhuan_001` | 自动生成，不可修改 |
+| book_title | 《万古签到》 | ✅ 已确定 |
+```
+
+如果书名为"待定"，会报错：
+
+```
+❌ 发布检查失败
+
+书名尚未确定！
+当前值: book_title = 待定
+
+请先确定书名:
+1. 编辑 blueprints/xuanhuan_001/proposal.md
+2. 将 book_title 修改为正式书名
+3. 重新执行 /nw-release
 ```
 
 ## 输出示例
