@@ -6,7 +6,7 @@ TTS 音频生成脚本（使用 edge-tts）
 1. 读取 TTS 文本文件
 2. 使用 edge-tts 生成音频
 3. 支持多种中文音色
-4. 支持分章节生成或合并生成
+4. 支持分章节并行生成（默认10并发，最高20）
 
 依赖安装：
     pip install edge-tts
@@ -16,14 +16,18 @@ TTS 音频生成脚本（使用 edge-tts）
     python generate-audio.py <input_txt> <output_mp3>
     python generate-audio.py releases/zongheng/audio/novel-tts.txt releases/zongheng/audio/novel.mp3
 
-    # 分章节生成（每章单独文件）
+    # 分章节并行生成（每章单独文件）
     python generate-audio.py <input_txt> <output_dir> --split-chapters
+
+    # 指定并发数（默认10，最高20）
+    python generate-audio.py <input_txt> <output_dir> --split-chapters --concurrency 15
 
 选项：
     --voice <voice_name>  指定音色（默认：zh-CN-XiaoxiaoNeural）
     --rate <rate>         语速，如 +10% 或 -10%（默认：+0%）
     --volume <volume>     音量，如 +10% 或 -10%（默认：+0%）
     --split-chapters      分章节生成单独音频文件
+    --concurrency <n>     并行生成数量（默认：10，范围：1-20）
     --list-voices         列出所有可用的中文音色
 
 常用音色：
@@ -154,9 +158,24 @@ async def generate_single_file(input_file: Path, output_file: Path,
     print(f"   文件大小: {file_size:.1f} MB")
 
 
+async def generate_chapter(chapter_num: int, chapter_text: str, output_dir: Path,
+                           voice: str, rate: str, volume: str, semaphore: asyncio.Semaphore):
+    """生成单个章节音频（带并发控制）"""
+    async with semaphore:
+        output_file = output_dir / f"chapter-{chapter_num:03d}.mp3"
+        print(f"  开始: chapter-{chapter_num:03d}.mp3 ({len(chapter_text):,} 字符)")
+
+        await generate_audio(chapter_text, output_file, voice, rate, volume)
+
+        file_size = output_file.stat().st_size / 1024  # KB
+        print(f"  完成: chapter-{chapter_num:03d}.mp3 ({file_size:.0f} KB)")
+        return output_file.stat().st_size
+
+
 async def generate_split_files(input_file: Path, output_dir: Path,
-                               voice: str, rate: str, volume: str):
-    """分章节生成多个音频文件"""
+                               voice: str, rate: str, volume: str,
+                               concurrency: int = 10):
+    """分章节并行生成多个音频文件"""
     print(f"读取文本: {input_file}")
 
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -170,18 +189,26 @@ async def generate_split_files(input_file: Path, output_dir: Path,
 
     print(f"识别到 {len(chapters)} 个章节")
     print(f"使用音色: {voice}")
+    print(f"并发数: {concurrency}")
+    print()
 
     # 确保输出目录存在
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    total_size = 0
-    for chapter_num, chapter_text in chapters:
-        output_file = output_dir / f"chapter-{chapter_num:03d}.mp3"
-        print(f"  生成: chapter-{chapter_num:03d}.mp3 ({len(chapter_text):,} 字符)")
+    # 使用信号量控制并发数
+    semaphore = asyncio.Semaphore(concurrency)
 
-        await generate_audio(chapter_text, output_file, voice, rate, volume)
-        total_size += output_file.stat().st_size
+    # 创建所有任务
+    tasks = [
+        generate_chapter(chapter_num, chapter_text, output_dir,
+                        voice, rate, volume, semaphore)
+        for chapter_num, chapter_text in chapters
+    ]
 
+    # 并行执行所有任务
+    results = await asyncio.gather(*tasks)
+
+    total_size = sum(results)
     total_size_mb = total_size / (1024 * 1024)
     print(f"\n✅ 音频生成完成!")
     print(f"   输出目录: {output_dir}")
@@ -203,6 +230,8 @@ def main():
                        help='音量调整（默认：+0%%）')
     parser.add_argument('--split-chapters', action='store_true',
                        help='分章节生成单独音频文件')
+    parser.add_argument('--concurrency', type=int, default=10,
+                       help='并行生成的章节数（默认：10，范围：1-20）')
     parser.add_argument('--list-voices', action='store_true',
                        help='列出所有可用的中文音色')
 
@@ -228,10 +257,13 @@ def main():
     # 解析音色
     voice = resolve_voice(args.voice)
 
+    # 限制并发数范围
+    concurrency = max(1, min(20, args.concurrency))
+
     # 生成音频
     if args.split_chapters:
         asyncio.run(generate_split_files(
-            input_file, output_path, voice, args.rate, args.volume
+            input_file, output_path, voice, args.rate, args.volume, concurrency
         ))
     else:
         if not output_path.suffix:
