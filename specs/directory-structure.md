@@ -60,7 +60,24 @@
         ├── reviews/               # 审核报告
         │   ├── bp-audit-report.md # 蓝图审核报告
         │   └── ch-audit-*.md      # 章节审核报告
-        ├── tts/                   # 有声书
+        │
+        ├── {locale}/              # 多语言发布（可选）
+        │   ├── text/              # TXT版
+        │   ├── markdown/          # Markdown版
+        │   ├── tts/               # 有声书
+        │   │   ├── scripts/       # 朗读文本
+        │   │   ├── audio/         # 音频文件
+        │   │   └── subtitles/     # 字幕文件
+        │   └── video/             # 视频（可选）
+        │       ├── storyboard/    # 分镜脚本
+        │       └── prompts/       # 图像/视频生成提示词
+        │
+        ├── text/                  # 默认（单语言）TXT版
+        │   └── full.txt           # 完整合集
+        ├── markdown/              # 默认（单语言）Markdown版
+        │   ├── 0001.md            # 去掉 yml 头
+        │   └── ...
+        ├── tts/                   # 默认（单语言）有声书
         │   ├── scripts/           # 朗读文本（去换行）
         │   │   ├── 0001.txt
         │   │   └── ...
@@ -70,11 +87,12 @@
         │   └── subtitles/         # 字幕文件（可选）
         │       ├── 0001.srt
         │       └── ...
-        ├── text/
-        │   └── full.txt           # 完整合集
-        └── markdown/              # 发布版 Markdown
-            ├── 0001.md            # 去掉 yml 头
-            └── ...
+        └── video/                 # 默认（单语言）视频（可选）
+            ├── storyboard/        # 分镜脚本
+            │   └── storyboard.md  # 场景列表+时间码
+            └── prompts/           # 图像/视频生成提示词
+                ├── scenes/        # 场景提示词
+                └── characters/    # 角色一致性提示词
 ```
 
 ---
@@ -108,15 +126,27 @@
 
 | 内容 | 路径 |
 |------|------|
+| **制作** | |
 | 章节文件 | `productions/{project_id}/chapters/chapter-{NNNN}.md` |
 | 实体库 | `productions/{project_id}/data/entities.md` |
+| **审核** | |
 | 蓝图审核报告 | `releases/{project_id}/reviews/bp-audit-report.md` |
 | 章节审核报告 | `releases/{project_id}/reviews/ch-audit-{start}-{end}.md` |
+| **发布（默认/单语言）** | |
 | TXT合集 | `releases/{project_id}/text/full.txt` |
+| Markdown发布版 | `releases/{project_id}/markdown/{NNNN}.md` |
+| **有声书** | |
 | 朗读文本 | `releases/{project_id}/tts/scripts/{NNNN}.txt` |
 | 音频文件 | `releases/{project_id}/tts/audio/{NNNN}.mp3` |
 | 字幕文件 | `releases/{project_id}/tts/subtitles/{NNNN}.srt` |
-| Markdown发布版 | `releases/{project_id}/markdown/{NNNN}.md` |
+| **视频** | |
+| 分镜脚本 | `releases/{project_id}/video/storyboard/storyboard.md` |
+| 场景提示词 | `releases/{project_id}/video/prompts/scenes/{NNNN}.md` |
+| 角色一致性提示词 | `releases/{project_id}/video/prompts/characters/{角色名}.md` |
+| **多语言发布** | |
+| 多语言TXT | `releases/{project_id}/{locale}/text/` |
+| 多语言有声书 | `releases/{project_id}/{locale}/tts/` |
+| 多语言视频 | `releases/{project_id}/{locale}/video/` |
 
 ---
 
@@ -186,6 +216,92 @@
 | TTS朗读文本 | `{NNNN}.txt` (四位数补零) | `0001.txt`, `0100.txt` |
 | 音频文件 | `{NNNN}.mp3` | `0001.mp3` |
 | 字幕文件 | `{NNNN}.srt` | `0001.srt` |
+| **视频文件** | | |
+| 分镜脚本 | `storyboard.md` | - |
+| 场景提示词 | `scene-{NNNN}.md` | `scene-0001.md` |
+| 角色一致性提示词 | `{角色名}.md` | `protagonist.md` |
+
+---
+
+## 多语言发布
+
+当需要发布多语言版本时，使用 `{locale}` 子目录区分：
+
+| locale 代码 | 语言 |
+|-------------|------|
+| `zh-CN` | 简体中文 |
+| `zh-TW` | 繁体中文 |
+| `en-US` | 英语 |
+| `ja-JP` | 日语 |
+| `ko-KR` | 韩语 |
+
+**单语言项目**（默认）：直接使用 `releases/{project_id}/text/`, `tts/`, `video/` 等目录。
+
+**多语言项目**：使用 `releases/{project_id}/{locale}/` 结构。
+
+```
+releases/xuanhuan_001/
+├── zh-CN/                    # 中文版
+│   ├── text/
+│   ├── tts/
+│   └── video/
+├── en-US/                    # 英文版
+│   ├── text/
+│   ├── tts/
+│   └── video/
+└── reviews/                  # 审核报告（共用）
+```
+
+---
+
+## 视频生成
+
+视频相关文件结构：
+
+```
+releases/{project_id}/video/
+├── storyboard/
+│   └── storyboard.md         # 分镜脚本（场景+时间码）
+└── prompts/
+    ├── scenes/               # 场景图像/视频提示词
+    │   ├── scene-0001.md     # 第1个场景
+    │   └── ...
+    └── characters/           # 角色一致性提示词
+        ├── protagonist.md    # 主角
+        └── ...
+```
+
+**分镜脚本格式** (`storyboard.md`)：
+
+```markdown
+## 场景列表
+
+| 序号 | 时间码 | 场景描述 | 角色 | 情绪 |
+|------|--------|----------|------|------|
+| 1 | 00:00:00 - 00:00:15 | 城市高楼天台，夕阳西下 | 主角 | 孤独、迷茫 |
+| 2 | 00:00:15 - 00:00:30 | 回忆：童年老家院子 | 主角(幼年) | 温馨 |
+```
+
+**场景提示词格式** (`scene-0001.md`)：
+
+```markdown
+# 场景 001
+
+## 基本信息
+- 时间码: 00:00:00 - 00:00:15
+- SRT序号: 1-3
+
+## 静态图像提示词 (DALL-E / Midjourney)
+A cinematic shot of a young man standing alone on a rooftop...
+
+## 视频提示词 (Sora / Veo)
+Camera slowly pushes in on a solitary figure...
+
+## Ken Burns 参数
+- 起始: scale=1.0, x=0.5, y=0.5
+- 结束: scale=1.2, x=0.4, y=0.3
+- 持续: 15s
+```
 
 ---
 
@@ -196,4 +312,5 @@
 - 不同项目的章节混在一起
 - 将审核报告保存到 `productions/` 目录
 - 将章节文件保存到 `releases/` 目录
+- 混用单语言和多语言目录结构（选择一种）
 
