@@ -7,6 +7,13 @@
 ## 文件格式
 
 ```markdown
+---
+name: {角色名}
+role: {protagonist/heroine/mentor/antagonist/supporting}
+faction: {所属势力}
+first_appearance: {首次出场章节}
+---
+
 # {角色名} 角色档案
 
 > 所属作品: 《{书名}》
@@ -23,10 +30,44 @@
 | 别名 | {昵称、外号、称号} |
 | 性别 | {男/女} |
 | 年龄 | {初登场年龄} |
-| 外貌 | {简要外貌特征} |
 | 身份 | {社会身份/职业} |
 | 势力 | {所属势力} |
 | 境界 | {初登场境界} |
+
+---
+
+## 视觉参考
+
+### 外貌特征
+
+| 特征 | 描述 |
+|------|------|
+| 年龄外观 | {看起来多少岁} |
+| 身材 | {身高体型} |
+| 面容 | {五官特点} |
+| 发型发色 | {发型和颜色} |
+| 瞳色 | {眼睛颜色} |
+| 肤色 | {肤色} |
+| 标志特征 | {疤痕/胎记/纹身等，如无则写"无"} |
+| 常用服装 | {日常穿着} |
+
+### 图像生成提示词
+
+**头像 (portrait)**
+
+```
+{基于外貌特征生成的英文提示词，用于生成头像/半身像}
+例: A 25-year-old Asian man with sharp features, sword-like eyebrows,
+short messy black hair, deep brown eyes, intense gaze, portrait style
+```
+
+**全身 (full-body)**
+
+```
+{基于外貌特征和常用服装生成的英文提示词，用于生成全身像}
+例: Full body shot of a tall slender young man in black trench coat,
+confident stance, cinematic lighting
+```
 
 ---
 

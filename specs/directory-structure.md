@@ -36,7 +36,10 @@
 │       │
 │       ├── characters.md          # 角色总览（列表、关系网）
 │       └── characters/            # 角色详细档案
-│       │   ├── character-{角色名}.md  # 单角色档案
+│       │   ├── character-{角色名}.md  # 单角色档案（含图像提示词）
+│       │   ├── character-{角色名}/    # 角色视觉素材（可选）
+│       │   │   ├── portrait.png       # 头像/半身像
+│       │   │   └── full-body.png      # 全身像
 │       │   └── ...
 │       │
 │       ├── outline.md             # 大纲框架（阶段、关键节点）
@@ -115,6 +118,7 @@
 | **角色** | |
 | 角色总览 | `blueprints/{project_id}/characters.md` |
 | 单角色档案 | `blueprints/{project_id}/characters/character-{角色名}.md` |
+| 角色视觉素材 | `blueprints/{project_id}/characters/character-{角色名}/` |
 | **大纲** | |
 | 大纲框架 | `blueprints/{project_id}/outline.md` |
 | 分卷大纲 | `blueprints/{project_id}/outlines/vol-{N}.md` |
@@ -205,7 +209,10 @@
 |------|------|------|
 | **蓝图文件** | | |
 | 世界观模块 | `{module}.md` | `power-system.md`, `factions.md` |
-| 角色档案 | `character-{角色名}.md` | `character-{主角}.md` |
+| 角色档案 | `character-{角色名}.md` | `character-林凡.md` |
+| 角色素材目录 | `character-{角色名}/` | `character-林凡/` |
+| 角色头像 | `portrait.png` | - |
+| 角色全身像 | `full-body.png` | - |
 | 分卷大纲 | `vol-{N}.md` | `vol-1.md`, `vol-2.md` |
 | **制作文件** | | |
 | 章节文件 | `chapter-{NNNN}.md` (四位数补零) | `chapter-0001.md`, `chapter-0100.md` |
