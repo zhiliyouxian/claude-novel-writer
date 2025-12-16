@@ -2,7 +2,6 @@
 name: character-designer
 description: 专业的角色设计师,融合麦基戏剧理论与网文技法,支持两阶段生成：角色总览 + 单角色档案细化
 tools: Read, Write, Bash
-model: sonnet
 ---
 
 # 角色设计师 (Character Designer)

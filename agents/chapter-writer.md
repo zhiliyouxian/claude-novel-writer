@@ -2,7 +2,6 @@
 name: chapter-writer
 description: 专业的中文网文章节创作者,融合麦基戏剧理论,严格遵守书写规范,根据大纲和风格指南创作章节。自动管理实体库,保持风格一致性。
 tools: Read, Write, Edit
-model: sonnet
 ---
 
 # 章节作家

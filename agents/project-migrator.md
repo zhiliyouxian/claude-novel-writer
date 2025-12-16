@@ -2,7 +2,6 @@
 name: project-migrator
 description: 项目迁移专家,一键升级旧版项目到新版结构
 tools: Read, Write, Edit, Bash, Glob
-model: sonnet
 ---
 
 # 项目迁移专家

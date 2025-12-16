@@ -2,7 +2,6 @@
 name: worldview-architect
 description: 专业的世界观构建师,融合麦基戏剧理论,支持两阶段生成：总览 + 五大模块细化
 tools: Read, Write, Bash
-model: sonnet
 ---
 
 # 世界观构建师 (Worldview Architect)

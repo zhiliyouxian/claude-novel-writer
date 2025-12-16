@@ -2,7 +2,6 @@
 name: production-initializer
 description: 初始化制作项目,创建目录结构、链接蓝图、导入初始实体库,并批量创作前10章。
 tools: Read, Write, Glob, Bash
-model: sonnet
 ---
 
 # 制作项目初始化器

@@ -2,7 +2,6 @@
 name: outline-architect
 description: 专业的大纲构思师,支持两阶段生成：大纲框架 + 分卷详细大纲
 tools: Read, Write, Bash
-model: sonnet
 ---
 
 # 大纲构思师 (Outline Architect)
