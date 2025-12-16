@@ -268,47 +268,248 @@ releases/xuanhuan_001/
 ```
 releases/{project_id}/video/
 ├── storyboard/
-│   └── storyboard.md         # 分镜脚本（场景+时间码）
-└── prompts/
-    ├── scenes/               # 场景图像/视频提示词
-    │   ├── scene-0001.md     # 第1个场景
-    │   └── ...
-    └── characters/           # 角色一致性提示词
-        ├── protagonist.md    # 主角
-        └── ...
+│   ├── storyboard.md              # 分镜脚本（场景+时间码）
+│   └── chapter-{NNNN}.json        # 章节分镜数据（可选）
+├── prompts/
+│   ├── scenes/                    # 场景图像/视频提示词
+│   │   ├── scene-0001.md
+│   │   └── ...
+│   └── characters/                # 角色一致性提示词
+│       ├── {角色名}.md
+│       └── ...
+├── images/                        # 用户放置的静态图（手动生成）
+│   ├── scenes/
+│   │   ├── scene-0001.png
+│   │   └── ...
+│   └── characters/                # 角色参考图（可选）
+│       └── ...
+├── kenburns/
+│   ├── config.json                # 全局 Ken Burns 设置
+│   └── scene-params.json          # 各场景动画参数
+├── clips/                         # Ken Burns 动画片段（自动生成）
+│   ├── scene-0001.mp4
+│   └── ...
+├── scripts/                       # ffmpeg 拼接脚本
+│   └── assemble-chapter-{N}.sh
+└── output/                        # 最终视频
+    ├── chapter-0001.mp4
+    └── ...
 ```
 
-**分镜脚本格式** (`storyboard.md`)：
+### 视频制作流程
+
+```
+SRT字幕 → 分镜脚本 → 场景提示词 → [用户手动生成图片] → Ken Burns动画 → 视频拼接
+```
+
+### 分镜脚本格式 (`storyboard.md`)
+
+> 模板参考: `templates/storyboard-template.md`
 
 ```markdown
+---
+chapter: 1
+source_srt: releases/{project_id}/tts/subtitles/0001.srt
+total_duration: "00:12:35"
+scene_count: 24
+generated: 2024-01-15
+---
+
+# 第1章 分镜脚本
+
 ## 场景列表
 
-| 序号 | 时间码 | 场景描述 | 角色 | 情绪 |
-|------|--------|----------|------|------|
-| 1 | 00:00:00 - 00:00:15 | 城市高楼天台，夕阳西下 | 主角 | 孤独、迷茫 |
-| 2 | 00:00:15 - 00:00:30 | 回忆：童年老家院子 | 主角(幼年) | 温馨 |
+| 场景 | 时间码 | 时长 | 地点 | 角色 | 情绪 | SRT序号 |
+|------|--------|------|------|------|------|---------|
+| 001 | 00:00:00-00:00:32 | 32s | 外门广场 | 萧羽, 李傲天 | 紧张 | 1-5 |
+| 002 | 00:00:32-00:01:15 | 43s | 外门广场 | 萧羽（内心独白） | 坚定 | 6-12 |
+
+## 场景详情
+
+### 场景 001: 广场对峙
+
+**时间码**: 00:00:00 - 00:00:32
+**时长**: 32秒
+**SRT序号**: #1-5
+
+**地点**: 外门广场，清晨
+**角色**: 萧羽（主角）、李傲天（反派）
+**情绪**: 紧张、对峙
+
+**画面描述**:
+清晨的宗门广场，两名年轻人对峙。一人穿着破旧的灰色道袍（萧羽），
+另一人身着华贵的红色锦袍（李傲天）。周围弟子围观。
+
+**镜头建议**:
+- 起始: 大远景，建立场景
+- 运动: 缓慢推进至中景
+- 结束: 越肩镜头，从萧羽视角看李傲天
 ```
 
-**场景提示词格式** (`scene-0001.md`)：
+### 场景提示词格式 (`scene-{NNNN}.md`)
+
+> 模板参考: `templates/scene-prompt-template.md`
 
 ```markdown
-# 场景 001
+---
+scene_number: 1
+chapter: 1
+timecode_start: "00:00:00"
+timecode_end: "00:00:32"
+duration_seconds: 32
+srt_range: [1, 5]
+characters: ["萧羽", "李傲天"]
+location: "外门广场"
+emotion: "紧张"
+---
 
-## 基本信息
-- 时间码: 00:00:00 - 00:00:15
-- SRT序号: 1-3
+# 场景 001: 广场对峙
 
-## 静态图像提示词 (DALL-E / Midjourney)
-A cinematic shot of a young man standing alone on a rooftop...
+## 静态图提示词
 
-## 视频提示词 (Sora / Veo)
-Camera slowly pushes in on a solitary figure...
+### Midjourney / DALL-E
+
+```
+Dramatic confrontation scene in an ancient Chinese martial arts sect plaza
+at dawn, two young men facing each other in the center, one in worn gray
+robes (protagonist) another in luxurious crimson robes (antagonist),
+surrounded by disciples in a circle, traditional pagoda architecture in
+background, golden hour lighting, cinematic composition, 4K,
+oriental fantasy style, anime influenced
+--ar 16:9 --style raw --v 6
+```
+
+## 视频提示词
+
+### Runway Gen-3
+
+```
+Camera slowly pushes in on two young men facing off in an ancient Chinese
+sect plaza. The protagonist in worn gray robes stands defiantly while his
+antagonist in crimson robes sneers. Morning light creates dramatic shadows.
+```
+
+### Kling AI
+
+```
+[场景: 古代宗门广场，清晨]
+两名修士对峙 - 灰袍青年（冷静、坚定）vs 红袍贵公子（轻蔑）
+镜头: 大远景缓慢推进至中景，8秒
+风格: 电影感，东方玄幻
+```
+
+### Sora / Veo
+
+```
+A cinematic scene in an ancient Chinese martial arts sect courtyard at dawn.
+The camera starts with a wide establishing shot showing traditional pagodas
+and a crowd of disciples forming a circle. It slowly pushes in to reveal
+two young men in the center - a determined youth in worn gray robes facing
+a sneering noble in expensive crimson robes. Golden morning light casts
+long shadows. Style: Epic fantasy, anime-influenced. Duration: 8 seconds.
+```
 
 ## Ken Burns 参数
-- 起始: scale=1.0, x=0.5, y=0.5
-- 结束: scale=1.2, x=0.4, y=0.3
-- 持续: 15s
+
+```json
+{
+  "type": "push_in",
+  "start": {"scale": 1.0, "x": 0.5, "y": 0.5},
+  "end": {"scale": 1.3, "x": 0.5, "y": 0.45},
+  "duration": 32,
+  "easing": "ease-in-out"
+}
 ```
+```
+
+### 角色一致性提示词格式 (`{角色名}.md`)
+
+```markdown
+---
+character: 萧羽
+role: protagonist
+generated: 2024-01-15
+---
+
+# 萧羽 - 视觉参考提示词
+
+## 一致性标签
+
+| 特征 | 描述 |
+|------|------|
+| 脸型 | 棱角分明，下颌线锐利 |
+| 头发 | 短发，微乱，黑色 |
+| 眼睛 | 深褐色，眼神锐利 |
+| 身材 | 175cm，清瘦，健壮 |
+| 服饰 | 深蓝色道袍，银色云纹 |
+| 风格锚点 | "年轻的剑修" |
+
+## 复制用标签（英文）
+
+```
+young man, angular face, sharp jawline, short messy black hair,
+deep brown intense eyes, 175cm tall, slender athletic build,
+wearing dark blue robes with silver cloud embroidery
+```
+
+## 头像提示词 (3:4)
+
+```
+A 20-year-old East Asian man with sharp angular features, sword-like
+eyebrows, short messy black hair, deep brown eyes with an intense gaze,
+wearing a dark blue traditional Chinese robe with silver cloud embroidery,
+portrait style, cinematic lighting, 4K, highly detailed, xianxia style
+--ar 3:4 --style raw
+```
+
+## 全身提示词 (2:3)
+
+```
+Full body shot of a tall slender young man (175cm), confident stance,
+wearing flowing dark blue robes with silver cloud patterns, hands
+clasped behind back, ancient Chinese mountain temple background,
+dramatic lighting, xianxia anime style
+--ar 2:3 --style raw
+```
+```
+
+### Ken Burns 配置格式 (`scene-params.json`)
+
+```json
+{
+  "version": "1.0",
+  "global_settings": {
+    "fps": 30,
+    "resolution": "1920x1080",
+    "default_easing": "ease-in-out"
+  },
+  "scenes": [
+    {
+      "scene_id": "0001",
+      "image": "scene-0001.png",
+      "duration_seconds": 32,
+      "animation": {
+        "type": "push_in",
+        "start": {"scale": 1.0, "x": 0.5, "y": 0.5},
+        "end": {"scale": 1.3, "x": 0.5, "y": 0.45},
+        "easing": "ease-in-out"
+      }
+    }
+  ]
+}
+```
+
+### Ken Burns 动画类型
+
+| 类型 | 说明 | 适用场景 |
+|------|------|----------|
+| `push_in` | 缓慢推进（放大） | 强调、紧张、聚焦 |
+| `pull_out` | 缓慢拉远（缩小） | 揭示全貌、结束 |
+| `pan_left` | 向左平移 | 场景展示、跟随移动 |
+| `pan_right` | 向右平移 | 场景展示、跟随移动 |
+| `pan_up` | 向上平移 | 仰视、壮观 |
+| `pan_down` | 向下平移 | 俯视、压迫 |
+| `diagonal` | 斜向推进 | 动态感、戏剧性 |
 
 ---
 

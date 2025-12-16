@@ -20,7 +20,11 @@ description: 发布导出。用法: /nw-release <格式>
 | `tts` | `releases/{project_id}/tts/scripts/` | 语音文本（去换行、优化朗读） |
 | `txt` | `releases/{project_id}/text/full.txt` | 完整合集（单文件） |
 | `md` | `releases/{project_id}/markdown/` | 发布版 Markdown（去 yml 头） |
-| `all` | 以上全部 | |
+| `audio` | `releases/{project_id}/tts/audio/` | 有声书音频 + 字幕 |
+| `video-char` | `releases/{project_id}/video/prompts/characters/` | 角色视觉提示词 |
+| `video-prep` | `releases/{project_id}/video/storyboard/` + `prompts/scenes/` | 分镜 + 场景提示词 |
+| `video-assemble` | `releases/{project_id}/video/output/` | 拼接最终视频 |
+| `all` | 以上全部（不含 video） | |
 
 ## 示例
 
@@ -36,12 +40,29 @@ description: 发布导出。用法: /nw-release <格式>
 
 # 导出所有格式
 /nw-release all
+
+# 生成有声书音频 + 字幕
+/nw-release audio
+
+# === 视频发布 ===
+
+# 生成角色视觉提示词
+/nw-release video-char
+
+# 生成分镜脚本和场景提示词
+/nw-release video-prep
+
+# 拼接最终视频（需先放置图片）
+/nw-release video-assemble
 ```
 
 也可以通过自然语言触发，如：
 - "导出有声书文本"
 - "生成语音版本"
 - "合成音频" → 会生成 tts/scripts + audio + subtitles
+- "制作视频" → 启动完整视频发布流程
+- "生成角色参考图提示词"
+- "生成分镜脚本"
 
 ## 支持的导出格式
 
@@ -420,6 +441,106 @@ releases/{project_id}/
 | `tts` | 去换行、优化标点停顿、多音字标注 |
 | `txt` | 合并所有章节为单文件、保留章节标题分隔 |
 | `md` | 去掉 `---` yml frontmatter、保留正文 |
+| `audio` | 调用 edge-tts 生成 MP3 + SRT 字幕 |
+| `video-char` | 从角色档案生成 AI 图像提示词 |
+| `video-prep` | SRT 转分镜 + 场景提示词生成 |
+| `video-assemble` | Ken Burns 动画 + 视频拼接 |
+
+---
+
+## 视频发布
+
+### 完整视频发布流程
+
+```
+/nw-release audio          # 1. 先生成有声书（音频+字幕）
+    ↓
+/nw-release video-char     # 2. 生成角色视觉提示词
+    ↓
+[用户用 Midjourney 等生成角色参考图]
+    ↓
+/nw-release video-prep     # 3. 生成分镜+场景提示词
+    ↓
+[用户用 Midjourney 等生成场景图]
+    ↓
+/nw-release video-assemble # 4. 拼接最终视频
+```
+
+### video-char (角色视觉提示词)
+
+**前置条件**: 角色档案已创建
+
+**执行**:
+1. 读取 `blueprints/{project_id}/characters/character-*.md`
+2. 提取外貌描述
+3. 生成 Midjourney/DALL-E 格式提示词
+
+**输出**:
+```
+releases/{project_id}/video/prompts/characters/{角色名}.md
+```
+
+### video-prep (分镜+场景提示词)
+
+**前置条件**: 有声书字幕已生成
+
+**执行**:
+1. 解析 `releases/{project_id}/tts/subtitles/*.srt`
+2. 检测场景边界，生成分镜脚本
+3. 为每个场景生成多平台提示词（Midjourney/Runway/Kling/Sora）
+4. 计算 Ken Burns 动画参数
+
+**输出**:
+```
+releases/{project_id}/video/
+├── storyboard/
+│   └── storyboard.md          # 分镜脚本
+├── prompts/
+│   └── scenes/
+│       ├── scene-0001.md      # 场景提示词
+│       └── ...
+└── kenburns/
+    └── scene-params.json      # 动画参数
+```
+
+### video-assemble (视频拼接)
+
+**前置条件**: 场景图片已放入 `video/images/scenes/`
+
+**执行**:
+1. 为每个场景生成 Ken Burns 动画片段
+2. 拼接所有片段
+3. 添加音频轨道
+4. 烧录字幕
+
+**输出**:
+```
+releases/{project_id}/video/output/chapter-0001.mp4
+```
+
+### 视频目录结构
+
+```
+releases/{project_id}/video/
+├── storyboard/                # 分镜脚本
+│   └── storyboard.md
+├── prompts/
+│   ├── characters/            # 角色提示词
+│   └── scenes/                # 场景提示词
+├── images/                    # 用户放置图片
+│   ├── characters/            # 角色参考图（可选）
+│   └── scenes/                # 场景图片（必需）
+│       ├── scene-0001.png
+│       └── ...
+├── kenburns/                  # Ken Burns 参数
+│   └── scene-params.json
+├── clips/                     # 动画片段
+│   └── scene-0001.mp4
+└── output/                    # 最终视频
+    └── chapter-0001.mp4
+```
+
+---
 
 ## 相关命令
 
