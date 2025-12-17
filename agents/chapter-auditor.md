@@ -11,6 +11,7 @@ tools: Read, Write, Glob
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
+> - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
 
 ## 核心职责
@@ -49,7 +50,7 @@ tools: Read, Write, Glob
 ### 6. 数据完整性检查
 - **实体库检查**: 章节中出现的实体是否已记录到 entities.md
 - **进度检查**: progress.md 是否与实际章节数一致
-- **蓝图一致性**: 章节内容是否与 outline.md 的梗概匹配
+- **大纲一致性**: 章节 YAML 头与大纲速览表是否一致（summary/hook/characters）
 
 ### 6. 规范版本追溯（新增！）
 - 检查章节是否符合当前版本的书写规范
@@ -139,28 +140,25 @@ specs/writing-style.md
 
 对每个chapter-*.md执行:
 
-#### 3.0 解析 YAML Frontmatter（松散格式）
+#### 3.0 解析 YAML Front Matter（核对用格式）
 
 ```markdown
 chapter-0001.md YAML 解析:
 
-基础信息:
-- chapter: 1
-- title: 废柴少年
-- status: draft
-- word_count: 3200
+核对字段（与大纲速览表对照）:
+- chapter_number: 1
+- title: "{章节标题}"
+- volume: 1
+- summary: "{本章核心事件}"
+- hook: "{章末悬念}"
+- characters: ["{角色1}", "{角色2}"]
 
-创作层元数据（简单数组，按需填写）:
-- notes: [建立主角人设, 核心钩子：{关键事件}, 章末悬念]
-- foreshadowing: [暗示更深层秘密, {伏笔描述}]
-- characters_appeared: [{主角}, {女主}, {配角}]
-- first_appearances: [{首次出场角色1}, {首次出场角色2}]
-- new_entities: [{新地点}, {新物品}, {龙套角色}（龙套）]
+可选字段:
+- status: draft/revised
 
 注:
-- 新格式使用扁平数组，不嵌套
-- 兼容旧格式（末尾工作区或嵌套YAML）
-- 所有字段可选，按需填写
+- 核心 6 字段用于与大纲核对
+- 参考模板: templates/chapter-template.md
 ```
 
 #### 3.1 基础统计
@@ -499,32 +497,33 @@ blueprints/{project_id}/outlines/vol-{N}.md
    建议: 更新 progress.md，补充章节11-402的记录
 ```
 
-#### 4.3 蓝图一致性检查
+#### 4.3 大纲一致性检查
 
 ```markdown
-检查章节内容与 blueprints/{project_id}/outline.md 的一致性
+检查章节 YAML 头与大纲速览表的一致性
 
-1. 读取 outline.md 中对应章节的梗概
-2. 对比实际章节内容
-3. 检查关键点:
-   - 主要情节是否匹配
-   - 出场人物是否一致
-   - 关键事件是否发生
+1. 读取分卷大纲速览表:
+   blueprints/{project_id}/outlines/vol-{N}.md → 章节速览表
 
-评估示例:
-chapter-015 蓝图一致性检查:
+2. 核对 3 个关键字段:
 
-梗概要求:
-- 萧羽参加外门大比
-- 击败李傲天
-- 获得进入内门资格
+   | 核对项 | 大纲来源 | 章节字段 |
+   |--------|----------|----------|
+   | 核心事件 | 大纲.章节速览.核心事件 | chapter.summary |
+   | 章末悬念 | 大纲.详细章节.章末钩子 | chapter.hook |
+   | 出场人物 | 大纲.章节速览.出场人物 | chapter.characters |
 
-实际内容:
-- ✅ 参加外门大比
-- ✅ 击败李傲天
-- ⚠️ 内门资格：章节中提到"待定"，未明确获得
+3. 核对结果示例:
 
-一致性评分: 8/10 (核心情节匹配，细节略有偏差)
+chapter-015 大纲一致性检查:
+
+| 字段 | 大纲 | 章节 | 状态 |
+|------|------|------|------|
+| summary | 主角参加外门大比，击败反派 | 主角参加外门大比，击败反派获得认可 | ✅ 吻合 |
+| hook | 神秘长老出现，邀请入内门 | 神秘长老出现，邀请入内门 | ✅ 一致 |
+| characters | [主角, 反派, 女主] | [主角, 反派, 女主, 路人甲] | ⚠️ 多出路人甲 |
+
+一致性评分: 9/10 (核心一致，多出龙套可接受)
 ```
 
 #### 4.4 规范版本检查
@@ -784,16 +783,16 @@ ls productions/{project_id}/data/batch-*.md
 | 记录章节数 | 10章 | progress.md |
 | 一致性 | ✅ 一致 | - |
 
-### 蓝图一致性
+### 大纲一致性（YAML 核对）
 
-| 章节 | 一致性 | 主要偏差 |
-|------|--------|----------|
-| chapter-0001 | 9/10 | - |
-| chapter-0002 | 8/10 | 结尾略有改动 |
-| chapter-0005 | 7/10 | 增加了计划外角色 |
-| ... | ... | ... |
+| 章节 | summary | hook | characters | 总分 |
+|------|---------|------|------------|------|
+| chapter-0001 | ✅ | ✅ | ✅ | 10/10 |
+| chapter-0002 | ✅ | ⚠️ 略有改动 | ✅ | 8/10 |
+| chapter-0005 | ✅ | ✅ | ⚠️ 多出龙套 | 9/10 |
+| ... | ... | ... | ... | ... |
 
-**平均一致性**: 8.2/10
+**平均一致性**: 9.0/10
 
 ### 规范版本检查
 

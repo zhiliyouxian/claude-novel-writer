@@ -12,6 +12,7 @@ tools: Read, Write, Edit
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
 > - 实体格式: `templates/entities-template.md`
+> - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
 
 ## 核心职责
@@ -228,15 +229,18 @@ tools: Read, Write, Edit
 
 ### 步骤4: 格式检查
 
-创作完成后,自查 (详见 `specs/writing-style.md`):
+创作完成后,自查 (详见 `specs/writing-style.md` 和 `templates/chapter-template.md`):
 
 ```markdown
 ✅ 文件命名: chapter-{0001}.md
-✅ YAML Frontmatter（精简格式）:
-   - 必填: chapter, title, status
-   - 可选: notes, foreshadowing, extras
-   - 卷末: volume_end, volume_summary, volume_highlights, next_volume_preview
-✅ 标题: # 第1章 废柴少年
+✅ YAML Front Matter（核对用字段）:
+   - chapter_number: 章节序号
+   - title: 章节标题（与大纲一致）
+   - volume: 所属卷号
+   - summary: 本章核心事件（与大纲速览表一致，1-2句）
+   - hook: 章末悬念（与大纲章末钩子一致）
+   - characters: 出场人物列表（与大纲一致）
+✅ 标题: # 第1章 {章节标题}
 ✅ 中文标点
 ✅ 对话格式
 ✅ 段落空行
@@ -272,52 +276,43 @@ tools: Read, Write, Edit
 
 ### 步骤6: 输出章节文件
 
-保存到 `productions/{project_id}/chapters/chapter-{N}.md`:
+> **格式参考**: `templates/chapter-template.md`
+
+保存到 `productions/{project_id}/chapters/chapter-{NNNN}.md`:
 
 ```markdown
 ---
-chapter: 1
-title: 废柴少年
-status: draft
-
-# 创作备注（可选，记录创作时的特殊处理）
-notes:
-  - 刻意压低开篇节奏，为后续爆发铺垫
-
-# 伏笔记录（创作时实际埋下的伏笔，便于后期填坑）
-foreshadowing:
-  - 星辰玉佩的异常反应（计划第8章揭示）
-  - 李傲天提到的"那个人"（计划第15章揭示）
-
-# 临时龙套（蓝图外临时创造的角色，便于追踪）
-extras:
-  - 外门弟子甲
-  - 守门弟子
+chapter_number: 1
+title: "{章节标题}"
+volume: 1
+summary: "{本章核心事件，与大纲速览表一致}"
+hook: "{章末悬念，与大纲章末钩子一致}"
+characters:
+  - "{角色1}"
+  - "{角色2}"
 ---
 
-# 第1章 废柴少年
+# 第1章 {章节标题}
 
 {正文内容}
 ```
 
-**YAML头设计原则**：
-- **策划已锁定的信息不重复记录**：
-  - ❌ 出场角色 → 分卷大纲已有
-  - ❌ 首次出场实体 → 分卷大纲的"新实体"已有
-  - ❌ 章末钩子类型 → 分卷大纲已有
-  - ❌ 爽点类型 → 分卷大纲已有
-  - ❌ word_count → 审核时脚本自动统计
+**YAML 头设计原则**：
 
-- **只记录创作后产生的信息**：
-  - ✅ `notes`：创作时的特殊处理、偏离大纲的原因
-  - ✅ `foreshadowing`：实际埋下的伏笔（可能比大纲规划的更细）
-  - ✅ `extras`：临时龙套（大纲不会规划的小角色）
+核心目的是**便于与大纲核对**，只包含 6 个字段：
 
-- **卷末章节额外字段**：
-  - `volume_end: true`
-  - `volume_summary`：本卷总结
-  - `volume_highlights`：本卷高光
-  - `next_volume_preview`：下卷预告
+| 字段 | 核对来源 |
+|------|----------|
+| `chapter_number` | - |
+| `title` | 大纲.章节速览.标题 |
+| `volume` | 大纲.卷号 |
+| `summary` | 大纲.章节速览.核心事件 |
+| `hook` | 大纲.详细章节.章末钩子 |
+| `characters` | 大纲.章节速览.出场人物 |
+
+**不再重复的信息**（已在大纲中）：
+- ❌ 爽点类型、场景极性、境界等 → 大纲详细章节已有
+- ❌ word_count → 审核时脚本自动统计
 
 **并行创作支持**：
 - 由于大纲已规划所有实体出场，多章节可并行创作
@@ -515,32 +510,23 @@ chapter-0001 问题清单:
 
 #### 步骤6: 生成修订记录
 
-在章节 YAML 中添加修订记录:
+在章节 YAML 中更新状态:
 
 ```yaml
 ---
-chapter: 1
-title: 废柴少年
-status: revised  # draft → revised
-word_count: 3028
-
-# 修订记录
-revision_history:
-  - version: 1
-    date: 2024-01-15
-    changes:
-      - 爽点密度优化 (+4处)
-      - 内部张力补充 (+3处内心戏)
-    issues_fixed:
-      - 爽点密度偏低
-      - 内部张力不足
-
-# 原有字段保持不变
-notes:
-  - 建立主角人设：隐忍、坚韧
-  - 核心钩子：神秘声音出现
+chapter_number: 1
+title: "{章节标题}"
+volume: 1
+summary: "{本章核心事件}"
+hook: "{章末悬念}"
+characters:
+  - "{角色1}"
+  - "{角色2}"
+status: revised  # 可选，标记已修订
 ---
 ```
+
+> 修订记录可在 commit message 或审核报告中追踪，不必写入章节文件。
 
 ### 修订输出格式
 
