@@ -211,7 +211,7 @@ draft ──审核──> final                     │
 
 ## Components
 
-### Agents (7)
+### Agents (8)
 | Agent | Function |
 |-------|----------|
 | worldview-architect | Build world settings |
@@ -221,15 +221,20 @@ draft ──审核──> final                     │
 | chapter-writer | Write chapters (with revision mode) |
 | entity-manager | Manage entities |
 | chapter-auditor | Review chapters |
+| release-manager | Export and publish (TTS, audio, txt, video) |
 
-### Skills (5)
+### Skills (9)
 | Skill | Function |
 |-------|----------|
 | pool-analyzer | Analyze reference materials |
 | blueprint-auditor | Audit blueprint quality |
 | consistency-checker | Check cross-chapter consistency |
+| encoding-checker | Check encoding issues |
 | format-exporter | Export to various formats |
-| audiobook-optimizer | Optimize for TTS |
+| audiobook-optimizer | TTS text and audio generation |
+| character-visual-prompter | Generate character image prompts |
+| storyboard-generator | Generate storyboard from subtitles |
+| scene-prompt-generator | Generate scene image prompts |
 
 ---
 

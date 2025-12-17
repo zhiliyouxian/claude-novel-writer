@@ -1,9 +1,17 @@
 ---
 name: nw-release
 description: 发布导出。用法: /nw-release <格式>
+agent: release-manager
 ---
 
 # 发布导出命令
+
+> **执行者**: `release-manager` agent
+>
+> 本命令由 release-manager agent 执行，该 agent 会：
+> 1. 进行发布前检查（书名、章节状态、完整性）
+> 2. 根据格式调用相应 Skill（audiobook-optimizer、format-exporter 等）
+> 3. 传递正确的参数并协调执行
 
 将创作内容导出为多种发布格式。
 
