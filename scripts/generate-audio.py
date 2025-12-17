@@ -39,15 +39,15 @@ TTS 音频生成脚本（使用 edge-tts）
     --list-voices         列出所有可用的中文音色
 
 常用音色：
-    女声：
-    - zh-CN-XiaoxiaoNeural   （晓晓，温柔女声，推荐）
-    - zh-CN-XiaoyanNeural    （晓颜，甜美女声）
-    - zh-CN-XiaochenNeural   （晓辰，成熟女声）
-
     男声：
-    - zh-CN-YunxiNeural      （云希，年轻男声，推荐）
+    - zh-CN-YunxiNeural      （云希，年轻男声，默认）
     - zh-CN-YunjianNeural    （云健，成熟男声）
     - zh-CN-YunyangNeural    （云扬，新闻播报风格）
+
+    女声（女主第一视角小说推荐）：
+    - zh-CN-XiaoxiaoNeural   （晓晓，温柔女声）
+    - zh-CN-XiaoyanNeural    （晓颜，甜美女声）
+    - zh-CN-XiaochenNeural   （晓辰，成熟女声）
 """
 
 import os
@@ -331,8 +331,8 @@ def main():
     )
     parser.add_argument('input', nargs='?', help='输入文本文件路径')
     parser.add_argument('output', nargs='?', help='输出音频文件/目录路径')
-    parser.add_argument('--voice', default='zh-CN-XiaoxiaoNeural',
-                       help='音色名称（默认：zh-CN-XiaoxiaoNeural）')
+    parser.add_argument('--voice', default='zh-CN-YunxiNeural',
+                       help='音色名称（默认：zh-CN-YunxiNeural）')
     parser.add_argument('--rate', default='+0%',
                        help='语速调整（默认：+0%%）')
     parser.add_argument('--volume', default='+0%',

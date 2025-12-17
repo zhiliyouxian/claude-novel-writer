@@ -28,3 +28,4 @@ releases/
 # 临时文件
 *.tmp
 *.temp
+scripts/__pycache__/
