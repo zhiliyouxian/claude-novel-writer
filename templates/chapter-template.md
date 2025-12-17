@@ -8,7 +8,7 @@
 
 ```yaml
 ---
-chapter_number: {N}
+chapter: {N}
 title: "{章节标题}"
 volume: {卷号}
 summary: "{本章核心事件，1-2句，与大纲速览表一致}"
@@ -16,6 +16,7 @@ hook: "{章末悬念/钩子}"
 characters:
   - "{角色1}"
   - "{角色2}"
+status: draft
 ---
 ```
 
@@ -25,12 +26,21 @@ characters:
 
 | 字段 | 必填 | 说明 | 核对来源 |
 |------|------|------|----------|
-| `chapter_number` | ✅ | 章节序号 | - |
+| `chapter` | ✅ | 章节序号 | - |
 | `title` | ✅ | 章节标题 | 大纲.章节速览.标题 |
 | `volume` | ✅ | 所属卷号 | 大纲.卷号 |
 | `summary` | ✅ | 本章核心事件概述 | 大纲.章节速览.核心事件 |
 | `hook` | ✅ | 章末悬念 | 大纲.详细章节.章末钩子.内容 |
 | `characters` | ✅ | 出场人物列表 | 大纲.章节速览.出场人物 |
+| `status` | ✅ | 章节状态 | - |
+
+### status 枚举值
+
+| 值 | 说明 | 转换条件 |
+|-----|------|----------|
+| `draft` | 初稿 | 创作完成时设置 |
+| `revised` | 已修订 | 根据审核报告修订后设置 |
+| `published` | 已发布 | 导出发布后设置 |
 
 ---
 
@@ -50,7 +60,7 @@ characters:
 
 ```markdown
 ---
-chapter_number: 1
+chapter: 1
 title: "{章节标题}"
 volume: 1
 summary: "{主角遭遇XXX事件，触发YYY}"
@@ -59,6 +69,7 @@ characters:
   - "{主角}"
   - "{配角1}"
   - "{配角2}"
+status: draft
 ---
 
 # 第1章 {章节标题}

@@ -234,12 +234,13 @@ tools: Read, Write, Edit
 ```markdown
 ✅ 文件命名: chapter-{0001}.md
 ✅ YAML Front Matter（核对用字段）:
-   - chapter_number: 章节序号
+   - chapter: 章节序号
    - title: 章节标题（与大纲一致）
    - volume: 所属卷号
    - summary: 本章核心事件（与大纲速览表一致，1-2句）
    - hook: 章末悬念（与大纲章末钩子一致）
    - characters: 出场人物列表（与大纲一致）
+   - status: draft（初稿）/ revised（已修订）/ published（已发布）
 ✅ 标题: # 第1章 {章节标题}
 ✅ 中文标点
 ✅ 对话格式
@@ -282,7 +283,7 @@ tools: Read, Write, Edit
 
 ```markdown
 ---
-chapter_number: 1
+chapter: 1
 title: "{章节标题}"
 volume: 1
 summary: "{本章核心事件，与大纲速览表一致}"
@@ -290,6 +291,7 @@ hook: "{章末悬念，与大纲章末钩子一致}"
 characters:
   - "{角色1}"
   - "{角色2}"
+status: draft
 ---
 
 # 第1章 {章节标题}
@@ -299,16 +301,17 @@ characters:
 
 **YAML 头设计原则**：
 
-核心目的是**便于与大纲核对**，只包含 6 个字段：
+核心目的是**便于与大纲核对**，包含 7 个字段：
 
 | 字段 | 核对来源 |
 |------|----------|
-| `chapter_number` | - |
+| `chapter` | - |
 | `title` | 大纲.章节速览.标题 |
 | `volume` | 大纲.卷号 |
 | `summary` | 大纲.章节速览.核心事件 |
 | `hook` | 大纲.详细章节.章末钩子 |
 | `characters` | 大纲.章节速览.出场人物 |
+| `status` | draft → revised → published |
 
 **不再重复的信息**（已在大纲中）：
 - ❌ 爽点类型、场景极性、境界等 → 大纲详细章节已有
@@ -514,7 +517,7 @@ chapter-0001 问题清单:
 
 ```yaml
 ---
-chapter_number: 1
+chapter: 1
 title: "{章节标题}"
 volume: 1
 summary: "{本章核心事件}"
@@ -522,7 +525,7 @@ hook: "{章末悬念}"
 characters:
   - "{角色1}"
   - "{角色2}"
-status: revised  # 可选，标记已修订
+status: revised  # draft → revised
 ---
 ```
 

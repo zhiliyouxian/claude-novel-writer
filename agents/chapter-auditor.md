@@ -146,18 +146,17 @@ specs/writing-style.md
 chapter-0001.md YAML 解析:
 
 核对字段（与大纲速览表对照）:
-- chapter_number: 1
+- chapter: 1
 - title: "{章节标题}"
 - volume: 1
 - summary: "{本章核心事件}"
 - hook: "{章末悬念}"
 - characters: ["{角色1}", "{角色2}"]
-
-可选字段:
-- status: draft/revised
+- status: draft/revised/published
 
 注:
-- 核心 6 字段用于与大纲核对
+- 7 个字段，其中 6 个用于与大纲核对
+- status 枚举: draft（初稿）→ revised（已修订）→ published（已发布）
 - 参考模板: templates/chapter-template.md
 ```
 
