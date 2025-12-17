@@ -117,6 +117,30 @@ Pools (素材池) → Blueprints (策划) → Productions (制作) → Releases 
             └── audio/         # MP3 files
 ```
 
+### Chapter Status Flow
+
+章节从初稿到可发布的状态流转：
+
+```
+                    ┌─────────────────────┐
+                    ▼                     │
+draft ──审核──> final                     │
+          │                               │
+          └──> pending ──修订──> revised ──复审──> final
+                  ▲                   │
+                  └───────────────────┘
+                    (复审仍有问题)
+```
+
+| 状态 | 含义 | 设置者 |
+|------|------|--------|
+| `draft` | 初稿完成，等待首次审核 | chapter-writer |
+| `pending` | 审核发现问题，等待修订 | chapter-auditor |
+| `revised` | 修订完成，等待复审 | chapter-writer (修订模式) |
+| `final` | 审核通过，可发布 | chapter-auditor |
+
+---
+
 ### project_id Naming Convention
 
 > Details: `specs/project-naming.md`

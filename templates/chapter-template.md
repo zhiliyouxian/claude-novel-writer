@@ -36,11 +36,12 @@ status: draft
 
 ### status 枚举值
 
-| 值 | 说明 | 转换条件 |
-|-----|------|----------|
-| `draft` | 初稿 | 创作完成时设置 |
-| `revised` | 已修订 | 根据审核报告修订后设置 |
-| `published` | 已发布 | 导出发布后设置 |
+| 值 | 含义 | 设置者 | 下一步操作 |
+|-----|------|--------|------------|
+| `draft` | 初稿完成，等待首次审核 | chapter-writer | chapter-auditor 审核 |
+| `pending` | 审核发现问题，等待修订 | chapter-auditor | revision-writer 修订 |
+| `revised` | 修订完成，等待复审 | revision-writer | chapter-auditor 复审 |
+| `final` | 审核通过，可发布 | chapter-auditor | format-exporter 导出 |
 
 ---
 

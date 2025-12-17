@@ -240,7 +240,7 @@ tools: Read, Write, Edit
    - summary: 本章核心事件（与大纲速览表一致，1-2句）
    - hook: 章末悬念（与大纲章末钩子一致）
    - characters: 出场人物列表（与大纲一致）
-   - status: draft（初稿）/ revised（已修订）/ published（已发布）
+   - status: draft（初稿，等待审核）
 ✅ 标题: # 第1章 {章节标题}
 ✅ 中文标点
 ✅ 对话格式
@@ -311,7 +311,7 @@ status: draft
 | `summary` | 大纲.章节速览.核心事件 |
 | `hook` | 大纲.详细章节.章末钩子 |
 | `characters` | 大纲.章节速览.出场人物 |
-| `status` | draft → revised → published |
+| `status` | draft（初稿） → final（可发布） |
 
 **不再重复的信息**（已在大纲中）：
 - ❌ 爽点类型、场景极性、境界等 → 大纲详细章节已有
@@ -525,7 +525,7 @@ hook: "{章末悬念}"
 characters:
   - "{角色1}"
   - "{角色2}"
-status: revised  # draft → revised
+status: revised  # 修订完成，等待复审
 ---
 ```
 

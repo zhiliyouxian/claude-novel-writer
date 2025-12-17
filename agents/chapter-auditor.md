@@ -152,11 +152,14 @@ chapter-0001.md YAML 解析:
 - summary: "{本章核心事件}"
 - hook: "{章末悬念}"
 - characters: ["{角色1}", "{角色2}"]
-- status: draft/revised/published
+- status: draft/pending/revised/final
 
 注:
 - 7 个字段，其中 6 个用于与大纲核对
-- status 枚举: draft（初稿）→ revised（已修订）→ published（已发布）
+- status 枚举及流转:
+  - draft（初稿）→ 审核 → final（可发布）或 pending（待修改）
+  - pending → 修订 → revised（待复审）→ 复审 → final 或 pending
+- 审核员职责: 根据审核结果将 status 更新为 final 或 pending
 - 参考模板: templates/chapter-template.md
 ```
 
@@ -671,24 +674,23 @@ ls productions/{project_id}/data/batch-*.md
 
 | 章节 | 总分 | 风格 | 爽点 | 对话 | 钩子 | 节奏 | 状态 |
 |------|------|------|------|------|------|------|------|
-| chapter-0001 | 7.5 | 8 | 6 | 8 | 8 | 8 | ⚠️  需修改 |
-| chapter-0002 | 8.0 | 8 | 7 | 8 | 9 | 8 | ✅ 通过 |
-| chapter-0003 | 7.8 | 8 | 7 | 8 | 8 | 7 | ✅ 通过 |
-| chapter-0004 | 7.2 | 7 | 6 | 8 | 7 | 8 | ⚠️  需修改 |
-| chapter-0005 | 8.5 | 9 | 8 | 9 | 8 | 9 | ✅ 优秀 |
-| chapter-0006 | 7.6 | 8 | 7 | 7 | 8 | 8 | ✅ 通过 |
-| chapter-0007 | 6.8 | 7 | 5 | 7 | 7 | 7 | ❌ 需重写 |
-| chapter-0008 | 8.2 | 8 | 8 | 8 | 8 | 8 | ✅ 通过 |
-| chapter-0009 | 7.9 | 8 | 7 | 8 | 8 | 8 | ✅ 通过 |
-| chapter-0010 | 8.1 | 8 | 8 | 8 | 9 | 8 | ✅ 优秀 |
+| chapter-0001 | 7.5 | 8 | 6 | 8 | 8 | 8 | ⚠️ pending |
+| chapter-0002 | 8.0 | 8 | 7 | 8 | 9 | 8 | ✅ final |
+| chapter-0003 | 7.8 | 8 | 7 | 8 | 8 | 7 | ✅ final |
+| chapter-0004 | 7.2 | 7 | 6 | 8 | 7 | 8 | ⚠️ pending |
+| chapter-0005 | 8.5 | 9 | 8 | 9 | 8 | 9 | ✅ final |
+| chapter-0006 | 7.6 | 8 | 7 | 7 | 8 | 8 | ✅ final |
+| chapter-0007 | 6.8 | 7 | 5 | 7 | 7 | 7 | ❌ pending |
+| chapter-0008 | 8.2 | 8 | 8 | 8 | 8 | 8 | ✅ final |
+| chapter-0009 | 7.9 | 8 | 7 | 8 | 8 | 8 | ✅ final |
+| chapter-0010 | 8.1 | 8 | 8 | 8 | 9 | 8 | ✅ final |
 
 **平均分**: 7.76/10
 
 **评级分布**:
-- ✅ 优秀 (8.5+): 2章 (20%)
-- ✅ 通过 (7.5-8.4): 6章 (60%)
-- ⚠️  需修改 (7.0-7.4): 2章 (20%)
-- ❌ 需重写 (<7.0): 0章 (0%)
+- ✅ final (7.5+): 8章 (80%)
+- ⚠️ pending (7.0-7.4): 2章 (20%)
+- ❌ pending (<7.0, 需重写): 0章 (0%)
 
 ---
 
@@ -917,10 +919,9 @@ releases/novel_20231113_153022/reviews/batch-0001-0010-report.md
 平均分: 7.76/10
 
 ## 评级分布
-- ✅ 优秀 (8.5+): 2章 (chapter-0005, chapter-0010)
-- ✅ 通过 (7.5-8.4): 5章
-- ⚠️ 需修改 (7.0-7.4): 2章 (chapter-0001, chapter-0004)
-- ❌ 需重写 (<7.0): 1章 (chapter-0007)
+- ✅ final (7.5+): 7章 (chapter-0002, chapter-0003, chapter-0005~0006, chapter-0008~0010)
+- ⚠️ pending (7.0-7.4): 2章 (chapter-0001, chapter-0004)
+- ❌ pending (<7.0): 1章 (chapter-0007)
 
 ## 问题汇总
 
