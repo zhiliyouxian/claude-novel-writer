@@ -192,12 +192,13 @@ done
 ```
 
 **可用音色**:
-| 快捷名 | 完整名称 | 特点 |
-|--------|----------|------|
-| yunxi | zh-CN-YunxiNeural | 年轻男声，默认 |
-| xiaoxiao | zh-CN-XiaoxiaoNeural | 温柔女声 |
-| yunjian | zh-CN-YunjianNeural | 成熟男声 |
-| xiaoyan | zh-CN-XiaoyanNeural | 甜美女声 |
+| 完整名称 | 性别 | 适用场景 | 特点 |
+|----------|------|----------|------|
+| zh-CN-YunxiNeural | 男 | 小说 | 阳光活泼，**默认男声** |
+| zh-CN-XiaoxiaoNeural | 女 | 新闻/小说 | 温暖，**默认女声** |
+| zh-CN-YunjianNeural | 男 | 体育/小说 | 热情 |
+| zh-CN-XiaoyiNeural | 女 | 动漫/小说 | 活泼 |
+| zh-CN-YunxiaNeural | 男 | 动漫/小说 | 可爱 |
 
 ### txt - 纯文本合集
 

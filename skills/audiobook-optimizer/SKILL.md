@@ -128,21 +128,16 @@ python "$SCRIPT_DIR/generate-audio.py" input.txt output.mp3 --voice yunxi --rate
 
 ## 可用音色
 
-### 女声（推荐）
-| 快捷名 | 完整名称 | 特点 |
-|--------|----------|------|
-| xiaoxiao | zh-CN-XiaoxiaoNeural | 温柔女声，推荐 |
-| xiaoyan | zh-CN-XiaoyanNeural | 甜美女声 |
-| xiaochen | zh-CN-XiaochenNeural | 成熟女声 |
+### 小说推荐音色
+| 完整名称 | 性别 | 适用场景 | 特点 |
+|----------|------|----------|------|
+| zh-CN-YunxiNeural | 男 | 小说 | 阳光活泼，**默认男声** |
+| zh-CN-XiaoxiaoNeural | 女 | 新闻/小说 | 温暖，**默认女声** |
+| zh-CN-YunjianNeural | 男 | 体育/小说 | 热情 |
+| zh-CN-XiaoyiNeural | 女 | 动漫/小说 | 活泼 |
+| zh-CN-YunxiaNeural | 男 | 动漫/小说 | 可爱 |
 
-### 男声
-| 快捷名 | 完整名称 | 特点 |
-|--------|----------|------|
-| yunxi | zh-CN-YunxiNeural | 年轻男声，推荐 |
-| yunjian | zh-CN-YunjianNeural | 成熟男声 |
-| yunyang | zh-CN-YunyangNeural | 新闻播报风格 |
-
-查看所有音色：
+查看所有中文音色：
 ```bash
 edge-tts --list-voices | grep zh-CN
 ```
