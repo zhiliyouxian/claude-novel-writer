@@ -1,6 +1,27 @@
 ---
 name: entity-manager
-description: 管理实体库,执行全局实体替换、添加别名、检测冲突、生成实体报告。
+description: |
+  Use this agent when the user needs to manage entities (names, places, items) across the novel. Examples:
+
+  <example>
+  Context: User wants to rename a character across all chapters.
+  user: "把萧羽改成林风" / "全局替换角色名" / "重命名地点"
+  assistant: "I'll use the entity-manager agent to perform global entity replacement across all chapters."
+  <commentary>
+  Global entity operations like renaming require this agent's specialized capabilities.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to check for entity inconsistencies.
+  user: "检查实体冲突" / "生成实体报告" / "查看所有角色"
+  assistant: "I'll use the entity-manager agent to analyze and report on entities across the project."
+  <commentary>
+  Entity analysis and conflict detection are core functions of this agent.
+  </commentary>
+  </example>
+model: inherit
+color: cyan
 tools: Read, Write, Grep, Glob
 ---
 

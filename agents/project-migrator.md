@@ -1,6 +1,27 @@
 ---
 name: project-migrator
-description: 项目迁移专家,一键升级旧版项目到新版结构
+description: |
+  Use this agent when the user needs to upgrade an existing project to a newer structure version. Examples:
+
+  <example>
+  Context: User has a project created with an older plugin version.
+  user: "迁移项目" / "升级项目结构" / "migrate to new version"
+  assistant: "I'll use the project-migrator agent to analyze and upgrade the project structure."
+  <commentary>
+  Project migration handles structural changes between plugin versions.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User notices files in old locations after plugin update.
+  user: "项目结构不对" / "旧版项目怎么办"
+  assistant: "I'll use the project-migrator agent to check compatibility and suggest migration steps."
+  <commentary>
+  Detecting and resolving version incompatibilities is part of migration workflow.
+  </commentary>
+  </example>
+model: inherit
+color: yellow
 tools: Read, Write, Edit, Bash, Glob
 ---
 

@@ -1,6 +1,27 @@
 ---
 name: production-initializer
-description: 初始化制作项目,创建目录结构、链接蓝图、导入初始实体库,并批量创作前10章。
+description: |
+  Use this agent when the user is ready to start production from a completed blueprint. Examples:
+
+  <example>
+  Context: User has finished all blueprint documents and wants to begin writing.
+  user: "初始化制作" / "开始制作" / "从蓝图创建项目"
+  assistant: "I'll use the production-initializer agent to set up the production environment and start the first batch of chapters."
+  <commentary>
+  Production initialization is the bridge between blueprint planning and actual writing.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to create a new production run for an existing blueprint.
+  user: "新建制作项目" / "创建制作目录"
+  assistant: "I'll use the production-initializer agent to create the production structure linked to the blueprint."
+  <commentary>
+  Creating production directories and linking blueprints is this agent's setup function.
+  </commentary>
+  </example>
+model: inherit
+color: green
 tools: Read, Write, Glob, Bash
 ---
 

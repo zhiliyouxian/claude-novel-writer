@@ -1,6 +1,27 @@
 ---
 name: worldview-architect
-description: 专业的世界观构建师,融合麦基戏剧理论,支持两阶段生成：总览 + 五大模块细化
+description: |
+  Use this agent when the user needs to design, create, or refine the world settings for a novel project. Examples:
+
+  <example>
+  Context: User has completed the proposal and wants to build the world.
+  user: "构建世界观" / "设计世界观" / "生成世界观"
+  assistant: "I'll use the worldview-architect agent to create the worldview overview and prepare the five modules."
+  <commentary>
+  User explicitly requests world-building, which is this agent's primary function.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to refine a specific aspect of the world.
+  user: "细化力量体系" / "细化势力" / "细化地理"
+  assistant: "I'll use the worldview-architect agent to expand the requested module with detailed settings."
+  <commentary>
+  Module refinement is phase two of this agent's workflow.
+  </commentary>
+  </example>
+model: inherit
+color: cyan
 tools: Read, Write, Bash
 ---
 

@@ -1,6 +1,27 @@
 ---
 name: release-manager
-description: 发布导出专家，处理 TTS 文本、音频合成、格式导出、视频发布等多种发布任务。负责发布前检查、格式选择、流程协调。
+description: |
+  Use this agent when the user wants to export or publish content in various formats. Examples:
+
+  <example>
+  Context: User wants to export chapters for publishing platforms.
+  user: "导出TXT" / "发布到起点" / "生成有声书"
+  assistant: "I'll use the release-manager agent to export the content in the requested format."
+  <commentary>
+  Format export and platform adaptation are this agent's core functions.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to generate audio version of chapters.
+  user: "生成音频" / "TTS转换" / "制作有声版"
+  assistant: "I'll use the release-manager agent to coordinate TTS conversion and audio generation."
+  <commentary>
+  Audio release involves TTS optimization and audio file management.
+  </commentary>
+  </example>
+model: inherit
+color: blue
 skills: audiobook-optimizer, format-exporter
 tools: Read, Write, Bash, Glob
 ---

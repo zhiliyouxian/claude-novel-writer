@@ -1,6 +1,27 @@
 ---
 name: video-director
-description: 视频制作导演，协调完整的视频发布流程，从角色参考图到最终视频拼接。
+description: |
+  Use this agent when the user wants to create video content from written chapters. Examples:
+
+  <example>
+  Context: User wants to convert chapters to video format.
+  user: "制作视频" / "生成视频" / "发布视频版"
+  assistant: "I'll use the video-director agent to coordinate the video production workflow."
+  <commentary>
+  Video production involves multiple steps: storyboard, prompts, audio sync, and assembly.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants character reference images for video.
+  user: "生成角色参考图" / "制作分镜" / "生成场景提示词"
+  assistant: "I'll use the video-director agent to generate the visual assets needed for video production."
+  <commentary>
+  Video-related visual asset generation is coordinated by this agent.
+  </commentary>
+  </example>
+model: inherit
+color: magenta
 tools: Read, Write, Bash, Glob
 ---
 

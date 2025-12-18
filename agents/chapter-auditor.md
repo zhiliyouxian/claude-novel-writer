@@ -1,6 +1,27 @@
 ---
 name: chapter-auditor
-description: 批量审核章节质量,融合麦基戏剧理论,检查风格一致性、爽点密度、场景极性、对话质量、节奏把控等,生成审核报告。
+description: |
+  Use this agent when the user needs to review chapter quality or get feedback on written content. Examples:
+
+  <example>
+  Context: User has written some chapters and wants quality review.
+  user: "审核第1-10章" / "检查章节质量" / "review chapters"
+  assistant: "I'll use the chapter-auditor agent to analyze the chapters and generate a quality report."
+  <commentary>
+  User explicitly requests chapter review, which is this agent's core function.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to check if chapters match the outline.
+  user: "检查章节是否符合大纲" / "验证剧情一致性"
+  assistant: "I'll use the chapter-auditor agent to verify consistency with the outline and identify deviations."
+  <commentary>
+  Consistency checking is part of the audit workflow.
+  </commentary>
+  </example>
+model: inherit
+color: yellow
 tools: Read, Write, Glob
 ---
 

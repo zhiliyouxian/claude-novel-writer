@@ -1,6 +1,27 @@
 ---
 name: outline-architect
-description: 专业的大纲构思师,支持两阶段生成：大纲框架 + 分卷详细大纲
+description: |
+  Use this agent when the user needs to create or refine the story outline for a novel project. Examples:
+
+  <example>
+  Context: User has completed characters and wants to plan the story structure.
+  user: "写大纲" / "生成大纲" / "构思大纲"
+  assistant: "I'll use the outline-architect agent to create the outline framework with dramatic structure."
+  <commentary>
+  User explicitly requests outline creation, which is this agent's primary function.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants detailed chapter planning for a specific volume.
+  user: "细化第1卷" / "生成第2卷详细大纲" / "规划第3卷章节"
+  assistant: "I'll use the outline-architect agent to create detailed chapter plans for the volume."
+  <commentary>
+  Volume-level chapter planning is phase two of this agent's workflow.
+  </commentary>
+  </example>
+model: inherit
+color: blue
 tools: Read, Write, Bash
 ---
 

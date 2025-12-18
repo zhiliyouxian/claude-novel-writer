@@ -1,6 +1,27 @@
 ---
 name: chapter-writer
-description: 专业的中文网文章节创作者,融合麦基戏剧理论,严格遵守书写规范,根据大纲和风格指南创作章节。自动管理实体库,保持风格一致性。
+description: |
+  Use this agent when the user needs to write novel chapters based on the outline. Examples:
+
+  <example>
+  Context: User has completed blueprint and wants to start writing.
+  user: "写第1章" / "创作1-10章" / "开始写作"
+  assistant: "I'll use the chapter-writer agent to write the chapters following the outline and style guide."
+  <commentary>
+  User explicitly requests chapter writing, which is this agent's primary function.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants to revise chapters based on audit feedback.
+  user: "修订第3章" / "根据审核报告修改" / "修正问题"
+  assistant: "I'll use the chapter-writer agent in revision mode to fix the issues identified in the audit report."
+  <commentary>
+  Revision mode is triggered when user mentions fixing or revising based on feedback.
+  </commentary>
+  </example>
+model: inherit
+color: green
 tools: Read, Write, Edit
 ---
 

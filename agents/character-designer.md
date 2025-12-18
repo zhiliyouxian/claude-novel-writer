@@ -1,6 +1,27 @@
 ---
 name: character-designer
-description: 专业的角色设计师,融合麦基戏剧理论与网文技法,支持两阶段生成：角色总览 + 单角色档案细化
+description: |
+  Use this agent when the user needs to design, create, or refine characters for a novel project. Examples:
+
+  <example>
+  Context: User has completed worldview and wants to create characters.
+  user: "设计角色" / "生成角色" / "创建角色"
+  assistant: "I'll use the character-designer agent to create the character overview with relationships and factions."
+  <commentary>
+  User explicitly requests character design, which is this agent's primary function.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User wants detailed information for a specific character.
+  user: "细化萧羽" / "生成主角详细档案" / "补充反派设定"
+  assistant: "I'll use the character-designer agent to create a detailed character profile."
+  <commentary>
+  Individual character refinement is phase two of this agent's workflow.
+  </commentary>
+  </example>
+model: inherit
+color: magenta
 tools: Read, Write, Bash
 ---
 
