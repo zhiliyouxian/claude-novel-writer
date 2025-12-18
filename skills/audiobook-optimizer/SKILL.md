@@ -49,16 +49,30 @@ pip install edge-tts
 
 ### 步骤2: 生成音频
 
-直接调用 `edge-tts` 命令：
+直接调用 `edge-tts` 命令，**默认增量生成**（只处理有变更的文件）：
 
 ```bash
-# 单个文件
-edge-tts --voice zh-CN-YunxiNeural \
-  --file releases/{project_id}/tts/scripts/0001.txt \
-  --write-media releases/{project_id}/tts/audio/0001.mp3 \
-  --write-subtitles releases/{project_id}/tts/subtitles/0001.srt
+# 增量生成：只处理需要更新的文件
+for f in releases/{project_id}/tts/scripts/*.txt; do
+  name=$(basename "$f" .txt)
+  audio_file="releases/{project_id}/tts/audio/${name}.mp3"
 
-# 批量处理所有文件
+  # 增量检查：跳过已是最新的文件
+  if [ -f "$audio_file" ] && [ "$audio_file" -nt "$f" ]; then
+    echo "跳过 ${name} (已是最新)"
+    continue
+  fi
+
+  echo "生成 ${name}.mp3 ..."
+  edge-tts --voice zh-CN-YunxiNeural \
+    --file "$f" \
+    --write-media "$audio_file" \
+    --write-subtitles "releases/{project_id}/tts/subtitles/${name}.srt"
+done
+```
+
+**强制全量生成** (使用 `--force` 参数时):
+```bash
 for f in releases/{project_id}/tts/scripts/*.txt; do
   name=$(basename "$f" .txt)
   edge-tts --voice zh-CN-YunxiNeural \

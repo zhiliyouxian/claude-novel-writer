@@ -98,6 +98,64 @@ tools: Read, Write, Bash, Glob
 
 ---
 
+## 增量发布机制
+
+发布时默认采用**增量发布**，只处理有变更的章节，节省时间和资源。
+
+### 增量判断逻辑
+
+```bash
+# 比较章节源文件和发布文件的修改时间
+章节源文件: productions/{project_id}/chapters/chapter-{NNNN}.md
+TTS文本:    releases/{project_id}/tts/scripts/{NNNN}.txt
+音频文件:   releases/{project_id}/tts/audio/{NNNN}.mp3
+
+判断规则:
+- 如果发布文件不存在 → 需要生成
+- 如果源文件修改时间 > 发布文件修改时间 → 需要重新生成
+- 否则 → 跳过
+```
+
+### 增量检查命令
+
+```bash
+# 检查哪些章节需要更新
+for chapter in productions/{project_id}/chapters/chapter-*.md; do
+  num=$(basename "$chapter" | sed 's/chapter-\([0-9]*\).*/\1/')
+  tts_file="releases/{project_id}/tts/scripts/${num}.txt"
+  audio_file="releases/{project_id}/tts/audio/${num}.mp3"
+
+  if [ ! -f "$tts_file" ] || [ "$chapter" -nt "$tts_file" ]; then
+    echo "需要更新 TTS: $num"
+  fi
+
+  if [ ! -f "$audio_file" ] || [ "$tts_file" -nt "$audio_file" ]; then
+    echo "需要更新音频: $num"
+  fi
+done
+```
+
+### 强制全量发布
+
+用户可通过参数强制全量重新生成：
+- `/nw-release tts --force` - 强制重新生成所有 TTS 文本
+- `/nw-release audio --force` - 强制重新生成所有音频
+- "重新生成所有音频" - 自然语言触发全量发布
+
+### 增量发布输出示例
+
+```
+📊 增量检查结果:
+
+章节总数: 100
+已发布: 95
+需要更新: 5 (章节 23, 45, 67, 89, 100)
+
+是否继续? (只处理 5 个章节)
+```
+
+---
+
 ## 格式处理流程
 
 ### tts - TTS 朗读文本
@@ -107,7 +165,8 @@ tools: Read, Write, Bash, Glob
 **流程**:
 1. 发布前检查
 2. 创建输出目录 `releases/{project_id}/tts/scripts/`
-3. 读取每个章节文件，去除 YAML 和 Markdown 标记，输出纯文本
+3. **增量检查**: 比较章节修改时间，确定需要更新的章节
+4. 读取需要更新的章节文件，去除 YAML 和 Markdown 标记，输出纯文本
 
 **处理规则**:
 - 去除 YAML frontmatter (`---` 包裹的内容)
@@ -119,8 +178,9 @@ tools: Read, Write, Bash, Glob
 **输出**: `releases/{project_id}/tts/scripts/0001.txt`, `0002.txt`, ...
 
 **参数决策**:
-- 默认处理所有章节
-- 用户可指定范围: `--range 1-10`
+- 默认增量发布（只处理有变更的章节）
+- `--force`: 强制全量重新生成
+- `--range 1-10`: 指定范围
 
 ### audio - 有声书音频
 
@@ -137,17 +197,44 @@ which edge-tts || echo "❌ edge-tts 未安装，请执行: pip install edge-tts
 2. **检查 edge-tts 是否安装**，未安装则提示 `pip install edge-tts`
 3. 检查 tts/scripts/ 是否存在，没有则先生成
 4. 创建输出目录 `releases/{project_id}/tts/audio/` 和 `subtitles/`
-5. 调用 edge-tts 命令生成音频和字幕
+5. **增量检查**: 比较 TTS 文本和音频文件的修改时间
+6. 只对需要更新的章节调用 edge-tts
+
+**增量判断**:
+```bash
+# 音频增量检查：比较 TTS 文本和 MP3 文件的修改时间
+tts_file="releases/{project_id}/tts/scripts/{NNNN}.txt"
+audio_file="releases/{project_id}/tts/audio/{NNNN}.mp3"
+
+需要生成的情况:
+- audio_file 不存在
+- tts_file 修改时间 > audio_file 修改时间
+```
 
 **执行命令**:
 ```bash
-# 单个文件
-edge-tts --voice zh-CN-YunxiNeural \
-  --file releases/{project_id}/tts/scripts/0001.txt \
-  --write-media releases/{project_id}/tts/audio/0001.mp3 \
-  --write-subtitles releases/{project_id}/tts/subtitles/0001.srt
+# 增量生成：只处理需要更新的文件
+for f in releases/{project_id}/tts/scripts/*.txt; do
+  name=$(basename "$f" .txt)
+  audio_file="releases/{project_id}/tts/audio/${name}.mp3"
 
-# 批量处理所有文件
+  # 增量检查：跳过已是最新的文件
+  if [ -f "$audio_file" ] && [ "$audio_file" -nt "$f" ]; then
+    echo "跳过 ${name} (已是最新)"
+    continue
+  fi
+
+  echo "生成 ${name}.mp3 ..."
+  edge-tts --voice zh-CN-YunxiNeural \
+    --file "$f" \
+    --write-media "$audio_file" \
+    --write-subtitles "releases/{project_id}/tts/subtitles/${name}.srt"
+done
+```
+
+**强制全量生成**:
+```bash
+# 使用 --force 参数时，忽略时间检查，重新生成所有音频
 for f in releases/{project_id}/tts/scripts/*.txt; do
   name=$(basename "$f" .txt)
   edge-tts --voice zh-CN-YunxiNeural \
