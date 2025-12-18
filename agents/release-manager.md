@@ -107,31 +107,14 @@ tools: Read, Write, Bash, Glob
 **流程**:
 1. 发布前检查
 2. 创建输出目录 `releases/{project_id}/tts/scripts/`
-3. 读取每个章节文件，用内联 Python 处理为 TTS 纯文本
+3. 读取每个章节文件，去除 YAML 和 Markdown 标记，输出纯文本
 
-**处理逻辑** (直接用 Python，不依赖外部脚本):
-```python
-import re
-import os
-
-def prepare_tts(input_path, output_path):
-    with open(input_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    # 去除 YAML frontmatter
-    content = re.sub(r'^---\n.*?\n---\n', '', content, flags=re.DOTALL)
-    # 去除 Markdown 标记
-    content = re.sub(r'^#+\s*', '', content, flags=re.MULTILINE)
-    content = re.sub(r'\*\*(.+?)\*\*', r'\1', content)
-    content = re.sub(r'\*(.+?)\*', r'\1', content)
-    # 规范化空白
-    content = re.sub(r'\n{3,}', '\n\n', content)
-    lines = [line.strip() for line in content.split('\n')]
-    content = '\n'.join(lines)
-
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(content.strip() + '\n')
-```
+**处理规则**:
+- 去除 YAML frontmatter (`---` 包裹的内容)
+- 去除 Markdown 标记 (`#`、`**`、`*` 等)
+- 去除行号标记 (`数字→`)
+- 规范化段落间距（合并多余空行）
+- 保留章节标题
 
 **输出**: `releases/{project_id}/tts/scripts/0001.txt`, `0002.txt`, ...
 
@@ -143,21 +126,28 @@ def prepare_tts(input_path, output_path):
 
 **目的**: 生成 MP3 音频 + SRT 字幕
 
+**前置检查**:
+```bash
+# 检查 edge-tts 是否安装
+which edge-tts || echo "❌ edge-tts 未安装，请执行: pip install edge-tts"
+```
+
 **流程**:
 1. 发布前检查
-2. 检查 tts/scripts/ 是否存在，没有则先生成
-3. 创建输出目录 `releases/{project_id}/tts/audio/` 和 `subtitles/`
-4. 直接调用 edge-tts 命令生成音频和字幕
+2. **检查 edge-tts 是否安装**，未安装则提示 `pip install edge-tts`
+3. 检查 tts/scripts/ 是否存在，没有则先生成
+4. 创建输出目录 `releases/{project_id}/tts/audio/` 和 `subtitles/`
+5. 调用 edge-tts 命令生成音频和字幕
 
-**执行命令** (直接调用 edge-tts，不依赖外部脚本):
+**执行命令**:
 ```bash
-# 为每个 TTS 脚本生成音频和字幕
+# 单个文件
 edge-tts --voice zh-CN-YunxiNeural \
   --file releases/{project_id}/tts/scripts/0001.txt \
   --write-media releases/{project_id}/tts/audio/0001.mp3 \
   --write-subtitles releases/{project_id}/tts/subtitles/0001.srt
 
-# 批量处理
+# 批量处理所有文件
 for f in releases/{project_id}/tts/scripts/*.txt; do
   name=$(basename "$f" .txt)
   edge-tts --voice zh-CN-YunxiNeural \
@@ -171,34 +161,19 @@ done
 - `releases/{project_id}/tts/audio/` (MP3)
 - `releases/{project_id}/tts/subtitles/` (SRT)
 
-**参数决策**:
-| 参数 | 默认值 | 决策逻辑 |
-|------|--------|----------|
-| voice | yunxi | 默认男声 yunxi，女主第一人称视角用 xiaoxiao |
-| rate | +0% | 正常语速 |
-| split-chapters | true | 分章节生成便于管理 |
-| write-subtitles | true | 视频制作需要字幕 |
-
-**音色选择逻辑**:
-```markdown
-读取 blueprints/{project_id}/characters.md 或 proposal.md
-
-判断叙事视角:
-- 第三人称或男主第一人称 → zh-CN-YunxiNeural (年轻男声，默认)
-- 女主第一人称 → zh-CN-XiaoxiaoNeural (温柔女声)
-- 不确定 → 询问用户
-
-用户可覆盖: "用女声" → xiaoxiao, "用 xiaoyan 的声音" → xiaoyan
-```
-
-**可用音色**:
+**音色选择**:
 | 完整名称 | 性别 | 适用场景 | 特点 |
 |----------|------|----------|------|
-| zh-CN-YunxiNeural | 男 | 小说 | 阳光活泼，**默认男声** |
-| zh-CN-XiaoxiaoNeural | 女 | 新闻/小说 | 温暖，**默认女声** |
+| zh-CN-YunxiNeural | 男 | 小说 | 阳光活泼，**默认** |
+| zh-CN-XiaoxiaoNeural | 女 | 新闻/小说 | 温暖 |
 | zh-CN-YunjianNeural | 男 | 体育/小说 | 热情 |
 | zh-CN-XiaoyiNeural | 女 | 动漫/小说 | 活泼 |
 | zh-CN-YunxiaNeural | 男 | 动漫/小说 | 可爱 |
+
+**音色决策逻辑**:
+- 默认: `zh-CN-YunxiNeural` (男声)
+- 女主第一人称视角: `zh-CN-XiaoxiaoNeural` (女声)
+- 用户可覆盖: "用女声"、"用 XiaoyiNeural"
 
 ### txt - 纯文本合集
 
