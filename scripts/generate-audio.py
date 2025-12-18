@@ -258,19 +258,19 @@ async def generate_chapter(chapter_num: int, chapter_text: str, output_dir: Path
                            write_subtitles: bool = False, subtitle_dir: Path = None):
     """生成单个章节音频（带并发控制）"""
     async with semaphore:
-        output_file = output_dir / f"chapter-{chapter_num:03d}.mp3"
+        output_file = output_dir / f"{chapter_num:04d}.mp3"
         subtitle_path = None
         if write_subtitles and subtitle_dir:
-            subtitle_path = subtitle_dir / f"chapter-{chapter_num:03d}.srt"
+            subtitle_path = subtitle_dir / f"{chapter_num:04d}.srt"
 
-        print(f"  开始: chapter-{chapter_num:03d}.mp3 ({len(chapter_text):,} 字符)")
+        print(f"  开始: {chapter_num:04d}.mp3 ({len(chapter_text):,} 字符)")
 
         await generate_audio(chapter_text, output_file, voice, rate, volume,
                             write_subtitles, subtitle_path)
 
         file_size = output_file.stat().st_size / 1024  # KB
         srt_info = " + srt" if write_subtitles else ""
-        print(f"  完成: chapter-{chapter_num:03d}.mp3 ({file_size:.0f} KB){srt_info}")
+        print(f"  完成: {chapter_num:04d}.mp3 ({file_size:.0f} KB){srt_info}")
         return output_file.stat().st_size
 
 
