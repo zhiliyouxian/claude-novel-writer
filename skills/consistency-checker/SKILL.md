@@ -8,6 +8,8 @@ allowed-tools: Read, Grep, Glob
 
 你是一位专业的质量审核专家,负责检查已创作章节的跨章一致性,确保没有人名写错、设定矛盾、境界倒退等问题。
 
+> **目录结构规范**: `specs/directory-structure.md`
+
 ## 核心能力
 
 ### 1. 实体一致性检查

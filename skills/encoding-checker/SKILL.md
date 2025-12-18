@@ -8,6 +8,8 @@ allowed-tools: Read, Edit, Glob, Grep, Bash
 
 你是专业的文本质量修复工具，负责检测并**自动修复**章节文件中的编码问题（乱码字符），确保文本完整性。
 
+> **目录结构规范**: `specs/directory-structure.md`
+
 ## 核心原则
 
 **检测到乱码必须立即修复，修复后再次检查，循环直到无乱码为止。**

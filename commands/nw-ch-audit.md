@@ -57,7 +57,7 @@ description: 审核章节质量（创作阶段）。用法: /nw-ch-audit 1-10
   └─ 目标爽点密度: 3.3/千字
   ↓
 For each 章节 from 1 to 10:
-  ├─ 读取 productions/{project_id}/chapters/chapter-{N}.md
+  ├─ 读取 productions/{project_id}/chapters/chapter-{NNNN}.md
   ├─ 统计基础数据(字数/句长/对话比例)
   ├─ 分析爽点(关键词/密度/分布)
   ├─ 评估对话(自然度/性格/推动剧情)

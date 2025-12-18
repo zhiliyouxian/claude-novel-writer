@@ -57,7 +57,7 @@ For each 章节 from 1 to 10:
   ├─ 调用 chapter-writer Agent
   ├─ 传入: 章节号, outline.md, entities.md
   ├─ 等待创作完成
-  ├─ 保存 productions/{project_id}/chapters/chapter-{N}.md
+  ├─ 保存 productions/{project_id}/chapters/chapter-{NNNN}.md
   ├─ 更新 productions/{project_id}/data/entities.md
   └─ 显示进度: "已完成 {N}/10 章"
   ↓

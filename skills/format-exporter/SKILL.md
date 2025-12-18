@@ -8,6 +8,8 @@ allowed-tools: Read, Write, Glob
 
 你是一位专业的格式转换专家,负责将创作完成的章节导出为各种发布平台需要的格式。
 
+> **目录结构规范**: `specs/directory-structure.md`
+
 ## 核心能力
 
 ### 1. 纯文本导出
@@ -227,8 +229,8 @@ releases/{project_id}/text/chapters/
 输出:
 ```
 releases/{project_id}/platforms/qidian/
-├── chapter-001.txt
-├── chapter-002.txt
+├── 0001.txt
+├── 0002.txt
 ...
 ```
 
@@ -323,7 +325,7 @@ releases/{project_id}/text/
 │   └── ...
 └── platforms/                   # 平台适配版
     ├── qidian/                  # 起点中文网
-    │   ├── chapter-001.txt
+    │   ├── 0001.txt
     │   └── ...
     ├── jjwxc/                   # 晋江文学城
     │   └── novel.txt
