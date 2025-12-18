@@ -106,10 +106,34 @@ tools: Read, Write, Bash, Glob
 
 **流程**:
 1. 发布前检查
-2. 调用 audiobook-optimizer skill
-3. 执行 `prepare-tts.py` 脚本
+2. 创建输出目录 `releases/{project_id}/tts/scripts/`
+3. 读取每个章节文件，用内联 Python 处理为 TTS 纯文本
 
-**输出**: `releases/{project_id}/tts/scripts/`
+**处理逻辑** (直接用 Python，不依赖外部脚本):
+```python
+import re
+import os
+
+def prepare_tts(input_path, output_path):
+    with open(input_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 去除 YAML frontmatter
+    content = re.sub(r'^---\n.*?\n---\n', '', content, flags=re.DOTALL)
+    # 去除 Markdown 标记
+    content = re.sub(r'^#+\s*', '', content, flags=re.MULTILINE)
+    content = re.sub(r'\*\*(.+?)\*\*', r'\1', content)
+    content = re.sub(r'\*(.+?)\*', r'\1', content)
+    # 规范化空白
+    content = re.sub(r'\n{3,}', '\n\n', content)
+    lines = [line.strip() for line in content.split('\n')]
+    content = '\n'.join(lines)
+
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(content.strip() + '\n')
+```
+
+**输出**: `releases/{project_id}/tts/scripts/0001.txt`, `0002.txt`, ...
 
 **参数决策**:
 - 默认处理所有章节
@@ -122,8 +146,26 @@ tools: Read, Write, Bash, Glob
 **流程**:
 1. 发布前检查
 2. 检查 tts/scripts/ 是否存在，没有则先生成
-3. 调用 audiobook-optimizer skill
-4. 执行 `generate-audio.py` 脚本
+3. 创建输出目录 `releases/{project_id}/tts/audio/` 和 `subtitles/`
+4. 直接调用 edge-tts 命令生成音频和字幕
+
+**执行命令** (直接调用 edge-tts，不依赖外部脚本):
+```bash
+# 为每个 TTS 脚本生成音频和字幕
+edge-tts --voice zh-CN-YunxiNeural \
+  --file releases/{project_id}/tts/scripts/0001.txt \
+  --write-media releases/{project_id}/tts/audio/0001.mp3 \
+  --write-subtitles releases/{project_id}/tts/subtitles/0001.srt
+
+# 批量处理
+for f in releases/{project_id}/tts/scripts/*.txt; do
+  name=$(basename "$f" .txt)
+  edge-tts --voice zh-CN-YunxiNeural \
+    --file "$f" \
+    --write-media "releases/{project_id}/tts/audio/${name}.mp3" \
+    --write-subtitles "releases/{project_id}/tts/subtitles/${name}.srt"
+done
+```
 
 **输出**:
 - `releases/{project_id}/tts/audio/` (MP3)
@@ -132,23 +174,30 @@ tools: Read, Write, Bash, Glob
 **参数决策**:
 | 参数 | 默认值 | 决策逻辑 |
 |------|--------|----------|
-| voice | yunxi | 男声小说默认 yunxi，女主视角用 xiaoxiao |
+| voice | yunxi | 默认男声 yunxi，女主第一人称视角用 xiaoxiao |
 | rate | +0% | 正常语速 |
 | split-chapters | true | 分章节生成便于管理 |
 | write-subtitles | true | 视频制作需要字幕 |
-| concurrency | 10 | 平衡速度和稳定性 |
 
 **音色选择逻辑**:
 ```markdown
-读取 blueprints/{project_id}/characters.md
+读取 blueprints/{project_id}/characters.md 或 proposal.md
 
-判断主角性别:
-- 男主 → yunxi (年轻男声)
-- 女主 → xiaoxiao (温柔女声)
+判断叙事视角:
+- 第三人称或男主第一人称 → zh-CN-YunxiNeural (年轻男声，默认)
+- 女主第一人称 → zh-CN-XiaoxiaoNeural (温柔女声)
 - 不确定 → 询问用户
 
-用户可覆盖: "用 xiaoyan 的声音"
+用户可覆盖: "用女声" → xiaoxiao, "用 xiaoyan 的声音" → xiaoyan
 ```
+
+**可用音色**:
+| 快捷名 | 完整名称 | 特点 |
+|--------|----------|------|
+| yunxi | zh-CN-YunxiNeural | 年轻男声，默认 |
+| xiaoxiao | zh-CN-XiaoxiaoNeural | 温柔女声 |
+| yunjian | zh-CN-YunjianNeural | 成熟男声 |
+| xiaoyan | zh-CN-XiaoyanNeural | 甜美女声 |
 
 ### txt - 纯文本合集
 

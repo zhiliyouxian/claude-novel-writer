@@ -16,22 +16,54 @@ allowed-tools: Read, Write, Bash, Glob
 章节文件 → prepare-tts.py → TTS纯文本 → edge-tts → MP3音频 + SRT字幕
 ```
 
-> **脚本位置**: 所有脚本位于插件的 `scripts/` 目录下，即 `{plugin_dir}/scripts/`。
-> 执行时请使用完整路径或先 cd 到插件目录。
+> **脚本位置**: 所有脚本位于插件根目录的 `scripts/` 子目录下。
+>
+> **查找脚本路径**:
+> ```bash
+> # 方法1: 使用 find 定位已安装插件的脚本
+> SCRIPT_DIR=$(find ~/.claude/plugins/cache -path "*/novel-writer/*/scripts" -type d 2>/dev/null | head -1)
+>
+> # 方法2: 直接使用 edge-tts 命令（推荐，无需脚本）
+> edge-tts --voice zh-CN-XiaoxiaoNeural --file input.txt --write-media output.mp3 --write-subtitles output.srt
+> ```
 
 ### 步骤1: 准备 TTS 文本
 
-使用 `{plugin_dir}/scripts/prepare-tts.py` 处理章节：
+**推荐方式**: 直接用 Python 处理，无需外部脚本：
+
+```python
+import re
+import os
+
+def prepare_tts(input_path, output_path):
+    """将 Markdown 章节转换为 TTS 纯文本"""
+    with open(input_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 去除 YAML frontmatter
+    content = re.sub(r'^---\n.*?\n---\n', '', content, flags=re.DOTALL)
+    # 去除 Markdown 标记
+    content = re.sub(r'^#+\s*', '', content, flags=re.MULTILINE)
+    content = re.sub(r'\*\*(.+?)\*\*', r'\1', content)
+    content = re.sub(r'\*(.+?)\*', r'\1', content)
+    # 规范化空白
+    content = re.sub(r'\n{3,}', '\n\n', content)
+
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(content.strip() + '\n')
+```
+
+**备用方式**: 使用插件脚本（需先定位路径）：
 
 ```bash
+# 先定位脚本目录
+SCRIPT_DIR=$(find ~/.claude/plugins/cache -path "*/novel-writer/*/scripts" -type d 2>/dev/null | head -1)
+
 # 处理所有章节
-python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ releases/{project_id}/tts/scripts/novel-tts.txt
+python "$SCRIPT_DIR/prepare-tts.py" productions/{project_id}/chapters/ releases/{project_id}/tts/scripts/novel-tts.txt
 
 # 处理指定范围
-python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ releases/{project_id}/tts/scripts/novel-tts.txt --range 1-10
-
-# 处理单个章节
-python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ releases/{project_id}/tts/scripts/chapter-001.txt --single 1
+python "$SCRIPT_DIR/prepare-tts.py" productions/{project_id}/chapters/ releases/{project_id}/tts/scripts/novel-tts.txt --range 1-10
 ```
 
 脚本功能：
@@ -42,26 +74,42 @@ python {plugin_dir}/scripts/prepare-tts.py productions/{project_id}/chapters/ re
 
 ### 步骤2: 生成音频（可选同时生成字幕）
 
-使用 `{plugin_dir}/scripts/generate-audio.py` 调用 edge-tts：
+**推荐方式**: 直接使用 edge-tts 命令：
 
 ```bash
-# 生成单个合并音频
-python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/novel.mp3
+# 生成单个文件的音频 + 字幕
+edge-tts --voice zh-CN-XiaoxiaoNeural \
+  --file releases/{project_id}/tts/scripts/0001.txt \
+  --write-media releases/{project_id}/tts/audio/0001.mp3 \
+  --write-subtitles releases/{project_id}/tts/subtitles/0001.srt
 
-# 生成音频 + 字幕
-python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/novel.mp3 --write-subtitles
+# 批量处理多个文件
+for f in releases/{project_id}/tts/scripts/*.txt; do
+  name=$(basename "$f" .txt)
+  edge-tts --voice zh-CN-XiaoxiaoNeural \
+    --file "$f" \
+    --write-media "releases/{project_id}/tts/audio/${name}.mp3" \
+    --write-subtitles "releases/{project_id}/tts/subtitles/${name}.srt"
+done
+```
+
+**备用方式**: 使用插件脚本（支持并发）：
+
+```bash
+# 先定位脚本目录
+SCRIPT_DIR=$(find ~/.claude/plugins/cache -path "*/novel-writer/*/scripts" -type d 2>/dev/null | head -1)
 
 # 分章节并行生成（默认10并发）
-python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters
+python "$SCRIPT_DIR/generate-audio.py" releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters
 
 # 分章节 + 字幕
-python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --write-subtitles
+python "$SCRIPT_DIR/generate-audio.py" releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --write-subtitles
 
 # 指定并发数（最高20）
-python {plugin_dir}/scripts/generate-audio.py releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --concurrency 15
+python "$SCRIPT_DIR/generate-audio.py" releases/{project_id}/tts/scripts/novel-tts.txt releases/{project_id}/tts/audio/ --split-chapters --concurrency 15
 
 # 指定音色和语速
-python {plugin_dir}/scripts/generate-audio.py input.txt output.mp3 --voice yunxi --rate +10%
+python "$SCRIPT_DIR/generate-audio.py" input.txt output.mp3 --voice yunxi --rate +10%
 ```
 
 ### 参数说明
@@ -96,7 +144,7 @@ python {plugin_dir}/scripts/generate-audio.py input.txt output.mp3 --voice yunxi
 
 查看所有音色：
 ```bash
-python scripts/generate-audio.py --list-voices
+edge-tts --list-voices | grep zh-CN
 ```
 
 ---
@@ -128,29 +176,40 @@ releases/{project_id}/tts/
 用户: "生成有声书"
 
 执行:
-1. python {plugin_dir}/scripts/prepare-tts.py productions/zongheng/chapters/ releases/zongheng/tts/scripts/novel-tts.txt
-2. python {plugin_dir}/scripts/generate-audio.py releases/zongheng/tts/scripts/novel-tts.txt releases/zongheng/tts/audio/novel.mp3 --write-subtitles
+1. 读取每个章节文件，用 Python 处理为 TTS 纯文本
+2. 为每个 TTS 文本调用 edge-tts 生成音频和字幕
+
+# 示例命令
+edge-tts --voice zh-CN-XiaoxiaoNeural \
+  --file releases/zongheng/tts/scripts/0001.txt \
+  --write-media releases/zongheng/tts/audio/0001.mp3 \
+  --write-subtitles releases/zongheng/tts/subtitles/0001.srt
 
 输出:
 ✅ 有声书生成完成!
-   TTS文本: releases/zongheng/tts/scripts/novel-tts.txt (9.5万字)
-   音频文件: releases/zongheng/tts/audio/novel.mp3 (约6小时)
-   字幕文件: releases/zongheng/tts/audio/novel.srt
+   TTS文本: releases/zongheng/tts/scripts/ (30个文件)
+   音频文件: releases/zongheng/tts/audio/ (30个文件)
+   字幕文件: releases/zongheng/tts/subtitles/ (30个文件)
 ```
 
-### 示例2: 分章节并行生成（带字幕）
+### 示例2: 分章节批量生成（带字幕）
 
 ```bash
 用户: "生成有声书，每章单独文件，带字幕"
 
 执行:
-1. python {plugin_dir}/scripts/prepare-tts.py ...
-2. python {plugin_dir}/scripts/generate-audio.py ... --split-chapters --write-subtitles --concurrency 15
+# 批量处理所有章节
+for f in releases/zongheng/tts/scripts/*.txt; do
+  name=$(basename "$f" .txt)
+  edge-tts --voice zh-CN-XiaoxiaoNeural \
+    --file "$f" \
+    --write-media "releases/zongheng/tts/audio/${name}.mp3" \
+    --write-subtitles "releases/zongheng/tts/subtitles/${name}.srt"
+done
 
 输出:
 ✅ 有声书生成完成!
    章节数: 30
-   并发数: 15
    输出目录: releases/zongheng/tts/audio/
    字幕目录: releases/zongheng/tts/subtitles/
 ```
@@ -161,7 +220,7 @@ releases/{project_id}/tts/
 用户: "准备TTS文本"
 
 执行:
-python {plugin_dir}/scripts/prepare-tts.py productions/zongheng/chapters/ releases/zongheng/tts/scripts/novel-tts.txt
+# 用 Python 处理章节为 TTS 文本（内联代码，见步骤1）
 
 输出:
 ✅ TTS文本准备完成!
