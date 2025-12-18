@@ -1,6 +1,14 @@
 ---
 name: scene-prompt-generator
-description: 根据分镜脚本生成多平台图像/视频提示词和 Ken Burns 动画参数。
+description: |
+  场景提示词生成工具。根据分镜脚本为每个场景生成多平台图像/视频提示词
+  （Midjourney、DALL-E、Runway、Kling、Sora 等）及 Ken Burns 动画参数。
+
+  **由 release-manager Agent 调用**（视频发布流程），用户想要生成场景提示词、
+  图像提示词时，应通过 release-manager 统一协调。前置条件：需先生成角色提示词
+  和分镜脚本。
+
+  等效命令: /nw-release video-prep
 allowed-tools: Read, Write, Glob
 ---
 
@@ -21,12 +29,6 @@ releases/{project_id}/video/storyboard/storyboard.md
     ↓ 计算 Ken Burns 参数
 releases/{project_id}/video/prompts/scenes/scene-{NNNN}.md
 ```
-
-## 激活条件
-
-- 用户说"生成场景提示词"、"生成图像提示词"
-- 执行 `/nw-release video-prep`
-- 分镜脚本已存在
 
 ## 前置条件
 

@@ -1,6 +1,13 @@
 ---
 name: character-visual-prompter
-description: 从角色档案生成图像生成提示词，用于创建角色参考图。
+description: |
+  角色视觉提示词生成工具。从蓝图角色档案提取外貌描述，生成 Midjourney/DALL-E
+  等图像生成工具的英文提示词，确保角色视觉一致性。
+
+  **由 release-manager Agent 调用**（视频发布流程），用户想要生成角色参考图
+  提示词时，应通过 release-manager 统一协调。
+
+  等效命令: /nw-release video-char
 allowed-tools: Read, Write, Glob
 ---
 
@@ -19,12 +26,6 @@ blueprints/{project_id}/characters/character-{name}.md
     ↓ 生成多种尺寸版本
 releases/{project_id}/video/prompts/characters/{name}.md
 ```
-
-## 激活条件
-
-- 用户说"生成角色提示词"、"生成角色参考图提示词"
-- 执行 `/nw-release video-char`
-- 首次进行视频发布流程
 
 ## 执行流程
 
@@ -216,7 +217,6 @@ portrait style, cinematic lighting, 4K, highly detailed, xianxia style
 
 ## 注意事项
 
-1. **版权**: 避免使用真人名字或具体演员作为参考
-2. **一致性**: 同一角色的所有提示词使用相同的核心描述
-3. **可编辑**: 生成的提示词用户可自行调整
-4. **多尝试**: 建议生成3-5张图片选择最满意的作为参考
+1. **一致性**: 同一角色的所有提示词使用相同的核心描述
+2. **可编辑**: 生成的提示词用户可自行调整
+3. **多尝试**: 建议生成3-5张图片选择最满意的作为参考

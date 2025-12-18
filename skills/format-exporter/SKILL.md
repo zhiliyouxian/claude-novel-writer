@@ -1,6 +1,12 @@
 ---
 name: format-exporter
-description: 多格式导出工具,将章节导出为TXT、带目录TXT、分章TXT等格式,适用于不同平台发布。
+description: |
+  多格式导出工具。将章节导出为TXT、Markdown等格式，支持起点/晋江/番茄等平台适配。
+
+  **由 release-manager Agent 调用**，不独立执行。用户想要导出章节、导出TXT、
+  发布到平台时，应通过 release-manager 统一协调（包含发布前检查）。
+
+  等效命令: /nw-release txt | /nw-release md
 allowed-tools: Read, Write, Glob
 ---
 
@@ -495,6 +501,3 @@ novel.txt (20万字)
 → novel-part2.txt (10万字, 106-210章)
 ```
 
----
-
-激活条件: 用户说"导出章节"、"导出TXT"、"导出格式"等关键词,或Command "/export-all"

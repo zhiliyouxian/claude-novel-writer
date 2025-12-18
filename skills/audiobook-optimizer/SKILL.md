@@ -1,6 +1,12 @@
 ---
 name: audiobook-optimizer
-description: 有声书生成工具，将章节转换为TTS文本并生成音频文件。
+description: |
+  有声书生成工具。将章节转换为TTS文本并调用edge-tts生成MP3音频和SRT字幕。
+
+  **由 release-manager Agent 调用**，不独立执行。用户想要生成有声书、TTS文本、
+  朗读版、合成音频时，应通过 release-manager 统一协调（包含发布前检查）。
+
+  等效命令: /nw-release tts | /nw-release tts --audio
 allowed-tools: Read, Write, Bash, Glob
 ---
 
@@ -190,6 +196,3 @@ releases/{project_id}/tts/
 3. **长文本**: 超长文本建议分章节生成，避免超时
 4. **音色选择**: 默认 YunxiNeural (男声)，女主视角用 XiaoxiaoNeural
 
----
-
-激活条件: 用户说"生成有声书"、"TTS"、"朗读版"、"合成音频"等关键词
