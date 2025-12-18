@@ -4,10 +4,7 @@ description: |
   编码检查与修复工具。检测并自动修复章节文件中的乱码字符（如 ��� 等 UTF-8
   解码错误），循环检查直到全部正常。
 
-  **前置检查工具**，由 chapter-auditor、release-manager 等 Agent 自动调用。
-  用户想要检查乱码、修复编码问题时也可直接执行。
-
-  相关命令: /nw-ch-audit（审核时自动调用）| /nw-release（发布时自动调用）
+  使用场景：用户想要检查乱码、修复编码问题、清理文本错误时使用。
 allowed-tools: Read, Edit, Glob, Grep, Bash
 ---
 

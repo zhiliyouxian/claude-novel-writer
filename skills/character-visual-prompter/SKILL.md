@@ -4,10 +4,7 @@ description: |
   角色视觉提示词生成工具。从蓝图角色档案提取外貌描述，生成 Midjourney/DALL-E
   等图像生成工具的英文提示词，确保角色视觉一致性。
 
-  **由 release-manager Agent 调用**（视频发布流程），用户想要生成角色参考图
-  提示词时，应通过 release-manager 统一协调。
-
-  等效命令: /nw-release video-char
+  使用场景：用户想要生成角色参考图提示词、角色视觉设计提示词时使用。
 allowed-tools: Read, Write, Glob
 ---
 

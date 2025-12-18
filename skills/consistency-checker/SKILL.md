@@ -4,10 +4,7 @@ description: |
   跨章节一致性检查工具。检测人名、地名、物品名等实体的一致性，发现境界倒退、
   时间线矛盾、设定冲突等问题。
 
-  **由 chapter-auditor Agent 调用**，或在批量创作后自动触发。用户想要检查章节
-  一致性时，应通过 chapter-auditor 统一协调审核流程。
-
-  等效命令: /nw-ch-audit <范围>
+  使用场景：用户想要检查章节一致性、查找设定矛盾、验证实体使用时使用。
 allowed-tools: Read, Grep, Glob
 ---
 

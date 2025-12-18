@@ -4,10 +4,7 @@ description: |
   分镜脚本生成工具。将 SRT 字幕转换为视频分镜脚本，自动检测场景边界、
   识别角色和地点、生成时间码对齐的场景描述。
 
-  **由 release-manager Agent 调用**（视频发布流程），用户想要生成分镜脚本时，
-  应通过 release-manager 统一协调。前置条件：需先生成 SRT 字幕文件。
-
-  等效命令: /nw-release video-prep
+  使用场景：用户想要生成分镜脚本、制作视频分镜、从字幕生成场景时使用。
 allowed-tools: Read, Write, Bash, Glob
 ---
 

@@ -1,12 +1,10 @@
 ---
 name: format-exporter
 description: |
-  多格式导出工具。将章节导出为TXT、Markdown等格式，支持起点/晋江/番茄等平台适配。
+  多格式导出工具。将章节导出为 TXT、Markdown 等格式，支持起点/晋江/番茄等
+  平台格式适配，自动清理 Markdown 标记和 YAML frontmatter。
 
-  **由 release-manager Agent 调用**，不独立执行。用户想要导出章节、导出TXT、
-  发布到平台时，应通过 release-manager 统一协调（包含发布前检查）。
-
-  等效命令: /nw-release txt | /nw-release md
+  使用场景：用户想要导出章节、生成 TXT、发布到网文平台时使用。
 allowed-tools: Read, Write, Glob
 ---
 
