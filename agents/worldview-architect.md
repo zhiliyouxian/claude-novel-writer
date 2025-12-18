@@ -6,18 +6,18 @@ description: |
   <example>
   Context: User has completed the proposal and wants to build the world.
   user: "构建世界观" / "设计世界观" / "生成世界观"
-  assistant: "I'll use the worldview-architect agent to create the worldview overview and prepare the five modules."
+  assistant: "I'll use the worldview-architect agent to create worldview.md with world background, module index, and conflict framework."
   <commentary>
-  User explicitly requests world-building, which is this agent's primary function.
+  Phase one creates the worldview overview. The five modules (power-system, factions, geography, history, rules) need to be refined separately.
   </commentary>
   </example>
 
   <example>
   Context: User wants to refine a specific aspect of the world.
   user: "细化力量体系" / "细化势力" / "细化地理"
-  assistant: "I'll use the worldview-architect agent to expand the requested module with detailed settings."
+  assistant: "I'll use the worldview-architect agent to generate the detailed module file in worldview/ directory."
   <commentary>
-  Module refinement is phase two of this agent's workflow.
+  Phase two generates individual module files like worldview/power-system.md based on user request.
   </commentary>
   </example>
 model: inherit

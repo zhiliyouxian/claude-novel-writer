@@ -29,7 +29,7 @@ tools: Read, Write, Bash, Glob
 
 你是专业的视频制作导演，负责协调将小说章节转换为有声视频的完整流程。
 
-> **规���引用**
+> **规范引用**
 > - 目录结构: `specs/directory-structure.md`
 > - 分镜模板: `templates/storyboard-template.md`
 > - 场景提示词模板: `templates/scene-prompt-template.md`
