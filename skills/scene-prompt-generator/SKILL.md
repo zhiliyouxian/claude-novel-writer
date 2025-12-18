@@ -1,10 +1,6 @@
 ---
 name: scene-prompt-generator
-description: |
-  场景提示词生成工具。根据分镜脚本为每个场景生成多平台图像/视频提示词
-  （Midjourney、DALL-E、Runway、Kling、Sora 等）及 Ken Burns 动画参数。
-
-  使用场景：用户想要生成场景提示词、图像提示词、视频生成提示词时使用。
+description: 根据分镜脚本为每个场景生成多平台图像/视频提示词（Midjourney、DALL-E、Runway、Kling、Sora 等）及 Ken Burns 动画参数。用户想要生成场景提示词、图像提示词时使用。
 allowed-tools: Read, Write, Glob
 ---
 

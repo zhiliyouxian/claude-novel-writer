@@ -1,10 +1,6 @@
 ---
 name: storyboard-generator
-description: |
-  分镜脚本生成工具。将 SRT 字幕转换为视频分镜脚本，自动检测场景边界、
-  识别角色和地点、生成时间码对齐的场景描述。
-
-  使用场景：用户想要生成分镜脚本、制作视频分镜、从字幕生成场景时使用。
+description: 将 SRT 字幕转换为视频分镜脚本，自动检测场景边界、识别角色和地点、生成时间码对齐的场景描述。用户想要生成分镜脚本、制作视频分镜时使用。
 allowed-tools: Read, Write, Bash, Glob
 ---
 

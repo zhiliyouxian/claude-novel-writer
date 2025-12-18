@@ -1,10 +1,6 @@
 ---
 name: audiobook-optimizer
-description: |
-  有声书生成工具。将章节 Markdown 转换为 TTS 优化文本，调用 edge-tts 生成 MP3
-  音频和 SRT 字幕文件。支持多种语音、语速调节、增量生成。
-
-  使用场景：用户想要生成有声书、TTS 音频、朗读版、语音合成时使用。
+description: 将章节 Markdown 转换为 TTS 优化文本，调用 edge-tts 生成 MP3 音频和 SRT 字幕。用户想要生成有声书、TTS 音频、朗读版时使用。
 allowed-tools: Read, Write, Bash, Glob
 ---
 

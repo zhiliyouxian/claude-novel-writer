@@ -1,10 +1,6 @@
 ---
 name: character-visual-prompter
-description: |
-  角色视觉提示词生成工具。从蓝图角色档案提取外貌描述，生成 Midjourney/DALL-E
-  等图像生成工具的英文提示词，确保角色视觉一致性。
-
-  使用场景：用户想要生成角色参考图提示词、角色视觉设计提示词时使用。
+description: 从蓝图角色档案提取外貌描述，生成 Midjourney/DALL-E 等图像生成工具的英文提示词，确保角色视觉一致性。用户想要生成角色参考图提示词时使用。
 allowed-tools: Read, Write, Glob
 ---
 
