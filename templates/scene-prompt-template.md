@@ -10,7 +10,7 @@ location: "{地点}"
 emotion: "{情绪}"
 ---
 
-# 场景 {NNN}: {场景标题}
+# 场景 {NNN}：{场景标题}
 
 ## 概览
 
@@ -20,7 +20,7 @@ emotion: "{情绪}"
 | 时长 | {seconds}秒 |
 | 地点 | {地点} |
 | 时段 | {清晨/白天/黄昏/夜晚} |
-| 天气 | {晴朗/阴天/雨天/...} |
+| 天气 | {晴朗/阴天/雨天} |
 | 角色 | {角色列表} |
 | 情绪 | {情绪关键词} |
 
@@ -35,19 +35,19 @@ emotion: "{情绪}"
 {环境细节}
 {人物描述，引用角色一致性标签}
 {光线/氛围}
-{风格关键词: cinematic, 4K, oriental fantasy, anime influenced}
+{风格关键词}
 --ar 16:9 --style raw --v 6
 ```
 
 ### 备选构图
 
-**特写版**（用于情感高潮）:
+**特写版**：
 ```
 {人物特写提示词}
 --ar 3:4 --style raw
 ```
 
-**大远景版**（用于场景建立）:
+**大远景版**：
 ```
 {环境大远景提示词}
 --ar 21:9 --style raw
@@ -60,33 +60,25 @@ emotion: "{情绪}"
 ### Runway Gen-3
 
 ```
-{Camera movement description}. {Scene description}. {Character actions}.
-{Lighting and atmosphere}. {Duration: X seconds}.
+{Camera movement}. {Scene description}. {Character actions}.
+{Lighting}. Duration: {X} seconds.
 ```
 
 ### Kling AI
 
 ```
-[场景: {地点}，{时段}]
-{角色动作描述 - 中文}
-镜头: {镜头运动}，{时长}
-风格: {风格关键词}
+[场景：{地点}，{时段}]
+{角色动作描述}
+镜头：{镜头运动}，{时长}
+风格：{风格关键词}
 ```
 
 ### Sora / Veo
 
 ```
-A cinematic scene in {location}. The camera {camera movement}.
-{Detailed scene description including characters, actions, environment}.
-{Lighting description}. Style: {style keywords}. Duration: {X} seconds.
-```
-
-### Pika / Luma
-
-```
-{简短场景描述}
-Motion: {camera/subject motion}
-Style: {style}
+A cinematic scene in {location}. The camera {movement}.
+{Detailed scene description}. {Lighting}.
+Style: {style}. Duration: {X} seconds.
 ```
 
 ---
@@ -111,23 +103,9 @@ Style: {style}
 }
 ```
 
-### Ken Burns 类型选择指南
-
-| 场景类型 | 推荐动画 | 说明 |
-|----------|----------|------|
-| 对话/对峙 | `push_in` | 缓慢推进增加紧张感 |
-| 场景建立 | `pull_out` | 从细节拉远展示全貌 |
-| 追逐/移动 | `pan_left/right` | 跟随运动方向 |
-| 仰望/崇敬 | `pan_up` | 从下往上，增加威严感 |
-| 俯瞰/压迫 | `pan_down` | 从上往下，增加压迫感 |
-| 戏剧高潮 | `diagonal` | 斜向推进，增加动态感 |
-| 平静/叙述 | `push_in` (慢速) | 微微推进，保持关注 |
-
 ---
 
 ## 角色一致性引用
-
-> 从 `video/prompts/characters/{角色名}.md` 复制以下标签到提示词中
 
 ### {角色1}
 
@@ -146,14 +124,6 @@ Style: {style}
 ## 制作备注
 
 - [ ] 图片已生成并放入 `video/images/scenes/scene-{NNN}.png`
-- [ ] 检查角色一致性（与参考图对比）
+- [ ] 检查角色一致性
 - [ ] 确认画面比例正确（16:9）
 - [ ] Ken Burns 参数已确认
-
----
-
-## 参考
-
-- 对应字幕: `tts/subtitles/{NNNN}.srt` 第 {start}-{end} 条
-- 角色档案: `blueprints/{project_id}/characters/character-{角色名}.md`
-- 世界观: `blueprints/{project_id}/worldview.md`

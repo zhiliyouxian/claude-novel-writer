@@ -1,95 +1,15 @@
-# 章节文件模板
-
-本模板用于 `productions/{project_id}/chapters/chapter-{NNNN}.md` 文件，定义章节的 YAML Front Matter 格式。
-
----
-
-## YAML Front Matter 格式
-
-```yaml
 ---
 chapter: {N}
 title: "{章节标题}"
 volume: {卷号}
-summary: "{本章核心事件，1-2句，与大纲速览表一致}"
-hook: "{章末悬念/钩子}"
+summary: "{本章核心事件}"
+hook: "{章末悬念}"
 characters:
   - "{角色1}"
   - "{角色2}"
 status: draft
 ---
-```
 
----
+# 第{N}章 {章节标题}
 
-## 字段说明
-
-| 字段 | 必填 | 说明 | 核对来源 |
-|------|------|------|----------|
-| `chapter` | ✅ | 章节序号 | - |
-| `title` | ✅ | 章节标题 | 大纲.章节速览.标题 |
-| `volume` | ✅ | 所属卷号 | 大纲.卷号 |
-| `summary` | ✅ | 本章核心事件概述 | 大纲.章节速览.核心事件 |
-| `hook` | ✅ | 章末悬念 | 大纲.详细章节.章末钩子.内容 |
-| `characters` | ✅ | 出场人物列表 | 大纲.章节速览.出场人物 |
-| `status` | ✅ | 章节状态 | - |
-
-### status 枚举值
-
-| 值 | 含义 | 设置者 | 下一步操作 |
-|-----|------|--------|------------|
-| `draft` | 初稿完成，等待首次审核 | chapter-writer | chapter-auditor 审核 |
-| `pending` | 审核发现问题，等待修订 | chapter-auditor | revision-writer 修订 |
-| `revised` | 修订完成，等待复审 | revision-writer | chapter-auditor 复审 |
-| `final` | 审核通过，可发布 | chapter-auditor | format-exporter 导出 |
-
----
-
-## 审核核对规则
-
-创作完成后，审核时按以下规则核对：
-
-```
-大纲.章节速览.核心事件  ↔  章节.summary     → 内容是否吻合？
-大纲.章节速览.出场人物  ↔  章节.characters  → 人物是否一致？
-大纲.详细章节.章末钩子  ↔  章节.hook        → 悬念是否实现？
-```
-
----
-
-## 完整章节文件示例
-
-```markdown
----
-chapter: 1
-title: "{章节标题}"
-volume: 1
-summary: "{主角遭遇XXX事件，触发YYY}"
-hook: "{神秘声音响起：「你愿意签订契约吗？」}"
-characters:
-  - "{主角}"
-  - "{配角1}"
-  - "{配角2}"
-status: draft
----
-
-# 第1章 {章节标题}
-
-{正文内容...}
-```
-
----
-
-## 使用说明
-
-1. **创作时**: chapter-writer 根据大纲创作，完成后填写 YAML 头
-2. **审核时**: chapter-auditor 核对 YAML 头与大纲是否一致
-3. **字段来源**: summary 和 characters 直接对应大纲速览表，hook 对应详细章节的章末钩子
-
----
-
-## 设计原则
-
-- **精简**: 只保留核对必需的字段，其他信息在大纲中
-- **可核对**: 每个字段都有明确的大纲来源，便于自动化检查
-- **不重复**: 避免与大纲内容重复，减少维护成本
+{正文内容}
