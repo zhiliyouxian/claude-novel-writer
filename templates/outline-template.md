@@ -7,6 +7,20 @@
 
 ---
 
+## 蓝图导航
+
+> **Agent 查询入口**：本书蓝图文件索引
+
+| 查询需求 | 文件路径 |
+|----------|----------|
+| 选题/金手指/规模 | proposal.md |
+| 世界观/力量体系 | worldview.md → worldview/*.md |
+| 角色设定 | characters.md → characters/*.md |
+| 卷详细大纲 | outlines/vol-{N}.md |
+| 实体当前状态 | entities.md |
+
+---
+
 ## 戏剧结构
 
 ### 控制思想

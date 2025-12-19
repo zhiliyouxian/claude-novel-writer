@@ -18,6 +18,16 @@
 
 ## 模块索引
 
+> **Agent 查询入口**：根据需要查询对应模块
+
+| 查询需求 | 文件路径 |
+|----------|----------|
+| 境界/修炼/战斗 | worldview/power-system.md |
+| 门派/势力/阵营 | worldview/factions.md |
+| 地点/环境/地图 | worldview/geography.md |
+| 背景/历史/秘辛 | worldview/history.md |
+| 天道/禁忌/金手指 | worldview/rules.md |
+
 ### 1. 力量体系
 > 详见：`worldview/power-system.md`
 

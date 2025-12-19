@@ -68,6 +68,12 @@
 
 ## 详细章节
 
+> **Agent 写作时查询路径**：
+> - 角色详情：characters.md → characters/{角色名}.md
+> - 角色当前状态：entities.md
+> - 场景环境：worldview/geography.md
+> - 力量体系：worldview/power-system.md
+
 ### 第{起始章}章：{章节标题}
 
 ```yaml
