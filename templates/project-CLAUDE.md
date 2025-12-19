@@ -24,6 +24,21 @@
 - `productions/{project_id}/chapters/` - 章节文件
 - `releases/{project_id}/` - 导出成品（TXT、有声书等）
 
+## 蓝图文件索引
+
+> Agent 查询入口：按需求类型定位文件
+
+| 查询需求 | 文件路径 |
+|----------|----------|
+| 选题/金手指/规模 | blueprints/{project_id}/proposal.md |
+| 世界观总览 | blueprints/{project_id}/worldview.md |
+| 力量体系/势力/地理 | blueprints/{project_id}/worldview/*.md |
+| 角色总览/索引 | blueprints/{project_id}/characters.md |
+| 角色详情 | blueprints/{project_id}/characters/{角色名}.md |
+| 总纲/戏剧结构 | blueprints/{project_id}/outline.md |
+| 卷详细大纲 | blueprints/{project_id}/outlines/vol-{N}.md |
+| 实体当前状态 | productions/{project_id}/entities.md |
+
 ---
 
 *由 /nw-init 生成 | Novel Writing Studio v{version}*
