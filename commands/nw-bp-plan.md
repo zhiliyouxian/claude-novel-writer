@@ -455,24 +455,6 @@ blueprints/xuanhuan_001/
 # → project_id: dushi_001（主题材是都市）
 ```
 
-### 书名设置
-
-书名与 `project_id` 解耦，可随时修改：
-
-```
-蓝图创建时:
-  project_id: xuanhuan_001    # 自动生成，不可改
-  book_title: 待定            # 可以暂不确定
-
-创作过程中:
-  "把书名改为《万古签到》"
-  # → book_title: 《万古签到》
-
-发布前:
-  /nw-release xuanhuan_001
-  # → 检查书名是否已确定
-```
-
 ## 错误处理
 
 ### 错误1: 缺少类型参数

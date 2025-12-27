@@ -196,9 +196,9 @@ draft ──审核──> final                     │
 - Manual override: `/nw-bp-plan 玄幻 废柴流 --id custom_name`
 
 **Book Title**:
-- Separate from `project_id` (can change anytime)
-- Set in `proposal.md` as `book_title`
-- Must be finalized before `/nw-release`
+- Not stored in blueprint files
+- Input when running `/nw-release`
+- Each release can use a different title
 
 ---
 

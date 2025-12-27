@@ -54,25 +54,22 @@ tools: Read, Write, Bash, Glob
 - 如果没有项目 → 报错，提示先创作
 ```
 
-### 2. 书名检查
+### 2. 书名确认
 
 ```markdown
-读取 blueprints/{project_id}/proposal.md
+发布时询问用户书名:
 
-检查 book_title 字段:
-- 如果为"待定" → 报错，要求先确定书名
-- 如果已确定 → 继续
+📖 请确认书名:
+   当前项目: {project_id}
 
-错误提示示例:
-❌ 发布检查失败
+   请输入正式书名（如：万古签到）:
 
-书名尚未确定！
-当前值: book_title = 待定
+用户输入后:
+- 记录书名用于发布文件
+- 书名将显示在导出文件中
+- 蓝图文件不会被修改
 
-请先确定书名:
-1. 编辑 blueprints/{project_id}/proposal.md
-2. 将 book_title 修改为正式书名
-3. 重新执行发布
+注意: 书名仅用于本次发布，不保存到蓝图中
 ```
 
 ### 3. 章节状态检查
@@ -415,11 +412,9 @@ releases/{project_id}/
 ❌ 发布失败
 
 错误:
-1. 书名尚未确定 (book_title = 待定)
+1. 未输入书名
 
-请先完成以下步骤:
-1. 编辑 blueprints/{project_id}/proposal.md
-2. 设置 book_title 为正式书名
+请重新执行发布命令并输入书名。
 ```
 
 ---
@@ -510,4 +505,27 @@ pip install edge-tts
 解决方案:
 检查目录权限，或手动创建 releases/{project_id}/ 目录
 ```
+
+---
+
+## Git 版本管理（可选）
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add releases/{project_id}/
+   git commit -m "release: 导出 {project_id} {format}格式"
+   ```
+
+4. 不自动推送（让用户决定）
 

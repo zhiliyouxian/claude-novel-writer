@@ -90,33 +90,21 @@
 
 ### 设计原则
 
-| 属性 | project_id | book_title |
-|------|------------|------------|
+| 属性 | project_id | 书名 |
+|------|------------|------|
 | 用途 | 文件系统目录名 | 作品正式名称 |
 | 格式 | 英文+数字 | 中文书名 |
-| 修改 | 创建后不可改 | 随时可改 |
-| 必填 | 创建时自动生成 | 发布前必须确定 |
+| 修改 | 创建后不可改 | — |
+| 定义时机 | 创建时自动生成 | 发布时输入 |
 
-### 书名设置时机
+### 书名定义流程
 
-| 阶段 | book_title 状态 | 说明 |
-|------|-----------------|------|
-| 蓝图创建 | 待定 | 可以不确定书名 |
-| 蓝图完善 | 待定/候选 | 可以列出候选书名 |
-| 创作阶段 | 待定/候选/确定 | 可以随时修改 |
-| 发布阶段 | **必须确定** | `/nw-release` 会检查 |
+**蓝图阶段**：不定义书名，专注于内容策划
 
-### 在 proposal.md 中的格式
-
-```yaml
-# 项目标识
-project_id: dushi_003          # 自动生成，不可改
-book_title: 待定                # 随时可改，发布前必须确定
-book_title_candidates:          # 可选，备选书名列表
-  - 《都市之巅峰崛起》
-  - 《重生1998》
-  - 《都市逆袭》
-```
+**发布阶段**：执行 `/nw-release` 时输入书名
+- 书名用于导出文件的标题
+- 书名不保存到蓝图文件中
+- 每次发布可使用不同书名
 
 ---
 
@@ -134,7 +122,7 @@ book_title_candidates:          # 可选，备选书名列表
 
 结果:
   blueprints/xuanhuan_001/
-  ├── proposal.md      # project_id: xuanhuan_001, book_title: 待定
+  ├── proposal.md      # project_id: xuanhuan_001
   ├── worldview.md
   ├── characters.md
   └── outline.md
@@ -157,26 +145,22 @@ book_title_candidates:          # 可选，备选书名列表
   └── ...
 ```
 
-### 确定书名
-
-```
-用户: 把 dushi_003 的书名定为《都市仙尊》
-
-系统更新 blueprints/dushi_003/proposal.md:
-  book_title: 《都市仙尊》
-```
-
-### 发布检查
+### 发布时输入书名
 
 ```
 用户: /nw-release dushi_003
 
-系统检查:
-  ✅ 章节完整
-  ❌ 书名为"待定"
+系统:
+  📖 请确认书名:
+     当前项目: dushi_003
+     请输入正式书名（如：都市仙尊）:
 
-提示:
-  请先确定书名: 修改 blueprints/dushi_003/proposal.md 中的 book_title
+用户: 都市仙尊
+
+系统:
+  ✅ 发布完成!
+  📚 书名: 《都市仙尊》
+  ...
 ```
 
 ---
@@ -184,6 +168,6 @@ book_title_candidates:          # 可选，备选书名列表
 ## 相关文件
 
 - `commands/nw-bp-plan.md` - 蓝图创建命令（自动生成 project_id）
-- `templates/proposal-template.md` - 选题模板（包含 book_title 字段）
-- `commands/nw-release.md` - 发布命令（检查书名是否确定）
+- `templates/proposal-template.md` - 选题模板
+- `commands/nw-release.md` - 发布命令（发布时询问书名）
 - `specs/directory-structure.md` - 目录结构规范
