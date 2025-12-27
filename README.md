@@ -84,6 +84,37 @@ claude "/nw-release all"
 Pools (素材池) → Blueprints (策划) → Productions (制作) → Releases (发布)
 ```
 
+### Department Collaboration
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     策划团队 (Blueprints)                        │
+├─────────────────────────────────────────────────────────────────┤
+│ worldview-architect → character-designer → outline-architect   │
+│                              ↓                                  │
+│                    blueprint-auditor (质量门槛)                  │
+└─────────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     创作团队 (Productions)                       │
+├─────────────────────────────────────────────────────────────────┤
+│ production-initializer                                          │
+│         ↓                                                       │
+│ chapter-writer (创作) ←──────────────┐                          │
+│         ↓                            │                          │
+│ chapter-auditor (审核)               │                          │
+│         ↓                            │                          │
+│     (修订模式) ─────────────────────┘                           │
+└─────────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     发布团队 (Releases)                          │
+├─────────────────────────────────────────────────────────────────┤
+│ release-manager → format-exporter / audiobook-optimizer         │
+│                 → video-director → video-assembler              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
 ### Workspace Structure
 
 ```
@@ -219,22 +250,22 @@ draft ──审核──> final                     │
 | outline-architect | Create chapter outline |
 | production-initializer | Initialize production |
 | chapter-writer | Write chapters (with revision mode) |
-| entity-manager | Manage entities |
 | chapter-auditor | Review chapters |
 | release-manager | Export and publish (TTS, audio, txt, video) |
+| video-director | Generate video scripts and storyboards |
 
 ### Skills (9)
 | Skill | Function |
 |-------|----------|
 | pool-analyzer | Analyze reference materials |
 | blueprint-auditor | Audit blueprint quality |
+| blueprint-sync-checker | Check blueprint changes impact |
 | consistency-checker | Check cross-chapter consistency |
 | encoding-checker | Check encoding issues |
 | format-exporter | Export to various formats |
 | audiobook-optimizer | TTS text and audio generation |
 | character-visual-prompter | Generate character image prompts |
-| storyboard-generator | Generate storyboard from subtitles |
-| scene-prompt-generator | Generate scene image prompts |
+| video-assembler | Assemble video clips with effects |
 
 ---
 
