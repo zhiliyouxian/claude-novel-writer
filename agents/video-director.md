@@ -409,3 +409,26 @@ releases/{project_id}/video/
 - `scene-image-generator` - 根据提示词生成镜头图片
 - `video-assembler` - 合成最终视频
 - `audiobook-optimizer` - 生成音频和字幕（如需要）
+
+---
+
+## Git 版本管理（可选）
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add releases/{project_id}/video/
+   git commit -m "feat: 生成 {project_id} 第{章节}章视频"
+   ```
+
+4. 不自动推送（让用户决定）

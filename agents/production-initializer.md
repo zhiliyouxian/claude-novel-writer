@@ -394,3 +394,26 @@ for i in 1 to 10:
 # 复制entities.md,继续创作
 ```
 
+---
+
+## Git 版本管理（可选）
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add productions/{project_id}/
+   git commit -m "feat: 初始化项目 {project_id}"
+   ```
+
+4. 不自动推送（让用户决定）
+
