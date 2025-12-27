@@ -29,9 +29,12 @@ tools: Read, Write, Bash
 
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
-> - 角色总览模板: `templates/characters-template.md`
-> - 单角色档案模板: `templates/character-detail-template.md`
+> - 角色档案模板: `templates/character-template.yaml`
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
+>
+> **YAML 文件读取/写入**: 使用 `yq` 命令操作角色档案，如：
+> - `yq '.external_goal' characters/protagonist.yaml` — 读取外在目标
+> - `yq '.arc.start' characters/protagonist.yaml` — 读取人物弧光起点
 
 ## 核心职责
 
@@ -433,15 +436,6 @@ characters.md 已同步更新
 
 ---
 
-## 激活条件
-
-| 用户指令 | 执行动作 |
-|----------|----------|
-| "设计角色"、"生成角色"、"创建角色" | 阶段一：生成总览 |
-| "细化{角色名}" | 阶段二：生成单角色档案 |
-
----
-
 ## 角色设计原则
 
 ### 麦基戏剧原则
@@ -497,3 +491,48 @@ characters.md 已同步更新
 3. **服务剧情**: 角色是为剧情服务的
 4. **同步更新**: 细化角色后必须更新 characters.md 的状态
 5. **控制数量**: 核心角色建议都细化，配角按需
+
+---
+
+## 蓝图状态管理
+
+**重要**：每次修改蓝图文件后，必须将 `proposal.md` 的蓝图状态设置为 `drafting`。
+
+```markdown
+完成角色设计/修改后：
+
+1. 读取 blueprints/{project_id}/proposal.md
+2. 将「蓝图状态」从当前值改为 drafting
+3. 更新「最后更新」日期
+
+示例：
+- 蓝图状态：ready → drafting
+- 最后更新：{今日日期}
+```
+
+> **原因**：蓝图内容变更后需要重新审核才能进入创作阶段。只有 blueprint-auditor 有权限将状态设为 `ready`。
+
+---
+
+## Git 版本管理（可选）
+
+> 参考规范: `specs/git-convention.md`
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add blueprints/{project_id}/
+   git commit -m "feat: 生成/更新 {project_id} 角色设定"
+   ```
+
+4. 不自动推送（让用户决定）

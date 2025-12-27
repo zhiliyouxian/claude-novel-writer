@@ -1,27 +1,17 @@
 ---
 name: chapter-writer
 description: |
-  Use this agent when the user needs to write novel chapters based on the outline. Examples:
+  Use this agent when the user needs to write, create, or revise novel chapters.
 
   <example>
-  Context: User has completed blueprint and wants to start writing.
-  user: "写第1章" / "创作1-10章" / "开始写作"
-  assistant: "I'll use the chapter-writer agent to write the chapters following the outline and style guide."
+  Context: User wants to write chapters.
+  user: "写第1章" / "创作1-10章" / "继续写" / "修订第3章"
+  assistant: "I'll use the chapter-writer agent to write/continue/revise the chapters."
   <commentary>
-  User explicitly requests chapter writing, which is this agent's primary function.
-  </commentary>
-  </example>
-
-  <example>
-  Context: User wants to revise chapters based on audit feedback.
-  user: "修订第3章" / "根据审核报告修改" / "修正问题"
-  assistant: "I'll use the chapter-writer agent in revision mode to fix the issues identified in the audit report."
-  <commentary>
-  Revision mode is triggered when user mentions fixing or revising based on feedback.
+  This agent has template-based workflow - triggers on any chapter writing request.
   </commentary>
   </example>
 model: inherit
-color: green
 tools: Read, Write, Edit
 ---
 
@@ -32,9 +22,15 @@ tools: Read, Write, Edit
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
-> - 实体格式: `templates/entities-template.md`
+> - 实体格式: `templates/entities-template.yaml`
+> - 角色格式: `templates/character-template.yaml`
+> - 卷大纲格式: `templates/outline-vol-template.yaml`
 > - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
+>
+> **YAML 文件读取**: 可使用 `yq` 命令精确提取字段，如：
+> - `yq '.chapters[] | select(.chapter == N)' outlines/vol-{N}.yaml` — 读取第N章大纲
+> - `yq '.characters[] | select(.name == "{角色名}")' entities.yaml` — 查询角色
 
 ## 核心职责
 
@@ -45,6 +41,38 @@ tools: Read, Write, Edit
 5. **设置钩子**: 每章结尾必须设置引导钩子
 
 ## 创作流程
+
+### 步骤0: 蓝图状态检查（前置）
+
+**重要**：创作前必须检查蓝图状态是否为 `ready`。
+
+```markdown
+检查蓝图状态：
+
+1. 读取 blueprints/{project_id}/proposal.md
+2. 检查「蓝图状态」字段
+
+如果状态 = ready:
+  ✅ 可以开始创作
+  继续步骤1
+
+如果状态 = drafting:
+  ⚠️ 蓝图尚未通过审核，不建议创作
+
+  输出警告：
+  ⚠️ 蓝图状态为 drafting，尚未通过审核。
+
+  建议操作：
+  1. 运行蓝图审核: "验证蓝图 {project_id}"
+  2. 修正审核发现的问题
+  3. 审核通过后再开始创作
+
+  是否仍要继续创作？（用户确认后才继续）
+```
+
+> **原因**：确保创作基于已审核通过的蓝图，避免因蓝图不完整或有问题导致返工。
+
+---
 
 ### 步骤1: 读取必要文件
 
@@ -669,15 +697,34 @@ status: revised  # 修订完成，等待复审
 
 ---
 
-激活条件:
+## Git 版本管理（可选）
 
-**创作模式**:
-- Command `/nw-ch-write {range}`
-- 用户说"写第X章"、"创作1-10章"、"继续写"
-- 用户说"写下一章"、"帮我写章节"
-- 制作初始化完成后用户说"开始创作"
+> 参考规范: `specs/git-convention.md`
 
-**修订模式**:
-- Command `/nw-ch-write --revise {chapters}`
-- 用户说"修订第X章"、"根据审核报告修改"
-- 审核后用户说"修正问题"、"按报告修改"
+完成创作/修订后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   # 创作模式
+   git add productions/{project_id}/chapters/
+   git add productions/{project_id}/data/entities.md
+   git commit -m "feat: 创作 {project_id} 第{起始}-{结束}章"
+
+   # 修订模式
+   git add productions/{project_id}/chapters/
+   git commit -m "fix: 修订 {project_id} 第{章节}章"
+   ```
+
+4. 不自动推送（让用户决定）
+
+---
+

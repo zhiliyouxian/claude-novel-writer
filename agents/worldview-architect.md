@@ -300,19 +300,6 @@ worldview.md 已同步更新
 
 ---
 
-## 激活条件
-
-| 用户指令 | 执行动作 |
-|----------|----------|
-| "构建世界观"、"生成世界观"、"设计世界观" | 阶段一：生成总览 |
-| "细化力量体系" | 阶段二：生成 power-system.md |
-| "细化势力" | 阶段二：生成 factions.md |
-| "细化地理" | 阶段二：生成 geography.md |
-| "细化历史" | 阶段二：生成 history.md |
-| "细化规则" | 阶段二：生成 rules.md |
-
----
-
 ## 注意事项
 
 1. **先总览后细化**: 必须先生成 worldview.md，再细化各模块
@@ -320,3 +307,48 @@ worldview.md 已同步更新
 3. **服务剧情**: 设定是为剧情服务的，与 proposal.md 保持一致
 4. **留有余地**: 不要把所有设定写死，为后期留扩展空间
 5. **同步更新**: 细化模块后必须更新 worldview.md 的概述
+
+---
+
+## 蓝图状态管理
+
+**重要**：每次修改蓝图文件后，必须将 `proposal.md` 的蓝图状态设置为 `drafting`。
+
+```markdown
+完成世界观生成/修改后：
+
+1. 读取 blueprints/{project_id}/proposal.md
+2. 将「蓝图状态」从当前值改为 drafting
+3. 更新「最后更新」日期
+
+示例：
+- 蓝图状态：ready → drafting
+- 最后更新：{今日日期}
+```
+
+> **原因**：蓝图内容变更后需要重新审核才能进入创作阶段。只有 blueprint-auditor 有权限将状态设为 `ready`。
+
+---
+
+## Git 版本管理（可选）
+
+> 参考规范: `specs/git-convention.md`
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add blueprints/{project_id}/
+   git commit -m "feat: 生成/更新 {project_id} 世界观设定"
+   ```
+
+4. 不自动推送（让用户决定）

@@ -62,7 +62,7 @@
     └── {project_id}/
         ├── reviews/               # 审核报告
         │   ├── bp-audit-report.md # 蓝图审核报告
-        │   └── ch-audit-*.md      # 章节审核报告
+        │   └── batch-*.md         # 章节审核报告
         │
         ├── {locale}/              # 多语言发布（可选）
         │   ├── text/              # TXT版
@@ -135,7 +135,7 @@
 | 实体库 | `productions/{project_id}/data/entities.md` |
 | **审核** | |
 | 蓝图审核报告 | `releases/{project_id}/reviews/bp-audit-report.md` |
-| 章节审核报告 | `releases/{project_id}/reviews/ch-audit-{start}-{end}.md` |
+| 章节审核报告 | `releases/{project_id}/reviews/batch-{NNNN}-{NNNN}-report.md` |
 | **发布（默认/单语言）** | |
 | TXT合集 | `releases/{project_id}/text/full.txt` |
 | Markdown发布版 | `releases/{project_id}/markdown/{NNNN}.md` |
@@ -144,9 +144,10 @@
 | 音频文件 | `releases/{project_id}/tts/audio/{NNNN}.mp3` |
 | 字幕文件 | `releases/{project_id}/tts/subtitles/{NNNN}.srt` |
 | **视频** | |
-| 分镜脚本 | `releases/{project_id}/video/storyboard/storyboard.md` |
-| 场景提示词 | `releases/{project_id}/video/prompts/scenes/{NNNN}.md` |
-| 角色一致性提示词 | `releases/{project_id}/video/prompts/characters/{角色名}.md` |
+| 分镜文件 | `releases/{project_id}/video/storyboard/chapter-{NNNN}.yaml` |
+| 镜头图片 | `releases/{project_id}/video/images/shots/chapter-{NNNN}/shot-{NNN}.png` |
+| 动画片段 | `releases/{project_id}/video/clips/chapter-{NNNN}/shot-{NNN}.mp4` |
+| 输出视频 | `releases/{project_id}/video/output/chapter-{NNNN}.mp4` |
 | **多语言发布** | |
 | 多语言TXT | `releases/{project_id}/{locale}/text/` |
 | 多语言有声书 | `releases/{project_id}/{locale}/tts/` |
@@ -219,14 +220,16 @@
 | 实体库 | `entities.md` | - |
 | **发布文件** | | |
 | 蓝图审核报告 | `bp-audit-report.md` | - |
-| 章节审核报告 | `ch-audit-{start}-{end}.md` | `ch-audit-0001-0010.md` |
+| 章节审核报告 | `batch-{NNNN}-{NNNN}-report.md` | `batch-0001-0010-report.md` |
 | TTS朗读文本 | `{NNNN}.txt` (四位数补零) | `0001.txt`, `0100.txt` |
 | 音频文件 | `{NNNN}.mp3` | `0001.mp3` |
 | 字幕文件 | `{NNNN}.srt` | `0001.srt` |
 | **视频文件** | | |
-| 分镜脚本 | `storyboard.md` | - |
-| 场景提示词 | `scene-{NNNN}.md` | `scene-0001.md` |
-| 角色一致性提示词 | `{角色名}.md` | `protagonist.md` |
+| 分镜文件 | `chapter-{NNNN}.yaml` | `chapter-0001.yaml` |
+| 镜头图片目录 | `chapter-{NNNN}/` | `chapter-0001/` |
+| 镜头图片 | `shot-{NNN}.png` | `shot-001.png` |
+| 动画片段 | `shot-{NNN}.mp4` | `shot-001.mp4` |
+| 输出视频 | `chapter-{NNNN}.mp4` | `chapter-0001.mp4` |
 
 ---
 
@@ -267,30 +270,23 @@ releases/xuanhuan_001/
 
 ```
 releases/{project_id}/video/
-├── storyboard/
-│   ├── storyboard.md              # 分镜脚本（场景+时间码）
-│   └── chapter-{NNNN}.json        # 章节分镜数据（可选）
-├── prompts/
-│   ├── scenes/                    # 场景图像/视频提示词
-│   │   ├── scene-0001.md
-│   │   └── ...
-│   └── characters/                # 角色一致性提示词
-│       ├── {角色名}.md
-│       └── ...
-├── images/                        # 用户放置的静态图（手动生成）
-│   ├── scenes/
-│   │   ├── scene-0001.png
-│   │   └── ...
-│   └── characters/                # 角色参考图（可选）
-│       └── ...
-├── kenburns/
-│   ├── config.json                # 全局 Ken Burns 设置
-│   └── scene-params.json          # 各场景动画参数
-├── clips/                         # Ken Burns 动画片段（自动生成）
-│   ├── scene-0001.mp4
+├── storyboard/                    # 分镜文件（结构化 YAML）
+│   ├── chapter-0001.yaml          # 第1章分镜
+│   ├── chapter-0002.yaml          # 第2章分镜
 │   └── ...
-├── scripts/                       # ffmpeg 拼接脚本
-│   └── assemble-chapter-{N}.sh
+├── images/                        # 镜头图片（用户生成后放入）
+│   └── shots/
+│       ├── chapter-0001/          # 第1章镜头图片
+│       │   ├── shot-001.png
+│       │   ├── shot-002.png
+│       │   └── ...
+│       └── chapter-0002/          # 第2章镜头图片
+│           └── ...
+├── clips/                         # Ken Burns 动画片段（自动生成）
+│   └── chapter-0001/
+│       ├── shot-001.mp4
+│       └── ...
+├── temp/                          # 临时文件
 └── output/                        # 最终视频
     ├── chapter-0001.mp4
     └── ...
@@ -299,205 +295,72 @@ releases/{project_id}/video/
 ### 视频制作流程
 
 ```
-SRT字幕 → 分镜脚本 → 场景提示词 → [用户手动生成图片] → Ken Burns动画 → 视频拼接
+SRT + 章节内容 → 分镜文件(YAML) → [用户生成镜头图片] → Ken Burns动画 → 视频合成
 ```
 
-### 分镜脚本格式 (`storyboard.md`)
+### 分镜文件格式 (`chapter-{NNNN}.yaml`)
 
-> 模板参考: `templates/storyboard-template.md`
+分镜文件使用 YAML 格式，包含镜头提示词、运动参数、时长等结构化数据：
 
-```markdown
----
+```yaml
+# releases/{project_id}/video/storyboard/chapter-0001.yaml
+
 chapter: 1
-source_srt: releases/{project_id}/tts/subtitles/0001.srt
+source_srt: "releases/{project_id}/tts/subtitles/0001.srt"
+source_chapter: "productions/{project_id}/chapters/chapter-0001.md"
 total_duration: "00:12:35"
-scene_count: 24
-generated: 2024-01-15
----
 
-# 第1章 分镜脚本
+shots:
+  - id: "001"
+    srt_range: [1, 8]
+    start_time: "00:00:00.000"
+    end_time: "00:00:32.500"
+    duration: 32.5
 
-## 场景列表
+    # 画面内容
+    location: "外门广场"
+    characters: ["萧羽", "李傲天"]
+    description: "外门广场上，弟子们围成一圈。李傲天身着红袍傲然而立，嘲讽萧羽。"
+    mood: "紧张对峙"
 
-| 场景 | 时间码 | 时长 | 地点 | 角色 | 情绪 | SRT序号 |
-|------|--------|------|------|------|------|---------|
-| 001 | 00:00:00-00:00:32 | 32s | 外门广场 | 萧羽, 李傲天 | 紧张 | 1-5 |
-| 002 | 00:00:32-00:01:15 | 43s | 外门广场 | 萧羽（内心独白） | 坚定 | 6-12 |
+    # AI 绘图提示词
+    image_prompt: |
+      Chinese fantasy scene, outer sect plaza, disciples gathered in circle,
+      young man in red robe standing arrogantly, another young man facing him calmly,
+      ancient Chinese architecture background, dramatic lighting, cinematic composition,
+      high detail, 8k, masterpiece
+    negative_prompt: "blurry, low quality, deformed, text, watermark"
 
-## 场景详情
+    # 镜头运动
+    camera:
+      type: "push_in"
+      start_scale: 1.0
+      end_scale: 1.3
+      start_position: [0.5, 0.5]
+      end_position: [0.5, 0.45]
 
-### 场景 001: 广场对峙
-
-**时间码**: 00:00:00 - 00:00:32
-**时长**: 32秒
-**SRT序号**: #1-5
-
-**地点**: 外门广场，清晨
-**角色**: 萧羽（主角）、李傲天（反派）
-**情绪**: 紧张、对峙
-
-**画面描述**:
-清晨的宗门广场，两名年轻人对峙。一人穿着破旧的灰色道袍（萧羽），
-另一人身着华贵的红色锦袍（李傲天）。周围弟子围观。
-
-**镜头建议**:
-- 起始: 大远景，建立场景
-- 运动: 缓慢推进至中景
-- 结束: 越肩镜头，从萧羽视角看李傲天
+  - id: "002"
+    srt_range: [9, 15]
+    start_time: "00:00:32.500"
+    end_time: "00:01:05.000"
+    duration: 32.5
+    # ... 更多镜头
 ```
 
-### 场景提示词格式 (`scene-{NNNN}.md`)
+### 分镜文件命名规范
 
-> 模板参考: `templates/scene-prompt-template.md`
+| 文件类型 | 命名格式 | 示例 |
+|----------|----------|------|
+| 分镜文件 | `chapter-{NNNN}.yaml` | `chapter-0001.yaml` |
+| 镜头图片目录 | `chapter-{NNNN}/` | `chapter-0001/` |
+| 镜头图片 | `shot-{NNN}.png` | `shot-001.png` |
+| 动画片段 | `shot-{NNN}.mp4` | `shot-001.mp4` |
+| 输出视频 | `chapter-{NNNN}.mp4` | `chapter-0001.mp4` |
 
-```markdown
----
-scene_number: 1
-chapter: 1
-timecode_start: "00:00:00"
-timecode_end: "00:00:32"
-duration_seconds: 32
-srt_range: [1, 5]
-characters: ["萧羽", "李傲天"]
-location: "外门广场"
-emotion: "紧张"
----
-
-# 场景 001: 广场对峙
-
-## 静态图提示词
-
-### Midjourney / DALL-E
-
-```
-Dramatic confrontation scene in an ancient Chinese martial arts sect plaza
-at dawn, two young men facing each other in the center, one in worn gray
-robes (protagonist) another in luxurious crimson robes (antagonist),
-surrounded by disciples in a circle, traditional pagoda architecture in
-background, golden hour lighting, cinematic composition, 4K,
-oriental fantasy style, anime influenced
---ar 16:9 --style raw --v 6
-```
-
-## 视频提示词
-
-### Runway Gen-3
-
-```
-Camera slowly pushes in on two young men facing off in an ancient Chinese
-sect plaza. The protagonist in worn gray robes stands defiantly while his
-antagonist in crimson robes sneers. Morning light creates dramatic shadows.
-```
-
-### Kling AI
-
-```
-[场景: 古代宗门广场，清晨]
-两名修士对峙 - 灰袍青年（冷静、坚定）vs 红袍贵公子（轻蔑）
-镜头: 大远景缓慢推进至中景，8秒
-风格: 电影感，东方玄幻
-```
-
-### Sora / Veo
-
-```
-A cinematic scene in an ancient Chinese martial arts sect courtyard at dawn.
-The camera starts with a wide establishing shot showing traditional pagodas
-and a crowd of disciples forming a circle. It slowly pushes in to reveal
-two young men in the center - a determined youth in worn gray robes facing
-a sneering noble in expensive crimson robes. Golden morning light casts
-long shadows. Style: Epic fantasy, anime-influenced. Duration: 8 seconds.
-```
-
-## Ken Burns 参数
-
-```json
-{
-  "type": "push_in",
-  "start": {"scale": 1.0, "x": 0.5, "y": 0.5},
-  "end": {"scale": 1.3, "x": 0.5, "y": 0.45},
-  "duration": 32,
-  "easing": "ease-in-out"
-}
-```
-```
-
-### 角色一致性提示词格式 (`{角色名}.md`)
-
-```markdown
----
-character: 萧羽
-role: protagonist
-generated: 2024-01-15
----
-
-# 萧羽 - 视觉参考提示词
-
-## 一致性标签
-
-| 特征 | 描述 |
-|------|------|
-| 脸型 | 棱角分明，下颌线锐利 |
-| 头发 | 短发，微乱，黑色 |
-| 眼睛 | 深褐色，眼神锐利 |
-| 身材 | 175cm，清瘦，健壮 |
-| 服饰 | 深蓝色道袍，银色云纹 |
-| 风格锚点 | "年轻的剑修" |
-
-## 复制用标签（英文）
-
-```
-young man, angular face, sharp jawline, short messy black hair,
-deep brown intense eyes, 175cm tall, slender athletic build,
-wearing dark blue robes with silver cloud embroidery
-```
-
-## 头像提示词 (3:4)
-
-```
-A 20-year-old East Asian man with sharp angular features, sword-like
-eyebrows, short messy black hair, deep brown eyes with an intense gaze,
-wearing a dark blue traditional Chinese robe with silver cloud embroidery,
-portrait style, cinematic lighting, 4K, highly detailed, xianxia style
---ar 3:4 --style raw
-```
-
-## 全身提示词 (2:3)
-
-```
-Full body shot of a tall slender young man (175cm), confident stance,
-wearing flowing dark blue robes with silver cloud patterns, hands
-clasped behind back, ancient Chinese mountain temple background,
-dramatic lighting, xianxia anime style
---ar 2:3 --style raw
-```
-```
-
-### Ken Burns 配置格式 (`scene-params.json`)
-
-```json
-{
-  "version": "1.0",
-  "global_settings": {
-    "fps": 30,
-    "resolution": "1920x1080",
-    "default_easing": "ease-in-out"
-  },
-  "scenes": [
-    {
-      "scene_id": "0001",
-      "image": "scene-0001.png",
-      "duration_seconds": 32,
-      "animation": {
-        "type": "push_in",
-        "start": {"scale": 1.0, "x": 0.5, "y": 0.5},
-        "end": {"scale": 1.3, "x": 0.5, "y": 0.45},
-        "easing": "ease-in-out"
-      }
-    }
-  ]
-}
-```
+**说明**：
+- 章节号 `{NNNN}` 使用四位数补零，与章节文件对应
+- 镜头号 `{NNN}` 使用三位数补零，每章从 001 开始
+- 镜头图片按章节分目录存放，便于管理
 
 ### Ken Burns 动画类型
 
@@ -509,7 +372,7 @@ dramatic lighting, xianxia anime style
 | `pan_right` | 向右平移 | 场景展示、跟随移动 |
 | `pan_up` | 向上平移 | 仰视、壮观 |
 | `pan_down` | 向下平移 | 俯视、压迫 |
-| `diagonal` | 斜向推进 | 动态感、戏剧性 |
+| `static` | 静止 | 对话、平静场景 |
 
 ---
 

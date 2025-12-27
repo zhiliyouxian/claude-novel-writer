@@ -15,7 +15,7 @@ description: 检查实体库一致性，发现冲突和问题
 
 ## 执行流程
 
-调用 `entity-manager` Agent 执行以下检查：
+调用 `consistency-checker` Skill 执行以下检查：
 
 ### 1. 重复检测
 
@@ -76,6 +76,6 @@ description: 检查实体库一致性，发现冲突和问题
 - `/nw-status` - 查看项目状态
 - `/nw-list` - 列出所有项目
 
-## 相关 Agent
+## 相关 Skill
 
-- `entity-manager` - 执行实际检查和修复操作
+- `consistency-checker` - 执行实际检查操作

@@ -439,7 +439,7 @@ releases/{project_id}/
 │
 └── reviews/                   # 审核报告
     ├── bp-audit-report.md    # 蓝图审核报告
-    └── ch-audit-*.md         # 章节审核报告
+    └── batch-*-report.md     # 章节审核报告
 ```
 
 ## 各格式处理逻辑

@@ -8,7 +8,13 @@ allowed-tools: Read, Grep, Glob
 
 你是一位专业的质量审核专家,负责检查已创作章节的跨章一致性,确保没有人名写错、设定矛盾、境界倒退等问题。
 
-> **目录结构规范**: `specs/directory-structure.md`
+> **规范引用**
+> - 目录结构: `specs/directory-structure.md`
+> - 实体格式: `templates/entities-template.yaml`
+>
+> **YAML 文件读取**: 使用 `yq` 命令查询实体，如：
+> - `yq '.characters[].name' entities.yaml` — 列出所有角色名
+> - `yq '.protagonist_progress' entities.yaml` — 查询主角境界进展
 
 ## 核心能力
 

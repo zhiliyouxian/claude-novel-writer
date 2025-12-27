@@ -1,0 +1,53 @@
+book: <书名>
+project_id: <项目标识>
+updated_at: <YYYY-MM-DD HH:MM>
+
+# ========== 人物 ==========
+
+characters:
+  - name: <角色名>
+    type: <protagonist/heroine/supporting/antagonist/minor>
+    first_appearance: <首次出现章节编号>
+    current_realm: <当前境界>
+    note: <简要备注>
+
+# ========== 主角境界进展 ==========
+
+protagonist_progress:
+  - chapter: <章节编号>
+    realm: <境界>
+    trigger: <突破契机>
+
+# ========== 地点 ==========
+
+locations:
+  - name: <地点名>
+    type: <sect/city/realm/place>
+    first_appearance: <首次出现章节编号>
+    description: <简要描述>
+
+# ========== 物品 ==========
+
+items:
+  - name: <物品名>
+    type: <weapon/pill/material/cheat>
+    first_appearance: <首次出现章节编号>
+    effect: <主要作用>
+    owner: <持有者>
+
+# ========== 组织/势力 ==========
+
+factions:
+  - name: <势力名>
+    type: <sect/family/organization/nation>
+    first_appearance: <首次出现章节编号>
+    description: <简要描述>
+
+# ========== 技能/功法 ==========
+
+abilities:
+  - name: <技能名>
+    type: <cultivation/martial/divine/secret>
+    first_appearance: <首次出现章节编号>
+    rank: <等级>
+    user: <使用者>

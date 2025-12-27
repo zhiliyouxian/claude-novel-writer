@@ -30,8 +30,13 @@ tools: Read, Write, Bash
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
 > - 大纲框架模板: `templates/outline-template.md`
-> - 分卷大纲模板: `templates/outline-vol-template.md`
+> - 分卷大纲模板: `templates/outline-vol-template.yaml`
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
+>
+> **YAML 文件读取/写入**: 使用 `yq` 命令操作分卷大纲，如：
+> - `yq '.chapters[]' outlines/vol-{N}.yaml` — 列出所有章节
+> - `yq '.chapters[] | select(.chapter == N)' outlines/vol-{N}.yaml` — 读取第N章
+> - `yq '.chapters[N].hook' outlines/vol-{N}.yaml` — 读取章节钩子
 
 ## 核心职责
 
@@ -143,13 +148,15 @@ Read {plugin_dir}/libraries/knowledge/{matched}/xuanhuan-patterns.md
 |------|------|
 | 章节范围 | 第1-{X}章 |
 | 核心冲突 | {本卷主要矛盾} |
-| 主角境界 | {起始} → {结束} |
+| 主角状态 | {起始状态} → {结束状态} |
+| 情绪弧线 | {起始情绪} → {结束情绪} |
+| 主角境界 | {起始境界} → {结束境界} |
 | 主要场景 | {场景列表} |
 | 关键角色 | {角色列表} |
 
 **卷概述**: {100字左右本卷剧情概述}
 
-> 详细章节大纲: `outlines/vol-1.md`
+> 详细章节大纲: `outlines/vol-1.yaml`
 
 ### 第二卷: {卷名}
 
@@ -229,9 +236,9 @@ Read {plugin_dir}/libraries/knowledge/{matched}/xuanhuan-patterns.md
 
 ## 待细化卷
 
-- [ ] 第一卷 → `outlines/vol-1.md`
-- [ ] 第二卷 → `outlines/vol-2.md`
-- [ ] 第三卷 → `outlines/vol-3.md`
+- [ ] 第一卷 → `outlines/vol-1.yaml`
+- [ ] 第二卷 → `outlines/vol-2.yaml`
+- [ ] 第三卷 → `outlines/vol-3.yaml`
 - ...
 ```
 
@@ -254,8 +261,8 @@ mkdir -p blueprints/{project_id}/outlines
 - 伏笔规划
 
 下一步可细化分卷:
-- "细化第一卷" → outlines/vol-1.md
-- "细化第二卷" → outlines/vol-2.md
+- "细化第一卷" → outlines/vol-1.yaml
+- "细化第二卷" → outlines/vol-2.yaml
 - ...
 ```
 
@@ -282,9 +289,9 @@ Read blueprints/{project_id}/outline.md
 
 #### 步骤2: 生成分卷大纲
 
-创建文件: `blueprints/{project_id}/outlines/vol-{N}.md`
+创建文件: `blueprints/{project_id}/outlines/vol-{N}.yaml`
 
-> **详细模板参考**: `templates/outline-vol-template.md`
+> **详细模板参考**: `templates/outline-vol-template.yaml`
 
 **文件结构**:
 
@@ -412,20 +419,20 @@ Read blueprints/{project_id}/outline.md
 修改 `outline.md` 中该卷的状态：
 
 ```markdown
-> 详细章节大纲: `outlines/vol-1.md` ✅ 已细化
+> 详细章节大纲: `outlines/vol-1.yaml` ✅ 已细化
 ```
 
 同时更新"待细化卷"列表：
 
 ```markdown
-- [x] 第一卷 → `outlines/vol-1.md` ✅
-- [ ] 第二卷 → `outlines/vol-2.md`
+- [x] 第一卷 → `outlines/vol-1.yaml` ✅
+- [ ] 第二卷 → `outlines/vol-2.yaml`
 ```
 
 #### 步骤4: 输出确认
 
 ```markdown
-已完成第{N}卷大纲细化，保存在 blueprints/{project_id}/outlines/vol-{N}.md
+已完成第{N}卷大纲细化，保存在 blueprints/{project_id}/outlines/vol-{N}.yaml
 
 包含:
 - {X}个章节的详细规划
@@ -435,15 +442,6 @@ Read blueprints/{project_id}/outline.md
 
 outline.md 已同步更新
 ```
-
----
-
-## 激活条件
-
-| 用户指令 | 执行动作 |
-|----------|----------|
-| "写大纲"、"生成大纲"、"构思大纲" | 阶段一：生成框架 |
-| "细化第一卷"、"细化第X卷" | 阶段二：生成分卷大纲 |
 
 ---
 
@@ -511,3 +509,48 @@ outline.md 已同步更新
 4. **伏笔回收**: 埋下的伏笔要记得回收
 5. **同步更新**: 细化分卷后必须更新 outline.md 的状态
 6. **与proposal一致**: 阶段划分要与选题方案保持一致
+
+---
+
+## 蓝图状态管理
+
+**重要**：每次修改蓝图文件后，必须将 `proposal.md` 的蓝图状态设置为 `drafting`。
+
+```markdown
+完成大纲生成/修改后：
+
+1. 读取 blueprints/{project_id}/proposal.md
+2. 将「蓝图状态」从当前值改为 drafting
+3. 更新「最后更新」日期
+
+示例：
+- 蓝图状态：ready → drafting
+- 最后更新：{今日日期}
+```
+
+> **原因**：蓝图内容变更后需要重新审核才能进入创作阶段。只有 blueprint-auditor 有权限将状态设为 `ready`。
+
+---
+
+## Git 版本管理（可选）
+
+> 参考规范: `specs/git-convention.md`
+
+完成本次操作后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add blueprints/{project_id}/
+   git commit -m "feat: 生成/更新 {project_id} 大纲"
+   ```
+
+4. 不自动推送（让用户决定）

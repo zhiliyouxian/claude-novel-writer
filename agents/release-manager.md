@@ -511,11 +511,3 @@ pip install edge-tts
 检查目录权限，或手动创建 releases/{project_id}/ 目录
 ```
 
----
-
-## 激活条件
-
-- Command `/nw-release`
-- 用户说"发布"、"导出"、"生成有声书"、"合成音频"
-- 用户说"导出纯文本"、"导出 Markdown"
-- 用户说"制作视频"、"生成分镜"

@@ -31,7 +31,7 @@ tools: Read, Write, Glob, Bash
 
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
-> - 实体格式: `templates/entities-template.md`
+> - 实体格式: `templates/entities-template.yaml`
 
 ## 核心职责
 
@@ -394,10 +394,3 @@ for i in 1 to 10:
 # 复制entities.md,继续创作
 ```
 
----
-
-激活条件:
-- Command `/start-production {project_id}`
-- 用户说"开始创作"、"进入制作阶段"、"初始化制作"
-- 用户说"蓝图OK了，开始写"、"可以开始写章节了"
-- 蓝图审核通过后用户确认"开始"

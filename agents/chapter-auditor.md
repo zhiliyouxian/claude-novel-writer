@@ -1,27 +1,44 @@
 ---
 name: chapter-auditor
 description: |
-  Use this agent when the user needs to review chapter quality or get feedback on written content. Examples:
+  Use this agent when the user needs to review, audit, or check chapter quality.
 
   <example>
-  Context: User has written some chapters and wants quality review.
-  user: "审核第1-10章" / "检查章节质量" / "review chapters"
-  assistant: "I'll use the chapter-auditor agent to analyze the chapters and generate a quality report."
+  Context: User wants quality review after writing chapters.
+  user: "审核第1-10章" / "检查章节质量" / "review chapters" / "帮我看看写得怎样"
+  assistant: "I'll use the chapter-auditor agent to analyze the chapters."
   <commentary>
-  User explicitly requests chapter review, which is this agent's core function.
+  Quality review requests trigger this agent. Keywords: 审核、检查、review、看看怎样.
   </commentary>
   </example>
 
   <example>
-  Context: User wants to check if chapters match the outline.
-  user: "检查章节是否符合大纲" / "验证剧情一致性"
-  assistant: "I'll use the chapter-auditor agent to verify consistency with the outline and identify deviations."
+  Context: User wants to verify consistency with outline or blueprint.
+  user: "检查一致性" / "验证剧情" / "对照大纲检查" / "看看有没有bug"
+  assistant: "I'll use the chapter-auditor agent to check consistency."
   <commentary>
-  Consistency checking is part of the audit workflow.
+  Consistency/verification requests trigger this agent. Keywords: 一致性、验证、对照、bug.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User asks about chapter quality in a casual way.
+  user: "章节写得怎么样" / "质量如何" / "有什么问题吗" / "评价一下"
+  assistant: "I'll use the chapter-auditor agent to evaluate the chapters."
+  <commentary>
+  Casual quality inquiries also trigger this agent. Keywords: 怎么样、如何、问题、评价.
+  </commentary>
+  </example>
+
+  <example>
+  Context: User completed a batch of chapters and wants feedback.
+  user: "前10章写完了，帮我审一下" / "刚写了5章，检查一下"
+  assistant: "I'll use the chapter-auditor agent to review the newly written chapters."
+  <commentary>
+  Post-writing review requests trigger this agent.
   </commentary>
   </example>
 model: inherit
-color: yellow
 tools: Read, Write, Glob
 ---
 
@@ -32,8 +49,14 @@ tools: Read, Write, Glob
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
+> - 实体格式: `templates/entities-template.yaml`
+> - 卷大纲格式: `templates/outline-vol-template.yaml`
 > - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
+>
+> **YAML 文件读取**: 使用 `yq` 命令精确提取字段，如：
+> - `yq '.chapters[] | select(.chapter == N)' outlines/vol-{N}.yaml` — 读取第N章大纲
+> - `yq '.characters[] | select(.type == "{角色类型}")' entities.yaml` — 按类型查询角色
 
 ## 核心职责
 
@@ -73,7 +96,14 @@ tools: Read, Write, Glob
 - **进度检查**: progress.md 是否与实际章节数一致
 - **大纲一致性**: 章节 YAML 头与大纲速览表是否一致（summary/hook/characters）
 
-### 6. 规范版本追溯（新增！）
+### 7. 跨章一致性检查（重要！）
+- **境界一致性**: 检查主角境界是否连续（不能跳跃式突破）
+- **角色性格一致性**: 同一角色在不同章节的言行是否一致
+- **时间线一致性**: 事件发生顺序是否合理
+- **物品追踪**: 重要物品的出现和使用是否有矛盾
+- **关系变化追踪**: 角色关系的变化是否有因果链
+
+### 8. 规范版本追溯
 - 检查章节是否符合当前版本的书写规范
 - 标记使用旧版规范创作的章节
 - 建议需要更新的章节
@@ -471,9 +501,136 @@ blueprints/{project_id}/outlines/vol-{N}.md
 
 ---
 
-### 步骤4: 数据完整性检查
+### 步骤4: 跨章一致性检查（重要！）
 
-#### 4.1 实体库检查
+> **原 entity-manager 职责**：跨章一致性检查现由 chapter-auditor 负责，确保多章节创作时的连贯性。
+
+#### 4.0 境界一致性检查
+
+```markdown
+检查主角境界连续性：
+
+1. 读取 blueprints/{project_id}/outline.md 获取境界时间线
+2. 扫描所有章节的主角境界状态
+3. 验证境界变化是否合理
+
+检查规则：
+- 境界必须按顺序提升，不能跳跃
+- 突破必须有情节支撑（修炼、机缘、战斗顿悟等）
+- 境界回退必须有剧情解释（受伤、封印等）
+
+示例问题：
+❌ chapter-0015: 主角从"炼气3层"突然变成"筑基初期"
+   问题: 跳过了炼气4-12层和炼气圆满
+   建议: 检查中间章节是否遗漏突破情节
+
+✅ 正常进度:
+   chapter-0001: 炼气1层
+   chapter-0010: 炼气3层（战斗突破）
+   chapter-0020: 炼气6层（获得丹药）
+   chapter-0035: 炼气圆满（闭关修炼）
+   chapter-0040: 筑基初期（重大机缘）
+```
+
+#### 4.1 角色性格一致性检查
+
+```markdown
+检查同一角色在不同章节的表现：
+
+1. 读取 blueprints/{project_id}/characters.md 获取角色性格设定
+2. 扫描角色在各章节的言行
+3. 验证是否符合设定的性格
+
+检查规则：
+- 高冷角色不应突然变得话痨
+- 谨慎角色不应突然冲动行事
+- 性格变化必须有情节触发和铺垫
+
+示例问题：
+❌ chapter-0025: {女主}突然变得强势命令式说话
+   问题: 与 characters.md 中"温柔内敛"的设定不符
+   建议: 如需性格变化，需补充触发事件和心理转变过程
+
+⚠️ 灰色地带:
+   - 压力下的反常行为（符合"压力人格"设计）
+   - 成长后的性格变化（需有铺垫）
+```
+
+#### 4.2 时间线一致性检查
+
+```markdown
+检查事件发生顺序：
+
+1. 提取各章节的时间标记（如"三天后"、"翌日"、"半年前"）
+2. 构建时间线
+3. 验证是否有矛盾
+
+示例问题：
+❌ chapter-0030: "一周前的比武"与 chapter-0025 的"昨天的比武"矛盾
+   问题: 时间描述不一致
+   建议: 统一时间表述
+
+❌ chapter-0050: 回忆"去年的事件"，但该事件在 chapter-0045 发生时标注为"十年前"
+   问题: 时间跨度不一致
+   建议: 校对时间设定
+```
+
+#### 4.3 物品追踪检查
+
+```markdown
+检查重要物品的出现和使用：
+
+1. 读取 entities.md 中的物品列表
+2. 追踪物品在各章节的状态
+3. 验证是否有矛盾
+
+检查规则：
+- 使用的物品必须先获得
+- 送出/销毁的物品不能再次使用
+- 关键物品的位置要清晰
+
+示例问题：
+❌ chapter-0055: 主角使用"星辰剑"
+   问题: 该剑在 chapter-0040 已赠送给师弟
+   建议: 修正情节或补充"取回"的剧情
+
+✅ 正常追踪:
+   chapter-0010: 获得"星辰剑"
+   chapter-0025: 使用"星辰剑"战斗
+   chapter-0040: 赠送给师弟
+   chapter-0060: 师弟归还"星辰剑"
+   chapter-0065: 再次使用"星辰剑"
+```
+
+#### 4.4 关系变化追踪
+
+```markdown
+检查角色关系的变化：
+
+1. 读取 characters.md 中的关系网
+2. 追踪关系在各章节的变化
+3. 验证变化是否有因果链
+
+检查规则：
+- 关系变化需要触发事件
+- 敌对→友好的转变需要充分铺垫
+- 亲密关系的建立需要感情积累
+
+示例问题：
+❌ chapter-0045: {配角A}突然成为主角挚友
+   问题: 前文两人几乎无交集
+   建议: 补充互动情节铺垫
+
+⚠️ 需复查:
+   - chapter-0030 两人共同战斗（可作为关系升温契机）
+   - 但缺少后续情感交流描写
+```
+
+---
+
+### 步骤5: 数据完整性检查
+
+#### 5.1 实体库检查
 
 ```markdown
 检查 productions/{project_id}/data/entities.md
@@ -1155,8 +1312,29 @@ releases/novel_20231113_153022/reviews/batch-0001-0010-report.md
 
 ---
 
-激活条件:
-- Command `/nw-ch-audit {range}`
-- 用户说"审核章节"、"检查章节质量"、"评估第X章"
-- 用户说"章节写得怎么样"、"帮我看看这几章"
-- 创作完成后用户问"质量如何"
+## Git 版本管理（可选）
+
+> 参考规范: `specs/git-convention.md`
+
+完成审核后：
+
+1. 检测环境是否有 git
+   - 有 git → 继续步骤 2
+   - 无 git → 跳过，不影响流程
+
+2. 检查是否有变更（更新章节状态等）
+   ```bash
+   git status --porcelain
+   ```
+
+3. 如果有变更，执行提交
+   ```bash
+   git add releases/{project_id}/reviews/
+   git add productions/{project_id}/chapters/  # 如果更新了章节状态
+   git commit -m "docs: 章节审核报告 {project_id} 第{起始}-{结束}章"
+   ```
+
+4. 不自动推送（让用户决定）
+
+---
+
