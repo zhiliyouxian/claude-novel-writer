@@ -31,11 +31,7 @@ tools: Read, Write, Bash, Glob
 
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
-> - 卷大纲格式: `templates/outline-vol-template.yaml`
->
-> **YAML 文件读取**: 使用 `yq` 命令精确提取字段，如：
-> - `yq '.chapters[] | select(.chapter == N) | .plot' outlines/vol-{N}.yaml` — 读取第N章剧情
-> - `yq '.chapters[] | select(.chapter == N) | .characters' outlines/vol-{N}.yaml` — 读取出场人物
+> - 卷大纲格式: `templates/outline-vol-template.md`
 
 ## 核心职责
 

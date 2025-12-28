@@ -253,14 +253,9 @@ blueprints/{project_id}/
 
 #### 可选分卷验证（如存在）
 如果存在 `outlines/` 目录，检查各分卷大纲：
-- `vol-{N}.yaml`: 第N卷详细章节规划
+- `vol-{N}.md`: 第N卷详细章节规划
 
-**分卷大纲格式**: `templates/outline-vol-template.yaml`
-
-**YAML 文件读取**: 使用 `yq` 命令检查分卷大纲，如：
-- `yq '.volume' outlines/vol-{N}.yaml` — 读取卷编号
-- `yq '.chapters | length' outlines/vol-{N}.yaml` — 统计章节数
-- `yq '.foreshadowing.planted' outlines/vol-{N}.yaml` — 读取伏笔规划
+**分卷大纲格式**: `templates/outline-vol-template.md`
 
 **卷级元数据检查**:
 

@@ -1,7 +1,7 @@
 {
   "name": "novel-writer",
   "description": "Novel Writing Studio - A comprehensive framework for novel creation with extensible knowledge packs. Supports various genres including Chinese web novels, Japanese light novels, and Western fantasy.",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "author": {
     "name": "zhiliyouxian"
   },

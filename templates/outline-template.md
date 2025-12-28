@@ -69,7 +69,7 @@
 
 **卷概述**：{100字左右本卷剧情概述}
 
-> 详细章节大纲：`outlines/vol-1.yaml`
+> 详细章节大纲：`outlines/vol-1.md`
 
 ### 第二卷：{卷名}
 
@@ -85,7 +85,7 @@
 
 **卷概述**：{100字左右本卷剧情概述}
 
-> 详细章节大纲：`outlines/vol-2.yaml`
+> 详细章节大纲：`outlines/vol-2.md`
 
 ---
 
@@ -165,5 +165,5 @@
 
 ## 待细化卷
 
-- [ ] 第一卷 → `outlines/vol-1.yaml`
-- [ ] 第二卷 → `outlines/vol-2.yaml`
+- [ ] 第一卷 → `outlines/vol-1.md`
+- [ ] 第二卷 → `outlines/vol-2.md`

@@ -50,13 +50,9 @@ tools: Read, Write, Glob
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
 > - 实体格式: `templates/entities-template.yaml`
-> - 卷大纲格式: `templates/outline-vol-template.yaml`
+> - 卷大纲格式: `templates/outline-vol-template.md`
 > - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
->
-> **YAML 文件读取**: 使用 `yq` 命令精确提取字段，如：
-> - `yq '.chapters[] | select(.chapter == N)' outlines/vol-{N}.yaml` — 读取第N章大纲
-> - `yq '.characters[] | select(.type == "{角色类型}")' entities.yaml` — 按类型查询角色
 
 ## 核心职责
 
