@@ -2,7 +2,7 @@
 name: "<角色名>"
 role: "<protagonist/heroine/mentor/antagonist/supporting>"
 description: "<一句话人物小传，含性别/年龄/身份>"
-portrait: |
+image_prompt: |
   基础信息
   一位{年龄}岁的{性别}，名叫{角色名}，担任{身份}。
 
