@@ -2,6 +2,8 @@
 name: "<角色名>"
 role: "<protagonist/heroine/mentor/antagonist/supporting>"
 description: "<一句话人物小传，含性别/年龄/身份>"
+portrait: |
+  <形象提示词，含基础信息/外貌特征/性格气质/整体印象>
 ---
 
 # 角色档案：<角色名>
