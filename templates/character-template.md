@@ -1,19 +1,10 @@
 ---
 name: "<角色名>"
 role: "<protagonist/heroine/mentor/antagonist/supporting>"
-description: "<一句话人物小传>"
+description: "<一句话人物小传，含性别/年龄/身份>"
 ---
 
-# 角色档案：{角色名}
-
----
-
-## 基本信息
-
-- **姓名**：
-- **性别**：
-- **年龄**：
-- **身份**：
+# 角色档案：<角色名>
 
 ---
 
