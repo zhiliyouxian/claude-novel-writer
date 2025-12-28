@@ -23,7 +23,7 @@ tools: Read, Write, Edit
 > - 目录结构: `specs/directory-structure.md`
 > - 书写风格: `specs/writing-style.md`
 > - 实体格式: `templates/entities-template.yaml`
-> - 角色格式: `templates/character-template.yaml`
+> - 角色格式: `templates/character-template.md`
 > - 卷大纲格式: `templates/outline-vol-template.md`
 > - **章节格式**: `templates/chapter-template.md`（YAML Front Matter）
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）

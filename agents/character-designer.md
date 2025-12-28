@@ -29,12 +29,8 @@ tools: Read, Write, Bash
 
 > **规范引用**
 > - 目录结构: `specs/directory-structure.md`
-> - 角色档案模板: `templates/character-template.yaml`
+> - 角色档案模板: `templates/character-template.md`
 > - **故事理论**: `libraries/knowledge/_base/story-structures.md`（麦基理论）
->
-> **YAML 文件读取/写入**: 使用 `yq` 命令操作角色档案，如：
-> - `yq '.external_goal' characters/protagonist.yaml` — 读取外在目标
-> - `yq '.arc.start' characters/protagonist.yaml` — 读取人物弧光起点
 
 ## 核心职责
 

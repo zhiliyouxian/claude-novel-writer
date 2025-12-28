@@ -31,7 +31,7 @@ tools: Read, Write, Edit, Bash, Glob
 > - 目录结构: `specs/directory-structure.md`
 > - 大纲模板: `templates/outline-template.md`
 > - 分卷模板: `templates/outline-vol-template.md`
-> - 角色模板: `templates/character-template.yaml`
+> - 角色模板: `templates/character-template.md`
 > - 世界观模板: `templates/worldview-template.md`
 
 ## 核心职责
